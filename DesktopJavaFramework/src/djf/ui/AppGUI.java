@@ -23,6 +23,7 @@ import static djf.components.AppStyleComponent.CLASS_FILE_BUTTON;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.TabPane;
 
 /**
  * This class provides the basic user interface for this application,
@@ -47,6 +48,8 @@ public class AppGUI {
     // APPLICATION AppGUI. NOTE THAT THE WORKSPACE WILL GO
     // IN THE CENTER REGION OF THE appPane
     protected BorderPane appPane;
+    
+    protected TabPane tabPane;
     
     // THIS IS THE TOP TOOLBAR AND ITS CONTROLS
     protected FlowPane fileToolbarPane;
@@ -97,6 +100,13 @@ public class AppGUI {
      */
     public BorderPane getAppPane() { return appPane; }
     
+    /**
+     * Accessor method for getting the application tabPane, within which all
+     * tabs are ultimately placed.
+     * 
+     * @return This application GUI's tab pane.
+     */
+     public TabPane getTabPane(){ return tabPane;}
     /**
      * Accessor method for getting this application's primary stage's,
      * scene.
@@ -207,6 +217,9 @@ public class AppGUI {
         // THE USER STARTS EDITING A COURSE
         appPane = new BorderPane();
         appPane.setTop(fileToolbarPane);
+        tabPane = new TabPane();
+        appPane.setCenter(tabPane);
+        
         primaryScene = new Scene(appPane);
         
         // SET THE APP ICON

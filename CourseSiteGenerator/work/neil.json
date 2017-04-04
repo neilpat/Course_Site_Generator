@@ -1,0 +1,96 @@
+
+{
+    "startHour":"9",
+    "endHour":"20",
+    "undergrad_tas":[
+        {
+            "name":"hello world",
+            "email":"hllo"
+        },
+        {
+            "name":"neil",
+            "email":"par"
+        },
+        {
+            "name":"neil p",
+            "email":"patel"
+        }
+    ],
+    "officeHours":[
+        {
+            "day":"MONDAY",
+            "time":"9_30am",
+            "name":"neil"
+        },
+        {
+            "day":"WEDNESDAY",
+            "time":"11_30am",
+            "name":"hello world"
+        },
+        {
+            "day":"TUESDAY",
+            "time":"12_00pm",
+            "name":"neil p"
+        },
+        {
+            "day":"FRIDAY",
+            "time":"12_00pm",
+            "name":"neil p"
+        },
+        {
+            "day":"WEDNESDAY",
+            "time":"1_00pm",
+            "name":"neil"
+        },
+        {
+            "day":"THURSDAY",
+            "time":"1_00pm",
+            "name":"neil p"
+        },
+        {
+            "day":"WEDNESDAY",
+            "time":"2_00pm",
+            "name":"neil p"
+        },
+        {
+            "day":"FRIDAY",
+            "time":"2_00pm",
+            "name":"neil"
+        },
+        {
+            "day":"WEDNESDAY",
+            "time":"2_30pm",
+            "name":"hello world"
+        },
+        {
+            "day":"THURSDAY",
+            "time":"3_00pm",
+            "name":"neil p"
+        },
+        {
+            "day":"TUESDAY",
+            "time":"3_30pm",
+            "name":"neil p"
+        },
+        {
+            "day":"WEDNESDAY",
+            "time":"3_30pm",
+            "name":"hello world"
+        },
+        {
+            "day":"WEDNESDAY",
+            "time":"3_30pm",
+            "name":"neil p"
+        },
+        {
+            "day":"FRIDAY",
+            "time":"3_30pm",
+            "name":"hello world"
+        },
+        {
+            "day":"THURSDAY",
+            "time":"5_00pm",
+            "name":"hello world"
+        }
+    ]
+}

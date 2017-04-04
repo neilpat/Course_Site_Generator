@@ -1,21 +1,16 @@
 package csg.workspace;
 
 import djf.components.AppDataComponent;
-import djf.components.AppFileComponent;
 import djf.components.AppWorkspaceComponent;
-import djf.controller.AppFileController;
-import djf.ui.AppMessageDialogSingleton;
 import djf.ui.AppYesNoCancelDialogSingleton;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import csg.csgApp;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -28,26 +23,27 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javax.swing.JComboBox;
 import jtps.jTPS;
-import jtps.jTPS_Transaction;
 import properties_manager.PropertiesManager;
 import csg.csgProp;
 import csg.style.CourseSiteStyle;
 import csg.data.TAData;
 import csg.data.TeachingAssistant;
-import csg.file.csgFiles;
+import java.awt.Color;
+import java.awt.Rectangle;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 
 /**
  * This class serves as the workspace component for the TA Manager
  * application. It provides all the user interface controls in 
  * the workspace area.
+ * 
  * @co-author Niral Patel (1110626877)
  */
 public class CourseSiteWorkspace extends AppWorkspaceComponent {
@@ -59,9 +55,6 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     
     jTPS jtps;
     
-    
-    
-
     // NOTE THAT EVERY CONTROL IS PUT IN A BOX TO HELP WITH ALIGNMENT
     
     // FOR THE HEADER ON THE LEFT
@@ -96,11 +89,11 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     HashMap<String, Pane> officeHoursGridTACellPanes;
     HashMap<String, Label> officeHoursGridTACellLabels;
 
-    /**
-     * The contstructor initializes the user interface, except for
-     * the full office hours grid, since it doesn't yet know what
-     * the hours will be until a file is loaded or a new one is created.
-     */
+   /**
+    * This will be the main workspace. It will contain calls to methods to 
+    * generate each pane in the final application.
+    * @param initApp 
+    */
     public CourseSiteWorkspace(csgApp initApp) {
         // KEEP THIS FOR LATER
         app = initApp;
@@ -108,7 +101,19 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         jtps = new jTPS();
         // WE'LL NEED THIS TO GET LANGUAGE PROPERTIES FOR OUR UI
         PropertiesManager props = PropertiesManager.getPropertiesManager();
-
+        
+        TabPane tabPane = app.getGUI().getTabPane();
+        Tab courseDetailsTab = new Tab();
+        Tab TADetailsTab = new Tab();
+        courseDetailsTab.setText(csgProp.COURSE_DETAILS_LABEL.toString());
+        TADetailsTab.setText(csgProp.TA_DETAILS_TAB.toString());
+        TADetailsTab.setOnSelectionChanged(e->{
+            TADetailsPane(app, jtps, props);
+        });
+        tabPane.getTabs().add(TADetailsTab);
+        tabPane.getTabs().add(courseDetailsTab);
+    }
+    public void TADetailsPane(csgApp app, jTPS jtps, PropertiesManager props){
         // INIT THE HEADER ON THE LEFT
         tasHeaderBox = new HBox();
         String tasHeaderText = props.getProperty(csgProp.TAS_HEADER_TEXT.toString());
@@ -450,7 +455,6 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     
     // WE'LL PROVIDE AN ACCESSOR METHOD FOR EACH VISIBLE COMPONENT
     // IN CASE A CONTROLLER OR STYLE CLASS NEEDS TO CHANGE IT
-    
     
     public HBox getTAsHeaderBox() {
         return tasHeaderBox;
