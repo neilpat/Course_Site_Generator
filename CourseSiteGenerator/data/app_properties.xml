@@ -83,10 +83,19 @@
         <property name="TA_NAME_AND_EMAIL_NOT_UNIQUE_MESSAGE"   value="You must provide a unique TA Name and Email"></property>
         
         <!--COURSE DETAILS STUFF -->
-        <property name = "COURSE_DETAILS_TAB"         value="Course Details"></property>
-        <property name = "COURSE_INFO_LABEL"           value="Course Info"></property>
-        <property name = "SITE_TEMPLATE_LABEL"           value="Site Template"></property>
-        <property name = "PAGE_STYLE_LABEL"           value="Page Style"></property>
+        <property name = "COURSE_DETAILS_TAB"           value="Course Details"></property>
+        <property name = "COURSE_INFO_LABEL"            value="Course Info"></property>
+        <property name = "SITE_TEMPLATE_LABEL"          value="Site Template"></property>
+        <property name = "PAGE_STYLE_LABEL"             value="Page Style"></property>
+        <property name = "SUBJECT_LABEL"                value="Subject"></property>
+        <property name = "NUMBER_LABEL"                 value="Number"></property>
+        <property name = "SEMESTER_LABEL"               value="Semester"></property>
+        <property name = "YEAR_LABEL"                   value="Year"></property>
+        <property name = "TITLE_LABEL"                  value="Title"></property>
+        <property name = "INSTRUCTOR_NAME_LABEL"        value="Insturctor Name"></property>
+        <property name = "INSTURCTOR_HOME_LABEL"        value="Instructor Home"></property>
+        <property name = "EXPORT_DIRECTORY_LABEL"       value="Export Dir"></property>
+        
         <!--RECITATION DETAILS STUFF -->
         <property name = "RECITATION_DETAILS_TAB"         value="Recitation Details"></property>
         <!--SCHEDULE DETAILS STUFF -->

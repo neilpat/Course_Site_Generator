@@ -36,9 +36,15 @@ import csg.data.TAData;
 import csg.data.TeachingAssistant;
 import java.awt.Color;
 import java.awt.Rectangle;
+import java.io.File;
+import javafx.geometry.Insets;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.text.Text;
+import javafx.stage.DirectoryChooser;
 
 /**
  * This class serves as the workspace component for the TA Manager
@@ -61,6 +67,9 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     // FOR THE HEADER ON THE LEFT
     HBox tasHeaderBox;
     Label tasHeaderLabel;
+    
+    Label course_info_label;
+    Label site_template_label;
     
     // FOR THE TA TABLE
     TableView<TeachingAssistant> taTable;
@@ -714,29 +723,144 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         
     }
     
-    public Pane CourseDetailsPane(csgApp app, jTPS jtps, PropertiesManager props){
+    public VBox CourseDetailsPane(csgApp app, jTPS jtps, PropertiesManager props){
         Pane pane = new Pane();
         VBox course_details_box = new VBox();
         
-        Label course_info_label = new Label(props.getProperty(csgProp.COURSE_INFO_LABEL.toString()));
-        Label site_template_label = new Label(props.getProperty(csgProp.SITE_TEMPLATE_LABEL.toString()));
+        course_info_label = new Label(props.getProperty(csgProp.COURSE_INFO_LABEL.toString()));
+        site_template_label = new Label(props.getProperty(csgProp.SITE_TEMPLATE_LABEL.toString()));
         Label page_Style_label = new Label(props.getProperty(csgProp.PAGE_STYLE_LABEL.toString()));
+        Label subject_label = new Label(props.getProperty(csgProp.SUBJECT_LABEL.toString()));
+        Label number_label = new Label(props.getProperty(csgProp.NUMBER_LABEL.toString()));
+        Label semester_label = new Label(props.getProperty(csgProp.SEMESTER_LABEL.toString()));
+        Label year_label = new Label(props.getProperty(csgProp.YEAR_LABEL.toString()));
+        Label title_label = new Label(props.getProperty(csgProp.TITLE_LABEL.toString()));
+        Label instructor_name_label = new Label(props.getProperty(csgProp.INSTRUCTOR_NAME_LABEL.toString()));
+        Label instructor_home_label = new Label(props.getProperty(csgProp.INSTRUCTOR_HOME_LABEL.toString()));
+        Label export_directory_label = new Label(props.getProperty(csgProp.EXPORT_DIRECTORY_LABEL.toString()));
+        Label exportDirectory = new Label();// for the selected directory
         
-        HBox courseInfo = new HBox();
+        Button selectDirectory = new Button("Change");
+        
+        TextField titleField = new TextField();
+        titleField.setPrefWidth(375);
+        TextField instructorNameField = new TextField();
+        instructorNameField.setPrefWidth(375);
+        TextField instructorHomeField = new TextField();
+        instructorHomeField.setPrefWidth(375);
+       
+        //begin for course details HBox
+        ComboBox Subject = new ComboBox();
+        ObservableList<String> subjects = FXCollections.observableArrayList();
+        subjects.add("CSE");
+        subjects.add("ISE");
+        Subject.getItems().addAll(subjects);
+        Subject.setPrefWidth(125);
+        
+        ComboBox Number = new ComboBox();
+        ObservableList<String> numbers = FXCollections.observableArrayList();
+        numbers.add("219");
+        numbers.add("220");
+        Number.getItems().addAll(numbers);
+        Number.setPrefWidth(125);
+        
+        ComboBox Semester= new ComboBox();
+        ObservableList<String> semesters = FXCollections.observableArrayList();
+        semesters.add("Spring");
+        semesters.add("Fall");
+        Semester.getItems().addAll(semesters);
+        Semester.setPrefWidth(125);
+        
+        ComboBox Year= new ComboBox();
+        ObservableList<String> years = FXCollections.observableArrayList();
+        years.add("2017");
+        years.add("2016");
+        Year.getItems().addAll(years);
+        Year.setPrefWidth(125);
+        
+        VBox courseInfoBox = new VBox();
+        ColumnConstraints width = new ColumnConstraints(130);
+        ColumnConstraints width2 = new ColumnConstraints(80);
+        GridPane courseInfo = new GridPane();
+        courseInfo.getColumnConstraints().add(width);
+        courseInfo.getColumnConstraints().add(width);
+        courseInfo.getColumnConstraints().add(width2);
+        courseInfo.getColumnConstraints().add(width);
+        courseInfo.setVgap(5);
+        courseInfo.setHgap(5);
+        courseInfo.add(course_info_label, 0, 0);
+        courseInfo.add(subject_label, 0, 1);
+        courseInfo.add(Subject, 1, 1);
+        courseInfo.add(number_label, 2, 1);
+        courseInfo.add(Number, 3, 1);
+        courseInfo.add(semester_label, 0, 2);
+        courseInfo.add(Semester, 1, 2);
+        courseInfo.add(year_label, 2, 2);
+        courseInfo.add(Year, 3, 2);
+        
+        GridPane courseInfo2 = new GridPane();
+        courseInfo2.getColumnConstraints().add(width);
+        ColumnConstraints textWidth = new ColumnConstraints(340);
+        courseInfo2.getColumnConstraints().add(textWidth);
+        courseInfo2.setVgap(5);
+        courseInfo2.setHgap(5);
+        courseInfo2.add(title_label, 0, 0);
+        courseInfo2.add(titleField, 1, 0);
+        courseInfo2.add(instructor_name_label, 0, 1);
+        courseInfo2.add(instructorNameField, 1, 1);
+        courseInfo2.add(instructor_home_label, 0, 2);
+        courseInfo2.add(instructorHomeField, 1, 2);
+        courseInfo2.add(export_directory_label, 0, 3);
+        courseInfo2.add(exportDirectory, 1, 3);
+        courseInfo2.add(selectDirectory, 2, 3);
+        
+        selectDirectory.setOnMouseClicked(e->{
+            DirectoryChooser dc = new DirectoryChooser();
+            File file = dc.showDialog(app.getGUI().getWindow());
+            exportDirectory.setText(file.toString());
+        });
+        
+        courseInfoBox.getChildren().add(courseInfo);
+        courseInfoBox.getChildren().add(courseInfo2);
+        
+        courseInfoBox.setStyle("-fx-background-color: lightblue;");
+        //end of course details Hbox
+        
+        //begin of site Template HBox
+        VBox finalSiteTemplateBox = new VBox();
         HBox siteTemplate = new HBox();
-        HBox pageStyle = new HBox();
         
-        courseInfo.getChildren().add(course_info_label);
-        siteTemplate.getChildren().add(site_template_label);
+        finalSiteTemplateBox.getChildren().add(site_template_label);
+        VBox informationText = new VBox();
+        Text t = new Text("The selected directory should contain the complete"
+                + "template, including the HTML file");
+        informationText.getChildren().add(t);
+        finalSiteTemplateBox.getChildren().add(informationText);
+        
+        
+        siteTemplate.getChildren().add(finalSiteTemplateBox);
+        siteTemplate.setStyle("-fx-background-color: lightgreen;");
+         
+        HBox pageStyle = new HBox();
+       
         pageStyle.getChildren().add(page_Style_label);
         
-        course_details_box.getChildren().add(courseInfo);
+        
+        
+        course_details_box.getChildren().add(courseInfoBox);
         course_details_box.getChildren().add(siteTemplate);
         course_details_box.getChildren().add(pageStyle);
-        pane.getChildren().add(course_details_box);
-        //((BorderPane)workspace).setCenter(pane);
-        
-       return pane;
+        course_details_box.setAlignment(Pos.TOP_CENTER);
+        course_details_box.setSpacing(10);
+        course_details_box.setPadding(new Insets(10, 60, 10, 60));
+        course_details_box.setStyle("-fx-background-color: blue;");
+        return course_details_box;
+    }
+    public Label returnCourseInfoLabel(){
+        return course_info_label;
+    }
+    public Label returnSiteTemplateLabel(){
+        return site_template_label;
     }
     public Pane ScheduleDetailsPane(csgApp app, jTPS jtps, PropertiesManager props){
         Pane pane = new Pane();

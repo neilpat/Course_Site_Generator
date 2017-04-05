@@ -96,6 +96,10 @@ public class CourseSiteStyle extends AppStyleComponent {
         // RIGHT SIDE - THE HEADER
         workspaceComponent.getOfficeHoursSubheaderBox().getStyleClass().add(CLASS_HEADER_PANE);
         workspaceComponent.getOfficeHoursSubheaderLabel().getStyleClass().add(CLASS_HEADER_LABEL);
+        
+        //COURSE_DETAILS_TAB
+        workspaceComponent.returnCourseInfoLabel().getStyleClass().add(CLASS_HEADER_LABEL);
+        workspaceComponent.returnSiteTemplateLabel().getStyleClass().add(CLASS_HEADER_LABEL);
     }
     
     /**
