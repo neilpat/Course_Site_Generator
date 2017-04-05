@@ -110,6 +110,7 @@ public abstract class AppTemplate extends Application {
 		buildAppComponentsHook();
 	    } 
 	}catch (Exception e) {
+            e.printStackTrace();
             AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
             dialog.show(props.getProperty(PROPERTIES_LOAD_ERROR_TITLE), props.getProperty(PROPERTIES_LOAD_ERROR_MESSAGE));
 	}

@@ -217,8 +217,6 @@ public class AppGUI {
         // THE USER STARTS EDITING A COURSE
         appPane = new BorderPane();
         appPane.setTop(fileToolbarPane);
-        tabPane = new TabPane();
-        appPane.setCenter(tabPane);
         
         primaryScene = new Scene(appPane);
         

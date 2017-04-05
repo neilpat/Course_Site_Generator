@@ -8,7 +8,7 @@
 -->
 <properties>
     <property_list>
-        <property name="APP_TITLE"	    value="TA Manager"></property>
+        <property name="APP_TITLE"	    value="Course Site Generator"></property>
 	<property name="APP_LOGO"	    value="TAManagerLogo.png"></property>
 	<property name="APP_PATH_CSS"	    value="style/"></property>
 	<property name="APP_CSS"	    value="csg_style.css"></property>
@@ -63,7 +63,7 @@
 	<property name="WORK_FILE_EXT_DESC"		value="TA Office Hours"></property>
 
         <!-- WORKSPACE CONTROLS STUFF -->
-        <property name="TA_DETAILS_LABEL"               value="TA Details"></property>
+        <property name="TA_DETAILS_TAB"               value="TA Details"></property>
         <property name="TAS_HEADER_TEXT"                value="Teaching Assistants"></property>
         <property name="NAME_COLUMN_TEXT"               value="Name"></property>
         <property name="EMAIL_COLUMN_TEXT"              value="Email"></property>
@@ -83,7 +83,19 @@
         <property name="TA_NAME_AND_EMAIL_NOT_UNIQUE_MESSAGE"   value="You must provide a unique TA Name and Email"></property>
         
         <!--COURSE DETAILS STUFF -->
-        <property name = "COURSE_DETAILS_LABEL"         value="Course Details"></property>
+        <property name = "COURSE_DETAILS_TAB"         value="Course Details"></property>
+        <property name = "COURSE_INFO_LABEL"           value="Course Info"></property>
+        <property name = "SITE_TEMPLATE_LABEL"           value="Site Template"></property>
+        <property name = "PAGE_STYLE_LABEL"           value="Page Style"></property>
+        <!--RECITATION DETAILS STUFF -->
+        <property name = "RECITATION_DETAILS_TAB"         value="Recitation Details"></property>
+        <!--SCHEDULE DETAILS STUFF -->
+        <property name = "SCHEDULE_DETAILS_TAB"         value="Schedule Details"></property>
+        <property name = "CALENDAR_BOUNDARIES_LABEL"     value="Calendar Boundaries"></property>
+        <property name = "SCHEDULE_ITEMS_LABEL"         value="Schedule Items"></property>
+        <!--PROJECT DETAILS STUFF -->
+        <property name = "PROJECT_DETAILS_TAB"         value="Project Details"></property>
+        
     </property_list>
     <property_options_list>
         <property_options name="OFFICE_HOURS_TABLE_HEADERS">

@@ -36,6 +36,7 @@ import csg.data.TAData;
 import csg.data.TeachingAssistant;
 import java.awt.Color;
 import java.awt.Rectangle;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
@@ -89,6 +90,12 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     HashMap<String, Pane> officeHoursGridTACellPanes;
     HashMap<String, Label> officeHoursGridTACellLabels;
 
+    TabPane tabPane;
+    Tab courseDetailsTab;
+    Tab TADetailsTab;
+    Tab recitationTab;
+    Tab scheduleTab;
+    Tab projectTab;
    /**
     * This will be the main workspace. It will contain calls to methods to 
     * generate each pane in the final application.
@@ -101,19 +108,46 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         jtps = new jTPS();
         // WE'LL NEED THIS TO GET LANGUAGE PROPERTIES FOR OUR UI
         PropertiesManager props = PropertiesManager.getPropertiesManager();
+        //Make a new tabPane and set it to the frameworktab pane
+        //to make is easy to add and remove stuff
+        tabPane = new TabPane();
+        courseDetailsTab = new Tab();
+        TADetailsTab = new Tab();
+        recitationTab = new Tab();
+        scheduleTab = new Tab();
+        projectTab = new Tab();
         
-        TabPane tabPane = app.getGUI().getTabPane();
-        Tab courseDetailsTab = new Tab();
-        Tab TADetailsTab = new Tab();
-        courseDetailsTab.setText(csgProp.COURSE_DETAILS_LABEL.toString());
-        TADetailsTab.setText(csgProp.TA_DETAILS_TAB.toString());
-        TADetailsTab.setOnSelectionChanged(e->{
-            TADetailsPane(app, jtps, props);
-        });
+        //set all the tabs title to correct name
+        courseDetailsTab.setText(props.getProperty(csgProp.COURSE_DETAILS_TAB.toString()));
+        TADetailsTab.setText(props.getProperty(csgProp.TA_DETAILS_TAB.toString()));
+        recitationTab.setText(props.getProperty(csgProp.RECITATION_DETAILS_TAB.toString()));
+        scheduleTab.setText(props.getProperty(csgProp.SCHEDULE_DETAILS_TAB.toString()));
+        projectTab.setText(props.getProperty(csgProp.PROJECT_DETAILS_TAB.toString()));
+        
+        //set each tab properties
+        courseDetailsTab.setClosable(false);
+        TADetailsTab.setClosable(false);
+        recitationTab.setClosable(false);
+        scheduleTab.setClosable(false);
+        projectTab.setClosable(false);
+        
+        
+       
+        //add all the tabs to the tabPane
         tabPane.getTabs().add(TADetailsTab);
         tabPane.getTabs().add(courseDetailsTab);
+        tabPane.getTabs().add(recitationTab);
+        tabPane.getTabs().add(scheduleTab);
+        tabPane.getTabs().add(projectTab);
+        
+        workspace = new BorderPane();
+        TADetailsTab.setContent(TADetailsPane(app, jtps, props));
+        courseDetailsTab.setContent(CourseDetailsPane(app, jtps, props));
+        scheduleTab.setContent(ScheduleDetailsPane(app, jtps, props));
+
+        ((BorderPane)workspace).setCenter(tabPane);
     }
-    public void TADetailsPane(csgApp app, jTPS jtps, PropertiesManager props){
+    public SplitPane TADetailsPane(csgApp app, jTPS jtps, PropertiesManager props){
         // INIT THE HEADER ON THE LEFT
         tasHeaderBox = new HBox();
         String tasHeaderText = props.getProperty(csgProp.TAS_HEADER_TEXT.toString());
@@ -226,10 +260,6 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         
         // BOTH PANES WILL NOW GO IN A SPLIT PANE
         SplitPane sPane = new SplitPane(leftPane, new ScrollPane(final_right));
-        workspace = new BorderPane();
-        
-        // AND PUT EVERYTHING IN THE WORKSPACE
-        ((BorderPane) workspace).setCenter(sPane);
 
         // MAKE SURE THE TABLE EXTENDS DOWN FAR ENOUGH
         taTable.prefHeightProperty().bind(workspace.heightProperty().multiply(1.9));
@@ -450,9 +480,8 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
                 }
             }
         });
+        return sPane;
     }
-    
-    
     // WE'LL PROVIDE AN ACCESSOR METHOD FOR EACH VISIBLE COMPONENT
     // IN CASE A CONTROLLER OR STYLE CLASS NEEDS TO CHANGE IT
     
@@ -579,30 +608,6 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         }
         return cellText;
     }
-
-    @Override
-    public void resetWorkspace() {
-        // CLEAR OUT THE GRID PANE
-        officeHoursGridPane.getChildren().clear();
-        
-        // AND THEN ALL THE GRID PANES AND LABELS
-        officeHoursGridTimeHeaderPanes.clear();
-        officeHoursGridTimeHeaderLabels.clear();
-        officeHoursGridDayHeaderPanes.clear();
-        officeHoursGridDayHeaderLabels.clear();
-        officeHoursGridTimeCellPanes.clear();
-        officeHoursGridTimeCellLabels.clear();
-        officeHoursGridTACellPanes.clear();
-        officeHoursGridTACellLabels.clear();
-    }
-    
-    @Override
-    public void reloadWorkspace(AppDataComponent dataComponent) {
-        TAData taData = (TAData)dataComponent;
-        reloadOfficeHoursGrid(taData);
-        
-    }
-
     public void reloadOfficeHoursGrid(TAData dataComponent) {        
         ArrayList<String> gridHeaders = dataComponent.getGridHeaders();
 
@@ -684,5 +689,81 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     }
     public jTPS getJTPS(){
         return jtps;
+    }
+    
+    @Override
+    public void resetWorkspace() {
+        // CLEAR OUT THE GRID PANE
+        officeHoursGridPane.getChildren().clear();
+        
+        // AND THEN ALL THE GRID PANES AND LABELS
+        officeHoursGridTimeHeaderPanes.clear();
+        officeHoursGridTimeHeaderLabels.clear();
+        officeHoursGridDayHeaderPanes.clear();
+        officeHoursGridDayHeaderLabels.clear();
+        officeHoursGridTimeCellPanes.clear();
+        officeHoursGridTimeCellLabels.clear();
+        officeHoursGridTACellPanes.clear();
+        officeHoursGridTACellLabels.clear();
+    }
+    
+    @Override
+    public void reloadWorkspace(AppDataComponent dataComponent) {
+        TAData taData = (TAData)dataComponent;
+        reloadOfficeHoursGrid(taData);
+        
+    }
+    
+    public Pane CourseDetailsPane(csgApp app, jTPS jtps, PropertiesManager props){
+        Pane pane = new Pane();
+        VBox course_details_box = new VBox();
+        
+        Label course_info_label = new Label(props.getProperty(csgProp.COURSE_INFO_LABEL.toString()));
+        Label site_template_label = new Label(props.getProperty(csgProp.SITE_TEMPLATE_LABEL.toString()));
+        Label page_Style_label = new Label(props.getProperty(csgProp.PAGE_STYLE_LABEL.toString()));
+        
+        HBox courseInfo = new HBox();
+        HBox siteTemplate = new HBox();
+        HBox pageStyle = new HBox();
+        
+        courseInfo.getChildren().add(course_info_label);
+        siteTemplate.getChildren().add(site_template_label);
+        pageStyle.getChildren().add(page_Style_label);
+        
+        course_details_box.getChildren().add(courseInfo);
+        course_details_box.getChildren().add(siteTemplate);
+        course_details_box.getChildren().add(pageStyle);
+        pane.getChildren().add(course_details_box);
+        //((BorderPane)workspace).setCenter(pane);
+        
+       return pane;
+    }
+    public Pane ScheduleDetailsPane(csgApp app, jTPS jtps, PropertiesManager props){
+        Pane pane = new Pane();
+        VBox main = new VBox();
+        HBox Calendar_boundaries_box = new HBox();
+        HBox Schedule_items_box = new HBox();
+        
+        Label schedule_boundaries_label = new Label(props.getProperty(csgProp.SCHEDULE_BOUNDARIES_LABEL.toString()));
+        Label schedule_items_label = new Label(props.getProperty(csgProp.SCHEUDLE_ITEMS_LABEL.toString()));
+        
+        DatePicker start = new DatePicker();
+        DatePicker end = new DatePicker();
+        
+        GridPane calendar_boundaries_pane = new GridPane();
+        calendar_boundaries_pane.getChildren().add(schedule_boundaries_label);
+        //calendar_boundaries_pane.add(schedule_boundaries_label, 0, 0);
+        //calendar_boundaries_pane.add(start, 0, 1);
+        //calendar_boundaries_pane.add(end, 1, 1);
+        Calendar_boundaries_box.getChildren().add(calendar_boundaries_pane);
+        
+        GridPane schedule_items_pane = new GridPane();
+        schedule_items_pane.add(schedule_items_label, 0, 0);
+        Schedule_items_box.getChildren().add(schedule_items_pane);
+        
+        main.getChildren().add(Calendar_boundaries_box);
+        main.getChildren().add(Schedule_items_box);
+        pane.getChildren().add(main);
+        return pane;
     }
 }
