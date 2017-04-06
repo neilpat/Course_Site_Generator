@@ -47,6 +47,9 @@ public class CourseSiteStyle extends AppStyleComponent {
     public static String CLASS_OFFICE_HOURS_GRID_TA_CELL_PANE1 = "office_hours_grid_ta_cell_pane1";
     public static String CLASS_OFFICE_HOURS_GRID_TA_CELL_LABEL = "office_hours_grid_ta_cell_label";
     
+    public static String REQUIRED_FIELD = "required_field";
+    public static String CLASS_FINAL_HBOX_IN_TABS = "final_hbox_in_tabs";
+    public static String TABS = "tabs";
     // THIS PROVIDES ACCESS TO OTHER COMPONENTS
     private AppTemplate app;
     
@@ -100,6 +103,26 @@ public class CourseSiteStyle extends AppStyleComponent {
         //COURSE_DETAILS_TAB
         workspaceComponent.returnCourseInfoLabel().getStyleClass().add(CLASS_HEADER_LABEL);
         workspaceComponent.returnSiteTemplateLabel().getStyleClass().add(CLASS_HEADER_LABEL);
+        workspaceComponent.getPage_Style_label().getStyleClass().add(CLASS_HEADER_LABEL);
+        workspaceComponent.getCourse_details_box().getStyleClass().add(TABS);
+        
+        workspaceComponent.getNumber_label().getStyleClass().add(REQUIRED_FIELD);
+        workspaceComponent.getExportDirectory().getStyleClass().add(REQUIRED_FIELD);
+        workspaceComponent.getSubject_label().getStyleClass().add(REQUIRED_FIELD);
+        workspaceComponent.getSemester_label().getStyleClass().add(REQUIRED_FIELD);
+        workspaceComponent.getYear_label().getStyleClass().add(REQUIRED_FIELD);
+        workspaceComponent.getTitle_label().getStyleClass().add(REQUIRED_FIELD);
+        workspaceComponent.getInstructor_home_label().getStyleClass().add(REQUIRED_FIELD);
+        workspaceComponent.getInstructor_name_label().getStyleClass().add(REQUIRED_FIELD);
+        workspaceComponent.getExport_directory_label().getStyleClass().add(REQUIRED_FIELD);
+        workspaceComponent.getBannerImage().getStyleClass().add(REQUIRED_FIELD);
+        workspaceComponent.getLeftFooterImage().getStyleClass().add(REQUIRED_FIELD);
+        workspaceComponent.getRightFooterImage().getStyleClass().add(REQUIRED_FIELD);
+        workspaceComponent.getStyleSheetLabel().getStyleClass().add(REQUIRED_FIELD);
+        
+        workspaceComponent.getCourseInfoBox().getStyleClass().add(CLASS_FINAL_HBOX_IN_TABS);
+        workspaceComponent.getSiteTemplate().getStyleClass().add(CLASS_FINAL_HBOX_IN_TABS);
+        workspaceComponent.getPageStyle().getStyleClass().add(CLASS_FINAL_HBOX_IN_TABS);
     }
     
     /**

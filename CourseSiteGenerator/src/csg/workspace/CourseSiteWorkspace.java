@@ -34,15 +34,16 @@ import csg.csgProp;
 import csg.style.CourseSiteStyle;
 import csg.data.TAData;
 import csg.data.TeachingAssistant;
-import java.awt.Color;
-import java.awt.Rectangle;
+import csg.data.recitation;
+import csg.data.sitePage;
 import java.io.File;
 import javafx.geometry.Insets;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.Border;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 
@@ -70,12 +71,63 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     
     Label course_info_label;
     Label site_template_label;
+    Label page_Style_label;
+    Label subject_label;
+    Label number_label;
+    Label semester_label;
+    Label year_label;
+    Label title_label;
+    Label instructor_name_label;
+    Label instructor_home_label;
+    Label export_directory_label;
+    Label exportDirectory;// for the selected directory
+    Label templateDirectory;// for the selected directory
+    Label bannerImage;
+    Label leftFooterImage;
+    Label rightFooterImage;
+    Label styleSheetLabel;
+    Label disclaimer;
+    
+    ImageView bannerImageView;
+    ImageView leftFooterImageView;
+    ImageView rightFooterImageView;
+          
+    HBox siteTemplate;
+    VBox course_details_box;
+    VBox pageStyle;
+    VBox courseInfoBox;
+    
+    Button changeBannerButton;
+    Button changeLeftFooterButton;
+    Button changeRightFooterButton;
+    
+    ComboBox styleSheetComboBox;
     
     // FOR THE TA TABLE
     TableView<TeachingAssistant> taTable;
     TableColumn<TeachingAssistant, String> nameColumn;
     TableColumn<TeachingAssistant, String> emailColumn;
-
+    
+    TableView<sitePage> siteTable;
+    TableColumn<sitePage, Boolean> use;
+    TableColumn<sitePage, String> Navbar_title;
+    TableColumn<sitePage, String> File_name;
+    TableColumn<sitePage, String> Script;
+    
+    TableView<recitation> recitationTable;
+    TableColumn<recitation, String> section;
+    TableColumn<recitation, String> instructor;
+    TableColumn<recitation, String> day_time;
+    TableColumn<recitation, String> location;
+    TableColumn<recitation, String> Table_TA1;
+    TableColumn<recitation, String> Table_TA2;
+    
+    
+    //FOR THE SITE TABLE
+    ObservableList<sitePage> sitePages;
+    //FOR THE RECITATION TABLE
+    ObservableList<recitation> recitations;
+    
     // THE TA INPUT
     HBox addBox;
     TextField nameTextField;
@@ -153,6 +205,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         TADetailsTab.setContent(TADetailsPane(app, jtps, props));
         courseDetailsTab.setContent(CourseDetailsPane(app, jtps, props));
         scheduleTab.setContent(ScheduleDetailsPane(app, jtps, props));
+        recitationTab.setContent(RecitationDetailsPane(app, jtps, props));
 
         ((BorderPane)workspace).setCenter(tabPane);
     }
@@ -724,23 +777,24 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     }
     
     public VBox CourseDetailsPane(csgApp app, jTPS jtps, PropertiesManager props){
-        Pane pane = new Pane();
-        VBox course_details_box = new VBox();
+        course_details_box = new VBox();
         
         course_info_label = new Label(props.getProperty(csgProp.COURSE_INFO_LABEL.toString()));
         site_template_label = new Label(props.getProperty(csgProp.SITE_TEMPLATE_LABEL.toString()));
-        Label page_Style_label = new Label(props.getProperty(csgProp.PAGE_STYLE_LABEL.toString()));
-        Label subject_label = new Label(props.getProperty(csgProp.SUBJECT_LABEL.toString()));
-        Label number_label = new Label(props.getProperty(csgProp.NUMBER_LABEL.toString()));
-        Label semester_label = new Label(props.getProperty(csgProp.SEMESTER_LABEL.toString()));
-        Label year_label = new Label(props.getProperty(csgProp.YEAR_LABEL.toString()));
-        Label title_label = new Label(props.getProperty(csgProp.TITLE_LABEL.toString()));
-        Label instructor_name_label = new Label(props.getProperty(csgProp.INSTRUCTOR_NAME_LABEL.toString()));
-        Label instructor_home_label = new Label(props.getProperty(csgProp.INSTRUCTOR_HOME_LABEL.toString()));
-        Label export_directory_label = new Label(props.getProperty(csgProp.EXPORT_DIRECTORY_LABEL.toString()));
-        Label exportDirectory = new Label();// for the selected directory
+        page_Style_label = new Label(props.getProperty(csgProp.PAGE_STYLE_LABEL.toString()));
+        subject_label = new Label(props.getProperty(csgProp.SUBJECT_LABEL.toString()));
+        number_label = new Label(props.getProperty(csgProp.NUMBER_LABEL.toString()));
+        semester_label = new Label(props.getProperty(csgProp.SEMESTER_LABEL.toString()));
+        year_label = new Label(props.getProperty(csgProp.YEAR_LABEL.toString()));
+        title_label = new Label(props.getProperty(csgProp.TITLE_LABEL.toString()));
+        instructor_name_label = new Label(props.getProperty(csgProp.INSTRUCTOR_NAME_LABEL.toString()));
+        instructor_home_label = new Label(props.getProperty(csgProp.INSTRUCTOR_HOME_LABEL.toString()));
+        export_directory_label = new Label(props.getProperty(csgProp.EXPORT_DIRECTORY_LABEL.toString()));
+        exportDirectory = new Label("Please Select A Directory");// for the selected directory
+        templateDirectory = new Label("Please Select A Directory");// for the selected directory
         
         Button selectDirectory = new Button("Change");
+        Button templateDirectoryButton = new Button("Select Template Directory");
         
         TextField titleField = new TextField();
         titleField.setPrefWidth(375);
@@ -778,7 +832,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         Year.getItems().addAll(years);
         Year.setPrefWidth(125);
         
-        VBox courseInfoBox = new VBox();
+        courseInfoBox = new VBox();
         ColumnConstraints width = new ColumnConstraints(130);
         ColumnConstraints width2 = new ColumnConstraints(80);
         GridPane courseInfo = new GridPane();
@@ -810,9 +864,16 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         courseInfo2.add(instructorNameField, 1, 1);
         courseInfo2.add(instructor_home_label, 0, 2);
         courseInfo2.add(instructorHomeField, 1, 2);
-        courseInfo2.add(export_directory_label, 0, 3);
-        courseInfo2.add(exportDirectory, 1, 3);
-        courseInfo2.add(selectDirectory, 2, 3);
+        
+        GridPane DirectoryBox = new GridPane();
+        ColumnConstraints widthA = new ColumnConstraints(130);
+        ColumnConstraints widthB = new ColumnConstraints(230);
+        ColumnConstraints widthC = new ColumnConstraints(150);
+        DirectoryBox.getColumnConstraints().addAll(widthA,widthB,widthC);
+        DirectoryBox.add(export_directory_label,0,0);
+        DirectoryBox.add(exportDirectory,1,0);
+        DirectoryBox.add(selectDirectory,2,0);
+        DirectoryBox.setPadding(new Insets(5, 300, 5, 0));
         
         selectDirectory.setOnMouseClicked(e->{
             DirectoryChooser dc = new DirectoryChooser();
@@ -820,15 +881,17 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
             exportDirectory.setText(file.toString());
         });
         
+        courseInfoBox.setPadding(new Insets(2, 2, 2, 2));
         courseInfoBox.getChildren().add(courseInfo);
         courseInfoBox.getChildren().add(courseInfo2);
+        courseInfoBox.getChildren().add(DirectoryBox);
         
-        courseInfoBox.setStyle("-fx-background-color: lightblue;");
+        //courseInfoBox.setStyle("-fx-background-color: #DCDCDC;");   //GRAY COLOR
         //end of course details Hbox
         
         //begin of site Template HBox
         VBox finalSiteTemplateBox = new VBox();
-        HBox siteTemplate = new HBox();
+        siteTemplate = new HBox();
         
         finalSiteTemplateBox.getChildren().add(site_template_label);
         VBox informationText = new VBox();
@@ -836,24 +899,124 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
                 + "template, including the HTML file");
         informationText.getChildren().add(t);
         finalSiteTemplateBox.getChildren().add(informationText);
+        finalSiteTemplateBox.getChildren().add(templateDirectory);
+        finalSiteTemplateBox.getChildren().add(templateDirectoryButton);
         
+        templateDirectoryButton.setOnMouseClicked(e->{
+            DirectoryChooser dc = new DirectoryChooser();
+            File file = dc.showDialog(app.getGUI().getWindow());
+            exportDirectory.setText(file.toString());
+        });
+        finalSiteTemplateBox.setSpacing(10);
+        
+        sitePage Home = new sitePage(true, "Home", "index.html", "HomeBuilder.js");
+        sitePage Syllabus = new sitePage(true, "Syllabus", "syllabus.html", "SyllabusBuilder.js");
+        sitePage Schedule = new sitePage(true, "Schedule", "schedule.html", "scheduleBuilder.js");
+        sitePage HWs = new sitePage(true, "HWs", "hws.html", "HWsBuilder.js");
+        sitePage Projects = new sitePage(true, "Projects", "projects.html", "ProjectsBuilder.js");
+        
+        sitePages = FXCollections.observableArrayList();
+        sitePages.add(Home);
+        sitePages.add(Syllabus);
+        sitePages.add(Schedule);
+        sitePages.add(HWs);
+        sitePages.add(Projects);
+        
+        siteTable = new TableView<sitePage>();
+        siteTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        
+        use = new TableColumn("Use");
+        use.setCellValueFactory(
+                new PropertyValueFactory<sitePage, Boolean>("use")
+        );
+        Navbar_title = new TableColumn("NavBar Title");
+        Navbar_title.setCellValueFactory(
+                new PropertyValueFactory<sitePage, String>("title")
+        );
+        File_name = new TableColumn("File Name");
+        File_name.setCellValueFactory(
+                new PropertyValueFactory<sitePage, String>("fileName")
+        );
+        Script = new TableColumn("Script");
+        Script.setCellValueFactory(
+                new PropertyValueFactory<sitePage, String>("script")
+        );
+        
+        siteTable.getColumns().add(use);
+        siteTable.getColumns().add(Navbar_title);
+        siteTable.getColumns().add(File_name);
+        siteTable.getColumns().add(Script);
+        
+        siteTable.setItems(sitePages);
+        
+        finalSiteTemplateBox.getChildren().add(siteTable);
         
         siteTemplate.getChildren().add(finalSiteTemplateBox);
-        siteTemplate.setStyle("-fx-background-color: lightgreen;");
+        siteTemplate.setPadding(new Insets(3, 3, 3, 3));
          
-        HBox pageStyle = new HBox();
+        pageStyle = new VBox();
        
         pageStyle.getChildren().add(page_Style_label);
+        GridPane logoImagePane = new GridPane();
+        RowConstraints rows = new RowConstraints(30);
+        ColumnConstraints column = new ColumnConstraints(190);
+        logoImagePane.getRowConstraints().add(rows);
+        logoImagePane.getRowConstraints().add(rows);
+        logoImagePane.getRowConstraints().add(rows);
+        logoImagePane.getColumnConstraints().add(column);
+        logoImagePane.getColumnConstraints().add(column);
+        logoImagePane.getColumnConstraints().add(column);
         
+        bannerImage = new Label(props.getProperty(csgProp.BANNER_IMAGE_LABEL.toString()));
+        leftFooterImage = new Label(props.getProperty(csgProp.LEFT_FOOTER_IMAGE_LABEL.toString()));
+        rightFooterImage = new Label(props.getProperty(csgProp.RIGHT_FOOTER_IMAGE_LABEL.toString()));
         
+        bannerImageView = new ImageView();
+        leftFooterImageView = new ImageView();
+        rightFooterImageView = new ImageView();
+        
+        changeBannerButton = new Button("Change");
+        changeLeftFooterButton = new Button("Change");
+        changeRightFooterButton = new Button("Change");
+        
+        logoImagePane.add(bannerImage, 0, 0);
+        logoImagePane.add(bannerImageView, 1, 0);
+        logoImagePane.add(changeBannerButton, 2, 0);
+        logoImagePane.add(leftFooterImage, 0, 1);
+        logoImagePane.add(leftFooterImageView, 1, 1);
+        logoImagePane.add(changeLeftFooterButton, 2, 1);
+        logoImagePane.add(rightFooterImage, 0, 2);
+        logoImagePane.add(rightFooterImageView,1,2);
+        logoImagePane.add(changeRightFooterButton, 2, 2);
+        
+        HBox styleSheetBox = new HBox();
+        styleSheetComboBox = new ComboBox();
+        
+        ObservableList<String> stylesheets = FXCollections.observableArrayList();
+        stylesheets.add("sea_wolf.css");
+        stylesheets.add("island_gator.css");
+        styleSheetComboBox.getItems().addAll(stylesheets);
+        styleSheetComboBox.setPrefWidth(200);
+        
+        styleSheetLabel = new Label(props.getProperty(csgProp.STYLE_SHEET_LABEL.toString()));
+        styleSheetBox.getChildren().add(styleSheetLabel);
+        styleSheetBox.getChildren().add(styleSheetComboBox);
+        
+        disclaimer = new Label(props.getProperty(csgProp.DISCLAIMER_LABEL.toString()));
+        
+        pageStyle.getChildren().add(logoImagePane);
+        pageStyle.getChildren().add(styleSheetBox);
+        pageStyle.getChildren().add(disclaimer);
+        pageStyle.setPadding(new Insets(5, 5, 5, 5));
+        pageStyle.setSpacing(10);
         
         course_details_box.getChildren().add(courseInfoBox);
         course_details_box.getChildren().add(siteTemplate);
         course_details_box.getChildren().add(pageStyle);
         course_details_box.setAlignment(Pos.TOP_CENTER);
         course_details_box.setSpacing(10);
-        course_details_box.setPadding(new Insets(10, 60, 10, 60));
-        course_details_box.setStyle("-fx-background-color: blue;");
+        course_details_box.setPadding(new Insets(10, 300, 10, 300));
+        course_details_box.setStyle("-fx-background-color: #FDCE99;");
         return course_details_box;
     }
     public Label returnCourseInfoLabel(){
@@ -862,6 +1025,150 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     public Label returnSiteTemplateLabel(){
         return site_template_label;
     }
+
+    public Label getPage_Style_label() {
+        return page_Style_label;
+    }
+    
+
+    public Label getSite_template_label() {
+        return site_template_label;
+    }
+
+    public Label getSemester_label() {
+        return semester_label;
+    }
+
+    public Label getSubject_label() {
+        return subject_label;
+    }
+
+    public Label getNumber_label() {
+        return number_label;
+    }
+
+    public Label getYear_label() {
+        return year_label;
+    }
+
+    public Label getTitle_label() {
+        return title_label;
+    }
+
+    public Label getInstructor_name_label() {
+        return instructor_name_label;
+    }
+
+    public Label getInstructor_home_label() {
+        return instructor_home_label;
+    }
+
+    public Label getExport_directory_label() {
+        return export_directory_label;
+    }
+
+    public Label getExportDirectory() {
+        return exportDirectory;
+    }
+
+    public HBox getSiteTemplate() {
+        return siteTemplate;
+    }
+    
+    public VBox getCourseInfoBox(){
+        return courseInfoBox;
+    }
+
+    public VBox getPageStyle() {
+        return pageStyle;
+    }
+    public VBox getCourse_details_box() {
+        return course_details_box;
+    }
+
+    public Label getTemplateDirectory() {
+        return templateDirectory;
+    }
+
+    public Label getBannerImage() {
+        return bannerImage;
+    }
+
+    public Label getLeftFooterImage() {
+        return leftFooterImage;
+    }
+
+    public Label getRightFooterImage() {
+        return rightFooterImage;
+    }
+
+    public Label getStyleSheetLabel() {
+        return styleSheetLabel;
+    }
+    public VBox RecitationDetailsPane(csgApp app, jTPS jtps, PropertiesManager props){
+        VBox recitation_details_box = new VBox();
+        
+        TAData data = (TAData) app.getDataComponent();
+        TeachingAssistant teachingAssistant_1 = data.getTA("Bryan Robicheau", "bryan.robicheau@stonybrook.edu");
+        TeachingAssistant teachingAssistant_2 = data.getTA("Calvin Cheng", "calvin.cheng@stonybrook.edu");
+        String TA1 = "Jarry Jone";//teachingAssistant_1.getName();
+        String TA2 = "Hellen Corpac";//teachingAssistant_2.getName();
+        
+        recitation R02 = new recitation("R02", "McKenna", "Wed 3:30pm-4:23pm", "Old CS2114", TA1, TA2);
+        recitation R05 = new recitation("R05", "Fodor", "Thu 1:30pm-2:53pm", "New CS1014", TA2, TA1);
+        
+        recitations = FXCollections.observableArrayList();
+        recitations.add(R02);
+        recitations.add(R05);
+        
+        recitationTable = new TableView<recitation>();
+        recitationTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        section = new TableColumn("Section");
+        section.setCellValueFactory(
+                new PropertyValueFactory<recitation, String>("section")
+        );
+        instructor = new TableColumn("Instructor");
+        instructor.setCellValueFactory(
+                new PropertyValueFactory<recitation, String>("instructor")
+        );
+        day_time = new TableColumn("Day/Time");
+        day_time.setCellValueFactory(
+                new PropertyValueFactory<recitation, String>("day_time")
+        );
+        location = new TableColumn("Section");
+        location.setCellValueFactory(
+                new PropertyValueFactory<recitation, String>("location")
+        );
+        Table_TA1 = new TableColumn("TA");
+        Table_TA1.setCellValueFactory(
+                new PropertyValueFactory<recitation, String>("TA1")
+        );
+        Table_TA2 = new TableColumn("TA");
+        Table_TA2.setCellValueFactory(
+                new PropertyValueFactory<recitation, String>("TA2")
+        );
+        
+        recitationTable.getColumns().add(section);
+        recitationTable.getColumns().add(instructor);
+        recitationTable.getColumns().add(day_time);
+        recitationTable.getColumns().add(location);
+        recitationTable.getColumns().add(Table_TA1);
+        recitationTable.getColumns().add(Table_TA2);
+        recitationTable.setMaxHeight(100);
+        recitationTable.setItems(recitations);
+        
+        recitation_details_box.getChildren().add(recitationTable);
+        recitation_details_box.setAlignment(Pos.TOP_CENTER);
+        recitation_details_box.setSpacing(10);
+        recitation_details_box.setPadding(new Insets(10, 300, 10, 300));
+        recitation_details_box.setStyle("-fx-background-color: #FDCE99;");
+        
+        return recitation_details_box;
+       
+    }
+    
+    
+    
     public Pane ScheduleDetailsPane(csgApp app, jTPS jtps, PropertiesManager props){
         Pane pane = new Pane();
         VBox main = new VBox();

@@ -20,15 +20,23 @@
         <property name="SAVE_AS_ICON"	    value="SaveAs.png"></property>
         <property name="EXIT_ICON"          value="Exit.png"></property>
         <property name="EXPORT_ICON"          value="Export.png"></property>
+        <property name="UNDO_ICON"          value="Undo.png"></property>
+        <property name="REDO_ICON"          value="Redo.png"></property>
+        <property name="ABOUT_ICON"          value="About.png"></property>
 
         
         <!-- TOOLTIPS FOR BUTTONS -->
         <property name="NEW_TOOLTIP"		value="Build a new TA Grid"></property>
         <property name="LOAD_TOOLTIP"		value="Load an existing TA Grid"></property>
         <property name="SAVE_TOOLTIP"		value="Save the current TA Grid"></property>
-        <property name="SAVE_AS_TOOLTIP"		value="Save the current TA Grid To New File"></property>
+        <property name="SAVE_AS_TOOLTIP"    value="Save the current TA Grid To New File"></property>
         <property name="EXIT_TOOLTIP"		value="Exit the Application"></property>
         <property name="EXPORT_TOOLTIP"		value="Export the Application"></property>
+        <property name="UNDO_TOOLTIP"		value="Undo last Action"></property>
+        <property name="REDO_TOOLTIP"		value="Redo last Action"></property>
+        <property name="ABOUT_TOOLTIP"		value="About"></property>
+        
+        
         
         <!-- ERROR MESSAGES -->
         <property name="CLOSE_BUTTON_TEXT"              value="Close"></property>
@@ -57,10 +65,10 @@
         <property name="WORK_LOADED_MESSAGE"		value="The Work has been Loaded"></property>
         <property name="WORK_SAVED_MESSAGE"		value="The Work has been Saved"></property>
         <property name="SAVE_UNSAVED_WORK_MESSAGE"	value="Do you want to save your unsaved work first?"></property>
-	<property name="SAVE_WORK_TITLE"		value="Save your work"></property>
-	<property name="LOAD_WORK_TITLE"		value="Select work file to load"></property>
-	<property name="WORK_FILE_EXT"			value="json"></property>
-	<property name="WORK_FILE_EXT_DESC"		value="TA Office Hours"></property>
+	    <property name="SAVE_WORK_TITLE"		value="Save your work"></property>
+	    <property name="LOAD_WORK_TITLE"		value="Select work file to load"></property>
+	    <property name="WORK_FILE_EXT"			value="json"></property>
+	    <property name="WORK_FILE_EXT_DESC"		value="TA Office Hours"></property>
 
         <!-- WORKSPACE CONTROLS STUFF -->
         <property name="TA_DETAILS_TAB"               value="TA Details"></property>
@@ -95,6 +103,12 @@
         <property name = "INSTRUCTOR_NAME_LABEL"        value="Insturctor Name"></property>
         <property name = "INSTURCTOR_HOME_LABEL"        value="Instructor Home"></property>
         <property name = "EXPORT_DIRECTORY_LABEL"       value="Export Dir"></property>
+        <property name = "BANNER_IMAGE_LABEL"           value="Banner School Image"></property>
+        <property name = "LEFT_FOOTER_IMAGE_LABEL"      value="Left Footer Image"></property>
+        <property name = "RIGHT_FOOTER_IMAGE_LABEL"     value="Right Footer Image"></property>
+        <property name = "STYLE_SHEET_LABEL"            value="Stylesheet"></property>
+        <property name="DISCLAIMER_LABEL"		    value="NOTE: New stylesheets may be palced in work/css to be selected."></property>
+    
         
         <!--RECITATION DETAILS STUFF -->
         <property name = "RECITATION_DETAILS_TAB"         value="Recitation Details"></property>
