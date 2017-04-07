@@ -111,14 +111,39 @@
     
         
         <!--RECITATION DETAILS STUFF -->
-        <property name = "RECITATION_DETAILS_TAB"         value="Recitation Details"></property>
-        <!--SCHEDULE DETAILS STUFF -->
+        <property name = "RECITATION_MAIN_LABEL"        value="Recitations"></property>
+        <property name = "RECITATION_DETAILS_TAB"       value="Recitation Details"></property>
         <property name = "SCHEDULE_DETAILS_TAB"         value="Schedule Details"></property>
-        <property name = "CALENDAR_BOUNDARIES_LABEL"     value="Calendar Boundaries"></property>
+        <property name = "CALENDAR_BOUNDARIES_LABEL"    value="Calendar Boundaries"></property>
         <property name = "SCHEDULE_ITEMS_LABEL"         value="Schedule Items"></property>
+        <property name = "ADD_EDIT_LABEL"               value="Add/Edit"></property>
+        <property name = "SECTION_LABEL"                value="Section"></property>
+        <property name = "INSTRUCTOR_LABEL"             value="Instructor"></property>
+        <property name = "DAY_TIME_LABEL"               value="Day/Time"></property>
+        <property name = "LOCATION_LABEL"               value="Location"></property>
+        <property name = "SUPERVISING_TA_LABEL"         value="Supervising TA"></property>
+        <property name = "ADD_RECITATION_BUTTON"        value="Add Recitation"></property>
+        <property name = "CLEAR_RECITATION_BUTTON"      value="Clear"></property>
+        <property name = "UPDATE_RECITATION_BUTTON"     value="Update Recitation"></property>
+        
+        <!--SCHEDULE DETAILS STUFF -->
+        <property name = "SCHEDULE_MAIN_LABEL"          value="Schedule"></property>
+        <property name = "TYPE_LABEL"                   value="Type"></property>
+        <property name = "TIME_LABEL"                   value="Time"></property>
+        <property name = "DATE_LABEL"                   value="Date"></property>
+        <property name = "TOPIC_LABEL"                  value="Topic"></property>
+        <property name = "LINK_LABEL"                   value="Link"></property>
+        <property name = "CRITERIA_LABEL"               value="Criteria"></property>
+        
+    ,
+   ,
+    ,
+    ,
+        
         <!--PROJECT DETAILS STUFF -->
         <property name = "PROJECT_DETAILS_TAB"         value="Project Details"></property>
         
+        <property name = "MINIMIZE_BUTTON"             value="-"></property>
     </property_list>
     <property_options_list>
         <property_options name="OFFICE_HOURS_TABLE_HEADERS">

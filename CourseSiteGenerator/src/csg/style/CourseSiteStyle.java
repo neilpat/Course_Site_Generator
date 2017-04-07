@@ -104,7 +104,10 @@ public class CourseSiteStyle extends AppStyleComponent {
         workspaceComponent.returnCourseInfoLabel().getStyleClass().add(CLASS_HEADER_LABEL);
         workspaceComponent.returnSiteTemplateLabel().getStyleClass().add(CLASS_HEADER_LABEL);
         workspaceComponent.getPage_Style_label().getStyleClass().add(CLASS_HEADER_LABEL);
+        workspaceComponent.getAdd_edit_label().getStyleClass().add(CLASS_HEADER_LABEL);
+        workspaceComponent.getRecitation_mainLabel().getStyleClass().add(CLASS_HEADER_LABEL);
         workspaceComponent.getCourse_details_box().getStyleClass().add(TABS);
+        workspaceComponent.getRecitation_details_box().getStyleClass().add(TABS);
         
         workspaceComponent.getNumber_label().getStyleClass().add(REQUIRED_FIELD);
         workspaceComponent.getExportDirectory().getStyleClass().add(REQUIRED_FIELD);
@@ -120,9 +123,16 @@ public class CourseSiteStyle extends AppStyleComponent {
         workspaceComponent.getRightFooterImage().getStyleClass().add(REQUIRED_FIELD);
         workspaceComponent.getStyleSheetLabel().getStyleClass().add(REQUIRED_FIELD);
         
+        workspaceComponent.getSection_label().getStyleClass().add(REQUIRED_FIELD);
+        workspaceComponent.getInstructor_label().getStyleClass().add(REQUIRED_FIELD);
+        workspaceComponent.getDay_time_label().getStyleClass().add(REQUIRED_FIELD);
+        workspaceComponent.getLocation_label().getStyleClass().add(REQUIRED_FIELD);
+        workspaceComponent.getSupervising_TA_label().getStyleClass().add(REQUIRED_FIELD);
+        
         workspaceComponent.getCourseInfoBox().getStyleClass().add(CLASS_FINAL_HBOX_IN_TABS);
         workspaceComponent.getSiteTemplate().getStyleClass().add(CLASS_FINAL_HBOX_IN_TABS);
         workspaceComponent.getPageStyle().getStyleClass().add(CLASS_FINAL_HBOX_IN_TABS);
+        workspaceComponent.getAdd_edit_box().getStyleClass().add(CLASS_FINAL_HBOX_IN_TABS);
     }
     
     /**
