@@ -55,12 +55,17 @@
     -fx-font-family: Courier New; 
 }
 .required_field{
+    -fx-font-size: 9pt;
+    -fx-font-family: 'Arial Narrow', sans-serif; 
     -fx-font-weight: bold;
-    -fx-font-size: 10pt;
-    -fx-font-family: Courier New; 
 }
 .final_hbox_in_tabs{
     -fx-background-color: #DCDCDC;
+}
+.box_heading{
+    -fx-font-size: 11pt;
+    -fx-font-family: 'Arial Narrow', sans-serif; 
+    -fx-font-weight: bold;
 }
 .tab {
     -fx-background-color: #FDCE99;

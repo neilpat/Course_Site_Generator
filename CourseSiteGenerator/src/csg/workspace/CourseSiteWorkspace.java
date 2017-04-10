@@ -38,8 +38,11 @@ import csg.data.recitation;
 import csg.data.schedule;
 import csg.data.sitePage;
 import java.io.File;
+import java.io.IOException;
 import java.math.BigInteger;
 import javafx.geometry.Insets;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
@@ -47,6 +50,8 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
+import javax.imageio.ImageIO;
 
 /**
  * This class serves as the workspace component for the TA Manager
@@ -105,6 +110,10 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     Label topic_label;
     Label link_label;
     Label criteria_label;
+    Label startDateLabel;
+    Label endDateLabel;
+    Label scheduleItemsLabel;
+    Label calendarBoundariesLabel;
     
     TextField section_textField;
     TextField instructor_textField;
@@ -131,14 +140,21 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     VBox recitation_details_box;
     VBox add_edit_box;
     
-    VBox schedule_details_box;
+    VBox finalCalBoundariesBox;
     HBox scheduleHeaderBox;
+    GridPane calendarBoundariesBox;
+    VBox schedule_details_box;
     VBox add_edit_schedule_box;
+    VBox final_scheduleItemsBox;
     
+    //COURSE DETAILS BUTTON
+    Button selectDirectory;
+    Button templateDirectoryButton; 
     Button changeBannerButton;
     Button changeLeftFooterButton;
     Button changeRightFooterButton;
     
+    //RECITATIONS DETAILS BUTTON
     Button minimize_reciationsButton;
     Button addRecitationButton;
     Button updateReciationButton;
@@ -147,7 +163,11 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     String update_recText;
     String clear_recText;
     
+    //SCHEDULE DETAILS BUTTON
     Button minimize_schedulesButton;
+    Button addScheduleButton;
+    Button clearScheduleButton;
+    Button updateScheduleButton;
     
     ComboBox styleSheetComboBox;
     
@@ -175,6 +195,10 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     TableColumn<schedule, BigInteger> date;
     TableColumn<schedule, String> title;
     TableColumn<schedule, String> topic;
+    
+    DatePicker startDate;
+    DatePicker endDate;
+    DatePicker plannedDate;   
        
     //FOR THE SITE TABLE
     ObservableList<sitePage> sitePages;
@@ -259,10 +283,24 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         TADetailsTab.setContent(TADetailsPane(app, jtps, props));
         courseDetailsTab.setContent(CourseDetailsPane(app, jtps, props));
         recitationTab.setContent(RecitationDetailsPane(app, jtps, props));
-        //scheduleTab.setContent(ScheduleDetailsPane(app, jtps, props));
+        scheduleTab.setContent(ScheduleDetailsPane(app, jtps, props));
         
         tabPane.prefWidthProperty().bind(((BorderPane)workspace).widthProperty().multiply(.4));
        
+        SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
+        app.getGUI().getPrimaryScene().setOnKeyPressed(e->{
+                if(e.isControlDown()){
+                    if(e.getCode() == KeyCode.TAB){
+                        int currentTab = selectionModel.getSelectedIndex();
+                        if(currentTab<4){
+                            selectionModel.select(currentTab+1);
+                        }
+                        else{
+                            selectionModel.select(0);
+                        }
+                    }
+                }  
+        });
         ((BorderPane)workspace).setCenter(tabPane);
     }
     public SplitPane TADetailsPane(csgApp app, jTPS jtps, PropertiesManager props){
@@ -849,8 +887,8 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         exportDirectory = new Label("Please Select A Directory");// for the selected directory
         templateDirectory = new Label("Please Select A Directory");// for the selected directory
         
-        Button selectDirectory = new Button("Change");
-        Button templateDirectoryButton = new Button("Select Template Directory");
+        selectDirectory = new Button("Change");
+        templateDirectoryButton = new Button("Select Template Directory");
         
         TextField titleField = new TextField();
         titleField.setPrefWidth(375);
@@ -937,7 +975,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
             exportDirectory.setText(file.toString());
         });
         
-        courseInfoBox.setPadding(new Insets(2, 2, 2, 2));
+        courseInfoBox.setPadding(new Insets(5, 5, 5, 10));
         courseInfoBox.getChildren().add(courseInfo);
         courseInfoBox.getChildren().add(courseInfo2);
         courseInfoBox.getChildren().add(DirectoryBox);
@@ -1008,7 +1046,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         finalSiteTemplateBox.getChildren().add(siteTable);
         
         siteTemplate.getChildren().add(finalSiteTemplateBox);
-        siteTemplate.setPadding(new Insets(3, 3, 3, 3));
+        siteTemplate.setPadding(new Insets(5, 5, 5, 10));
          
         pageStyle = new VBox();
        
@@ -1045,6 +1083,23 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         logoImagePane.add(rightFooterImageView,1,2);
         logoImagePane.add(changeRightFooterButton, 2, 2);
         
+        changeBannerButton.setOnAction(e->{
+//            FileChooser fc = new FileChooser();
+//            Image bannerImage;
+//            fc.getExtensionFilters().add
+//                (new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
+//            try{
+//                 bannerImage = ImageIO.read(fc.showOpenDialog(app.getGUI().getWindow()));
+//                 bannerImageView.setImage(bannerImage);
+//            }catch(IOException ex){
+//                ex.
+//            }
+           
+             
+            
+            
+        });
+        
         HBox styleSheetBox = new HBox();
         styleSheetComboBox = new ComboBox();
         
@@ -1063,7 +1118,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         pageStyle.getChildren().add(logoImagePane);
         pageStyle.getChildren().add(styleSheetBox);
         pageStyle.getChildren().add(disclaimer);
-        pageStyle.setPadding(new Insets(5, 5, 5, 5));
+        pageStyle.setPadding(new Insets(5, 5, 5, 10));
         pageStyle.setSpacing(10);
         
         course_details_box.getChildren().add(courseInfoBox);
@@ -1075,13 +1130,11 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         course_details_box.setStyle("-fx-background-color: #FDCE99;");
         return course_details_box;
     }
-    public Label returnCourseInfoLabel(){
+
+    public Label getCourse_info_label() {
         return course_info_label;
     }
-    public Label returnSiteTemplateLabel(){
-        return site_template_label;
-    }
-
+    
     public Label getPage_Style_label() {
         return page_Style_label;
     }
@@ -1366,11 +1419,50 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     public VBox ScheduleDetailsPane(csgApp app, jTPS jtps, PropertiesManager props){
         schedule_details_box = new VBox();
         
-        HBox scheduleHeaderBox = new HBox();
+        scheduleHeaderBox = new HBox();
         schedule_mainLabel = new Label(props.getProperty(csgProp.SCHEDULE_MAIN_LABEL.toString()));
         minimize_schedulesButton = new Button(props.getProperty(csgProp.MINIMIZE_BUTTON.toString()));
         scheduleHeaderBox.getChildren().add(schedule_mainLabel);
         scheduleHeaderBox.getChildren().add(minimize_schedulesButton);
+        
+        finalCalBoundariesBox = new VBox();
+        calendarBoundariesBox = new GridPane();
+        ColumnConstraints colmnWidth1 = new ColumnConstraints(100);
+        ColumnConstraints colmnWidth2 = new ColumnConstraints(290);
+        calendarBoundariesBox.getColumnConstraints().add(colmnWidth1);
+        calendarBoundariesBox.getColumnConstraints().add(colmnWidth2);
+        calendarBoundariesBox.getColumnConstraints().add(colmnWidth1);
+        calendarBoundariesBox.getColumnConstraints().add(colmnWidth2);
+        startDate = new DatePicker();
+        startDate.setPrefWidth(200);
+        endDate = new DatePicker();
+        endDate.setPrefWidth(200);
+        calendarBoundariesLabel = new Label(props.getProperty(csgProp.CALENDARBOUNDARIES_LABEL.toString()));
+        startDateLabel = new Label(props.getProperty(csgProp.STARTDATE_LABEL.toString()));
+        endDateLabel = new Label(props.getProperty(csgProp.ENDDATE_LABEL.toString()));
+        
+        calendarBoundariesBox.add(startDate, 1, 0);
+        calendarBoundariesBox.add(startDateLabel, 0, 0);
+        calendarBoundariesBox.add(endDate, 3, 0);
+        calendarBoundariesBox.add(endDateLabel, 2, 0);
+        calendarBoundariesBox.setPadding(new Insets(15, 5, 15, 5));
+        finalCalBoundariesBox.getChildren().add(calendarBoundariesLabel);
+        finalCalBoundariesBox.getChildren().add(calendarBoundariesBox);
+        finalCalBoundariesBox.setPadding(new Insets(5, 5, 5, 5));
+        
+        startDate.setOnAction(e->{
+            if(startDate.getValue() != null){
+                startDateLabel.setText( props.getProperty(csgProp.STARTDATE_LABEL.toString())
+                        +startDate.getValue().getDayOfWeek().toString());
+            }
+            
+        });
+        endDate.setOnAction(e->{
+            if(endDate.getValue() != null){
+                endDateLabel.setText( props.getProperty(csgProp.ENDDATE_LABEL.toString())
+                        +endDate.getValue().getDayOfWeek().toString());
+            }
+        });
         
         
         BigInteger date1 = new BigInteger("02092017");
@@ -1388,18 +1480,22 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         type.setCellValueFactory(
                 new PropertyValueFactory<schedule, String>("type")
         );
+        type.prefWidthProperty().bind(scheduleTable.widthProperty().multiply(0.2));
         date = new TableColumn("Date");
         date.setCellValueFactory(
                 new PropertyValueFactory<schedule, BigInteger>("date")
         );
+        date.prefWidthProperty().bind(scheduleTable.widthProperty().multiply(0.2));
         title = new TableColumn("Title");
         title.setCellValueFactory(
                 new PropertyValueFactory<schedule, String>("title")
         );
+        title.prefWidthProperty().bind(scheduleTable.widthProperty().multiply(0.2));
         topic = new TableColumn("Topic");
         topic.setCellValueFactory(
                 new PropertyValueFactory<schedule, String>("topic")
         );
+        topic.prefWidthProperty().bind(scheduleTable.widthProperty().multiply(0.38));
         
         scheduleTable.getColumns().add(type);
         scheduleTable.getColumns().add(date);
@@ -1407,27 +1503,38 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         scheduleTable.getColumns().add(topic);
         
         
+        scheduleTable.setItems(schedules);
+        scheduleTable.setMaxHeight(100);
+        //scheduleTable.setMaxWidth(500);
+        
+        
         add_edit_schedule_box = new VBox();
         add_edit_label = new Label(props.getProperty(csgProp.ADD_EDIT_LABEL.toString()));
         date_label = new Label(props.getProperty(csgProp.DATE_LABEL.toString()));
+        type_label = new Label(props.getProperty(csgProp.TYPE_LABEL.toString()));
         time_label = new Label(props.getProperty(csgProp.TIME_LABEL.toString()));
         title_label = new Label(props.getProperty(csgProp.TITLE_LABEL.toString()));
         topic_label = new Label(props.getProperty(csgProp.TOPIC_LABEL.toString()));
         link_label = new Label(props.getProperty(csgProp.LINK_LABEL.toString()));
         criteria_label = new Label(props.getProperty(csgProp.CRITERIA_LABEL.toString()));
         
-        section_textField = new TextField();
-        instructor_textField = new TextField();
-        day_time_textField = new TextField();
-        location_textField = new TextField();
-        supervising_TA_textField = new TextField();
+        plannedDate = new DatePicker();
+       
+        type_textField = new TextField();
+        time_textField = new TextField();
+        title_textField = new TextField();
+        topic_textField = new TextField();
+        link_textField = new TextField();
+        criteria_textField = new TextField();
         
-        addButton = new Button(props.getProperty(csgProp.ADD_BUTTON_TEXT.toString()));
-        addButton.setPrefWidth(130);
-        clearButton = new Button(props.getProperty(csgProp.CLEAR_BUTTON_TEXT.toString()));
-        clearButton.setPrefWidth(130);
-        updateButton = new Button(props.getProperty(csgProp.UPDATE_BUTTON_TEXT.toString()));
         
+        addScheduleButton = new Button(props.getProperty(csgProp.ADD_BUTTON_TEXT.toString()));
+        addScheduleButton.setPrefWidth(130);
+        clearScheduleButton = new Button(props.getProperty(csgProp.CLEAR_BUTTON_TEXT.toString()));
+        clearScheduleButton.setPrefWidth(130);
+        updateScheduleButton = new Button(props.getProperty(csgProp.UPDATE_BUTTON_TEXT.toString()));
+        
+        final_scheduleItemsBox = new VBox();
         GridPane add_edit_input_schedule = new GridPane();
         RowConstraints rowHeight = new RowConstraints(35);
         ColumnConstraints columnWidth1 = new ColumnConstraints(150);
@@ -1444,28 +1551,34 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         add_edit_input_schedule.getColumnConstraints().add(columnWidth2);
         add_edit_input_schedule.setPadding(new Insets(5, 5, 5, 15));
         
-        add_edit_input_schedule.add(type_label, 0, 0);
-        add_edit_input_schedule.add(type_textField, 1, 0);
-        add_edit_input_schedule.add(date_label, 0, 1);
-        //add_edit_input_schedule.add(date_textField, 1, 1);
-        add_edit_input_schedule.add(time_label, 0, 2);
-        add_edit_input_schedule.add(time_textField, 1, 2);
-        add_edit_input_schedule.add(title_label, 0, 3);
-        add_edit_input_schedule.add(title_textField, 1, 3);
-        add_edit_input_schedule.add(topic_label, 0, 4);
-        add_edit_input_schedule.add(topic_textField, 1, 4);
-        add_edit_input_schedule.add(link_label, 0, 5);
-        add_edit_input_schedule.add(link_textField, 1, 5);
-        add_edit_input_schedule.add(criteria_label, 0, 6);
-        add_edit_input_schedule.add(criteria_textField, 1, 6);
+        add_edit_input_schedule.add(add_edit_label, 0, 0);
+        add_edit_input_schedule.add(type_label, 0, 1);
+        add_edit_input_schedule.add(type_textField, 1, 1);
+        add_edit_input_schedule.add(date_label, 0, 2);
+        add_edit_input_schedule.add(plannedDate, 1, 2);
+        add_edit_input_schedule.add(time_label, 0, 3);
+        add_edit_input_schedule.add(time_textField, 1, 3);
+        add_edit_input_schedule.add(title_label, 0, 4);
+        add_edit_input_schedule.add(title_textField, 1, 4);
+        add_edit_input_schedule.add(topic_label, 0, 5);
+        add_edit_input_schedule.add(topic_textField, 1, 5);
+        add_edit_input_schedule.add(link_label, 0, 6);
+        add_edit_input_schedule.add(link_textField, 1, 6);
+        add_edit_input_schedule.add(criteria_label, 0, 7);
+        add_edit_input_schedule.add(criteria_textField, 1, 7);
+        add_edit_input_schedule.add(addScheduleButton, 0, 8);
+        add_edit_input_schedule.add(clearScheduleButton, 1, 8);
         
-        add_edit_schedule_box.getChildren().add(schedule_mainLabel);
-        add_edit_schedule_box.getChildren().add(scheduleTable);
-        add_edit_schedule_box.getChildren().add(add_edit_input_schedule);
+        scheduleItemsLabel = new Label(props.getProperty(csgProp.SCHEDULE_ITEMS_LABEL.toString()));
+        final_scheduleItemsBox.getChildren().add(scheduleItemsLabel);
+        final_scheduleItemsBox.getChildren().add(scheduleTable);
+        final_scheduleItemsBox.getChildren().add(add_edit_input_schedule);
+        final_scheduleItemsBox.setPadding(new Insets(5, 5, 0, 5));
+        add_edit_schedule_box.getChildren().add(final_scheduleItemsBox);
         add_edit_schedule_box.setPadding(new Insets(5, 0, 0, 5));
         
         schedule_details_box.getChildren().add(scheduleHeaderBox);
-        schedule_details_box.getChildren().add(scheduleTable);
+        schedule_details_box.getChildren().add(finalCalBoundariesBox);
         schedule_details_box.getChildren().add(add_edit_schedule_box);
         schedule_details_box.setAlignment(Pos.TOP_CENTER);
         schedule_details_box.setSpacing(10);
@@ -1473,5 +1586,119 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         schedule_details_box.setStyle("-fx-background-color: #FDCE99;");
         
         return schedule_details_box;
+    }
+
+    public VBox getFinalCalBoundariesBox() {
+        return finalCalBoundariesBox;
+    }
+    
+    public VBox getAdd_edit_schedule_box() {
+        return add_edit_schedule_box;
+    }
+
+    public VBox getFinal_scheduleItemsBox() {
+        return final_scheduleItemsBox;
+    }
+
+    public Label getType_label() {
+        return type_label;
+    }
+
+    public Label getDate_label() {
+        return date_label;
+    }
+
+    public Label getTime_label() {
+        return time_label;
+    }
+
+    public Label getTopic_label() {
+        return topic_label;
+    }
+
+    public Label getLink_label() {
+        return link_label;
+    }
+
+    public Label getCriteria_label() {
+        return criteria_label;
+    }
+
+    public Label getStartDateLabel() {
+        return startDateLabel;
+    }
+
+    public Label getEndDateLabel() {
+        return endDateLabel;
+    }
+
+    public Label getCalendarBoundariesLabel() {
+        return calendarBoundariesLabel;
+    }
+
+    public Label getScheduleItemsLabel() {
+        return scheduleItemsLabel;
+    }
+    public VBox ProjectDetailsPane(csgApp app, jTPS jtps, PropertiesManager props){
+        VBox ProjectDetailsBox = new VBox(); 
+        HBox projectHeaderBox = new HBox();
+        
+        VBox teamsBox = new VBox();
+        
+        HBox teamsHeaderLabelBox = new HBox();
+        Label teamsLabel = new Label();
+        Button teamsMinimizeButton = new Button();
+        teamsHeaderLabelBox.getChildren().addAll(teamsLabel,teamsMinimizeButton);
+        
+        TableView teamTable = new TableView<schedule>();
+        teamTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        TableColumn name;
+        TableColumn color;
+        TableColumn textColor;
+        TableColumn link;
+        name = new TableColumn("name");
+        name.setCellValueFactory(
+                new PropertyValueFactory<schedule, String>("name")
+        );
+        name.prefWidthProperty().bind(scheduleTable.widthProperty().multiply(0.2));
+        color = new TableColumn("color");
+        color.setCellValueFactory(
+                new PropertyValueFactory<schedule, BigInteger>("color")
+        );
+        color.prefWidthProperty().bind(scheduleTable.widthProperty().multiply(0.2));
+        textColor = new TableColumn("textColor");
+        textColor.setCellValueFactory(
+                new PropertyValueFactory<schedule, String>("textColor")
+        );
+        textColor.prefWidthProperty().bind(scheduleTable.widthProperty().multiply(0.2));
+        link = new TableColumn("link");
+        link.setCellValueFactory(
+                new PropertyValueFactory<schedule, String>("link")
+        );
+        link.prefWidthProperty().bind(scheduleTable.widthProperty().multiply(0.38));
+        
+        
+        teamTable.getColumns().add(name);
+        teamTable.getColumns().add(color);
+        teamTable.getColumns().add(textColor);
+        teamTable.getColumns().add(link);
+        
+        schedule atomicComics = new team("Holiday", date1, "SNOW DAY","");
+        schedule C4Comics = new team("Lecture", date2, "Lecture 3", "Event Programming");
+        
+        teams = FXCollections.observableArrayList();
+        teams.add(atomicComics);
+        teams.add(C4Comics);
+        
+        teamTable.setItems(teams);
+        teamTable.setMaxHeight(100);
+        
+        
+        
+        
+        
+        
+        VBox studentsBox = new VBox();
+        
     }
 }

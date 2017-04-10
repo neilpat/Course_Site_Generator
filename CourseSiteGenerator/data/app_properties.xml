@@ -134,12 +134,11 @@
         <property name = "TOPIC_LABEL"                  value="Topic"></property>
         <property name = "LINK_LABEL"                   value="Link"></property>
         <property name = "CRITERIA_LABEL"               value="Criteria"></property>
-        
-    ,
-   ,
-    ,
-    ,
-        
+        <property name = "STARTDATE_LABEL"              value="Start "></property>
+        <property name = "ENDDATE_LABEL"                value="End "></property>
+        <property name = "SCHEDULE_ITEMS_LABEL"         value="Schedule Items"></property>
+        <property name = "CALENDARBOUNDARIES_LABEL"     value="Calendar Boundaries"></property>
+      
         <!--PROJECT DETAILS STUFF -->
         <property name = "PROJECT_DETAILS_TAB"         value="Project Details"></property>
         
