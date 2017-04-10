@@ -105,6 +105,8 @@ public class CourseSiteStyle extends AppStyleComponent {
         workspaceComponent.getRecitation_mainLabel().getStyleClass().add(CLASS_HEADER_LABEL);
         workspaceComponent.getCourse_details_box().getStyleClass().add(TABS);
         workspaceComponent.getRecitation_details_box().getStyleClass().add(TABS);
+        workspaceComponent.getProjectDetailsBox().getStyleClass().add(TABS);
+        
         
         workspaceComponent.getNumber_label().getStyleClass().add(REQUIRED_FIELD);
         workspaceComponent.getExportDirectory().getStyleClass().add(REQUIRED_FIELD);
@@ -135,12 +137,22 @@ public class CourseSiteStyle extends AppStyleComponent {
         workspaceComponent.getLink_label().getStyleClass().add(REQUIRED_FIELD);
         workspaceComponent.getTime_label().getStyleClass().add(REQUIRED_FIELD);
         
+        workspaceComponent.getNameTeamLabel().getStyleClass().add(REQUIRED_FIELD);
+        workspaceComponent.getColorLabel().getStyleClass().add(REQUIRED_FIELD);
+        workspaceComponent.getTextColor().getStyleClass().add(REQUIRED_FIELD);
+        workspaceComponent.getLink_label().getStyleClass().add(REQUIRED_FIELD);
+        workspaceComponent.getFirstNameLabel().getStyleClass().add(REQUIRED_FIELD);
+        workspaceComponent.getLastNameLabel().getStyleClass().add(REQUIRED_FIELD);
+        workspaceComponent.getTeamLabel().getStyleClass().add(REQUIRED_FIELD);
+        workspaceComponent.getRoleLabel().getStyleClass().add(REQUIRED_FIELD);
+        
         workspaceComponent.getCourse_info_label().getStyleClass().add(BOX_HEADING);
         workspaceComponent.getSite_template_label().getStyleClass().add(BOX_HEADING);
         workspaceComponent.getPage_Style_label().getStyleClass().add(BOX_HEADING);
         workspaceComponent.getAdd_edit_label().getStyleClass().add(BOX_HEADING);
         workspaceComponent.getCalendarBoundariesLabel().getStyleClass().add(BOX_HEADING);
         workspaceComponent.getScheduleItemsLabel().getStyleClass().add(BOX_HEADING);
+        workspaceComponent.getTeamsLabel().getStyleClass().add(REQUIRED_FIELD);
         
         workspaceComponent.getFinalCalBoundariesBox().getStyleClass().add(CLASS_FINAL_HBOX_IN_TABS);
         workspaceComponent.getCourseInfoBox().getStyleClass().add(CLASS_FINAL_HBOX_IN_TABS);
@@ -148,6 +160,8 @@ public class CourseSiteStyle extends AppStyleComponent {
         workspaceComponent.getPageStyle().getStyleClass().add(CLASS_FINAL_HBOX_IN_TABS);
         workspaceComponent.getAdd_edit_box().getStyleClass().add(CLASS_FINAL_HBOX_IN_TABS);
         workspaceComponent.getFinal_scheduleItemsBox().getStyleClass().add(CLASS_FINAL_HBOX_IN_TABS);
+        workspaceComponent.getTeamsBox().getStyleClass().add(CLASS_FINAL_HBOX_IN_TABS);
+        workspaceComponent.getStudentsBox().getStyleClass().add(CLASS_FINAL_HBOX_IN_TABS);
     }
     
     /**

@@ -37,17 +37,24 @@ import csg.data.TeachingAssistant;
 import csg.data.recitation;
 import csg.data.schedule;
 import csg.data.sitePage;
+import csg.data.student;
+import csg.data.team;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
 import javafx.geometry.Insets;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
@@ -115,6 +122,16 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     Label scheduleItemsLabel;
     Label calendarBoundariesLabel;
     
+    Label projectHeaderLabel;
+    Label teamsLabel;
+    Label AddEditLabel;
+    Label projectLinkLabel;
+    Label firstNameLabel;
+    Label astNameLabel;
+    Label roleLabel;
+    Label teamLabel;
+    Label lastNameLabel;
+    
     TextField section_textField;
     TextField instructor_textField;
     TextField day_time_textField;
@@ -147,6 +164,16 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     VBox add_edit_schedule_box;
     VBox final_scheduleItemsBox;
     
+    HBox projectHeaderBox;
+    VBox teamsBox;
+    HBox teamsHeaderLabelBox;
+    VBox addEditTeamBox;
+    HBox addEditNameBox;
+    HBox colorBox;
+    HBox studentsHeaderLabelBox;
+    VBox studentsBox;
+    VBox projectDetailsBox;
+    
     //COURSE DETAILS BUTTON
     Button selectDirectory;
     Button templateDirectoryButton; 
@@ -168,6 +195,10 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     Button addScheduleButton;
     Button clearScheduleButton;
     Button updateScheduleButton;
+    
+    Button teamsMinimizeButton;
+    Button addLinkButton;
+    Button clearLinkButton;
     
     ComboBox styleSheetComboBox;
     
@@ -196,6 +227,18 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     TableColumn<schedule, String> title;
     TableColumn<schedule, String> topic;
     
+    TableView teamTable = new TableView<schedule>();
+    TableColumn<team, String> name;
+    TableColumn<team, String> color;
+    TableColumn<team, String> textColor;
+    TableColumn<team, String> link;
+    
+    TableView studentTable = new TableView<student>();
+    TableColumn<student, String> firstName;
+    TableColumn<student, String> lastName;
+    TableColumn<student, String> team;
+    TableColumn<student, String> role;
+    
     DatePicker startDate;
     DatePicker endDate;
     DatePicker plannedDate;   
@@ -206,6 +249,10 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     ObservableList<recitation> recitations;
     //FOR THE SCHEDULE TABLE
     ObservableList<schedule>schedules;
+    //FOR PROJECTS TABLE
+    ObservableList<team> teams;
+    //FOR STUDENTS TABLE
+    ObservableList<student> students;
     
     // THE TA INPUT
     HBox addBox;
@@ -236,6 +283,11 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     Tab recitationTab;
     Tab scheduleTab;
     Tab projectTab;
+    private Label nameTeamLabel;
+    private Label colorLabel;
+    private Label textColorLabel;
+    
+    
     
    /**
     * This will be the main workspace. It will contain calls to methods to 
@@ -284,6 +336,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         courseDetailsTab.setContent(CourseDetailsPane(app, jtps, props));
         recitationTab.setContent(RecitationDetailsPane(app, jtps, props));
         scheduleTab.setContent(ScheduleDetailsPane(app, jtps, props));
+        projectTab.setContent(ProjectDetailsPane(app, jtps, props));
         
         tabPane.prefWidthProperty().bind(((BorderPane)workspace).widthProperty().multiply(.4));
        
@@ -1639,41 +1692,40 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     public Label getScheduleItemsLabel() {
         return scheduleItemsLabel;
     }
-    public VBox ProjectDetailsPane(csgApp app, jTPS jtps, PropertiesManager props){
-        VBox ProjectDetailsBox = new VBox(); 
-        HBox projectHeaderBox = new HBox();
+    public ScrollPane ProjectDetailsPane(csgApp app, jTPS jtps, PropertiesManager props){
+        ScrollPane finalprojectDetailsBox = new ScrollPane();
+        projectDetailsBox = new VBox();
+        projectHeaderBox = new HBox();
+        projectHeaderLabel = new Label("Projects");
+        projectHeaderBox.getChildren().add(projectHeaderLabel);
         
-        VBox teamsBox = new VBox();
+        teamsBox = new VBox();
         
-        HBox teamsHeaderLabelBox = new HBox();
-        Label teamsLabel = new Label();
-        Button teamsMinimizeButton = new Button();
+        teamsHeaderLabelBox = new HBox();
+        teamsLabel = new Label("Teams");
+        teamsMinimizeButton = new Button();
         teamsHeaderLabelBox.getChildren().addAll(teamsLabel,teamsMinimizeButton);
         
-        TableView teamTable = new TableView<schedule>();
+        teamTable = new TableView<team>();
         teamTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        TableColumn name;
-        TableColumn color;
-        TableColumn textColor;
-        TableColumn link;
         name = new TableColumn("name");
         name.setCellValueFactory(
-                new PropertyValueFactory<schedule, String>("name")
+                new PropertyValueFactory<team, String>("name")
         );
-        name.prefWidthProperty().bind(scheduleTable.widthProperty().multiply(0.2));
+        name.prefWidthProperty().bind(teamTable.widthProperty().multiply(0.2));
         color = new TableColumn("color");
         color.setCellValueFactory(
-                new PropertyValueFactory<schedule, BigInteger>("color")
+                new PropertyValueFactory<team, String>("color")
         );
-        color.prefWidthProperty().bind(scheduleTable.widthProperty().multiply(0.2));
+        color.prefWidthProperty().bind(teamTable.widthProperty().multiply(0.2));
         textColor = new TableColumn("textColor");
         textColor.setCellValueFactory(
-                new PropertyValueFactory<schedule, String>("textColor")
+                new PropertyValueFactory<team, String>("textColor")
         );
-        textColor.prefWidthProperty().bind(scheduleTable.widthProperty().multiply(0.2));
+        textColor.prefWidthProperty().bind(teamTable.widthProperty().multiply(0.2));
         link = new TableColumn("link");
         link.setCellValueFactory(
-                new PropertyValueFactory<schedule, String>("link")
+                new PropertyValueFactory<team, String>("link")
         );
         link.prefWidthProperty().bind(scheduleTable.widthProperty().multiply(0.38));
         
@@ -1683,8 +1735,8 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         teamTable.getColumns().add(textColor);
         teamTable.getColumns().add(link);
         
-        schedule atomicComics = new team("Holiday", date1, "SNOW DAY","");
-        schedule C4Comics = new team("Lecture", date2, "Lecture 3", "Event Programming");
+        team atomicComics = new team("Atomic Comics", "blue", "yellow", "hello.org");
+        team C4Comics = new team("Atomic Comics", "blue", "yellow", "hello.org");
         
         teams = FXCollections.observableArrayList();
         teams.add(atomicComics);
@@ -1693,12 +1745,598 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         teamTable.setItems(teams);
         teamTable.setMaxHeight(100);
         
+        teamsBox.getChildren().add(teamsHeaderLabelBox);
+        teamsBox.getChildren().add(teamTable);
+        teamsBox.setPadding(new Insets(5, 5, 5, 5));
+        teamsBox.setSpacing(10);
+        
+            addEditTeamBox = new VBox();
+            AddEditLabel = new Label(props.getProperty(csgProp.ADD_EDIT_LABEL));
+                addEditNameBox = new HBox();
+                    nameTeamLabel = new Label("Name");
+                    TextField nameTeamField = new TextField();
+                    addEditNameBox.getChildren().addAll(nameTeamLabel,nameTeamField);
+                    addEditNameBox.setPadding(new Insets(5, 5, 5, 5));
+                    addEditNameBox.setSpacing(50);
+            
+                colorBox = new HBox();
+                colorBox.setPadding(new Insets(5, 5, 5, 5));
+                    colorLabel = new Label("Color");
+                    textColorLabel = new Label("Text Color");
+                    StackPane color1Pane  = new StackPane();
+                    Circle color1 = new Circle(50);
+                    //color1.setFill(Color.WHITE);
+                    color1.setFill(Color.WHITE);
+                    TextField inputColor1Field = new TextField();
+                    inputColor1Field.setAlignment(Pos.CENTER);
+                    inputColor1Field.setPrefWidth(40);
+                    color1Pane.getChildren().add(color1);
+                    color1Pane.getChildren().add(inputColor1Field);
+                    StackPane color2Pane = new StackPane();
+                    Circle color2 = new Circle(50);
+                    color2.setFill(Color.WHITE);
+                    TextField inputColor2Field = new TextField();
+                    inputColor2Field.setAlignment(Pos.CENTER);
+                    inputColor2Field.setPrefWidth(40);
+                    color2Pane.getChildren().add(color2);
+                    color2Pane.getChildren().add(inputColor2Field);
+                    colorBox.getChildren().add(colorLabel);
+                    colorBox.getChildren().add(color1Pane);
+                    colorBox.getChildren().add(textColorLabel);
+                    colorBox.getChildren().add(color2Pane);
+                    colorBox.setSpacing(50);
+                    
+                    inputColor1Field.setOnKeyReleased(e->{
+                        try{
+                            color1.setStyle("-fx-fill: "+inputColor1Field.getText().toString());
+                            inputColor1Field.setOpacity(0.2);
+                            inputColor1Field.setStyle("-fx-control-inner-background: white");
+                        }catch(Exception g){
+                            g.printStackTrace();
+                        }
+                        
+                    });
+                    inputColor2Field.setOnKeyReleased(e->{
+                        try{
+                            color2.setStyle("-fx-fill: "+inputColor2Field.getText().toString());
+                            inputColor2Field.setOpacity(0.2);
+                            inputColor2Field.setStyle("-fx-control-inner-background: white");
+                        }catch(Exception g){
+                            g.printStackTrace();
+                        }
+                    });
+                    
+                    GridPane linkBox = new GridPane();
+                    linkBox.setPadding(new Insets(5, 5, 5, 5));
+                    ColumnConstraints width = new ColumnConstraints(130);
+                    linkBox.getColumnConstraints().add(width);
+                    linkBox.getColumnConstraints().add(width);
+                    projectLinkLabel = new Label("Link");
+                    TextField linkField = new TextField();
+                    addLinkButton = new Button("Add Team");
+                    clearLinkButton = new Button(props.getProperty(csgProp.CLEAR_BUTTON_TEXT.toString()));
+                    linkBox.add(projectLinkLabel, 0, 0);
+                    linkBox.add(linkField, 1, 0);
+                    linkBox.add(addLinkButton, 0, 1);
+                    linkBox.add(clearLinkButton, 1, 1);
+                    
+            addEditTeamBox.setPadding(new Insets(5, 5, 5, 5));
+            addEditTeamBox.setSpacing(10);
+            addEditTeamBox.getChildren().add(AddEditLabel);
+            addEditTeamBox.getChildren().add(addEditNameBox);
+            addEditTeamBox.getChildren().add(colorBox);
+            addEditTeamBox.getChildren().add(linkBox);
+        
+        teamsBox.getChildren().add(addEditTeamBox);
+        ////////////////////////////////////////////////////////////
+        studentsBox = new VBox();
+        studentsHeaderLabelBox = new HBox();
+            Label studentsHeaderLabel = new Label("Students");
+            Button minimizeStudentButton = new Button("-");
+            studentsHeaderLabelBox.getChildren().addAll(studentsHeaderLabel,minimizeStudentButton);
+        
+        studentTable = new TableView<student>();
+        studentTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        firstName = new TableColumn("firstname");
+        firstName.setCellValueFactory(
+                new PropertyValueFactory<student, String>("firstName")
+        );
+        firstName.prefWidthProperty().bind(studentTable.widthProperty().multiply(0.2));
+        lastName = new TableColumn("lastName");
+        lastName.setCellValueFactory(
+                new PropertyValueFactory<student, String>("lastName")
+        );
+        lastName.prefWidthProperty().bind(studentTable.widthProperty().multiply(0.2));
+        team = new TableColumn("team");
+        team.setCellValueFactory(
+                new PropertyValueFactory<student, String>("team")
+        );
+        team.prefWidthProperty().bind(studentTable.widthProperty().multiply(0.2));
+        role = new TableColumn("role");
+        role.setCellValueFactory(
+                new PropertyValueFactory<student, String>("role")
+        );
+        role.prefWidthProperty().bind(scheduleTable.widthProperty().multiply(0.38));
         
         
+        studentTable.getColumns().add(firstName);
+        studentTable.getColumns().add(lastName);
+        studentTable.getColumns().add(team);
+        studentTable.getColumns().add(role);
         
+        student student1 = new student("Jane", "Jade", "Atomic", "Lead");
+        student student2 = new student("Neil", "Smith", "C4 Atomic", "Developer");
         
+        students = FXCollections.observableArrayList();
+        students.add(student1);
         
-        VBox studentsBox = new VBox();
+        studentTable.setItems(students);
+        studentTable.setMaxHeight(100);
         
+        studentsBox.getChildren().add(studentsHeaderLabelBox);
+        studentsBox.getChildren().add(studentTable);
+        studentsBox.setPadding(new Insets(5, 5, 5, 5));
+        studentsBox.setSpacing(10);
+        
+            GridPane addEditStudentBox = new GridPane();
+            Label addEditStudentLabel = new Label(props.getProperty(csgProp.ADD_EDIT_LABEL.toString()));
+            firstNameLabel = new Label("First Name");
+            lastNameLabel = new Label("Last Name");
+            teamLabel = new Label("Team");
+            roleLabel = new Label("Role");
+            
+            TextField firstNameField = new TextField();
+            TextField lastNameField = new TextField();
+            TextField teamField = new TextField();
+            TextField roleField = new TextField();
+            
+            Button addStudentButton = new Button();
+            Button clearStudeButton = new Button();
+            
+            addEditStudentBox.add(addEditStudentLabel, 0, 0);
+            addEditStudentBox.add(firstNameLabel, 0, 1);
+            addEditStudentBox.add(firstNameField, 1, 1);
+            addEditStudentBox.add(lastNameLabel, 0, 2);
+            addEditStudentBox.add(lastNameField, 1, 2);
+            addEditStudentBox.add(teamLabel, 0, 3);
+            addEditStudentBox.add(teamField, 1, 3);
+            addEditStudentBox.add(roleLabel, 0, 4);
+            addEditStudentBox.add(roleField, 1, 4);
+            addEditStudentBox.add(addStudentButton, 0, 5);
+            addEditStudentBox.add(clearStudeButton, 1, 5);
+        
+        studentsBox.getChildren().add(addEditStudentBox);
+        
+        projectDetailsBox.getChildren().add(projectHeaderBox);
+        projectDetailsBox.getChildren().add(teamsBox);
+        projectDetailsBox.getChildren().add(studentsBox);
+        projectDetailsBox.setPadding(new Insets(10, 300, 10, 300));
+        projectDetailsBox.setSpacing(10);
+        finalprojectDetailsBox.setContent(projectDetailsBox);
+        return finalprojectDetailsBox;
+    }
+
+    public VBox getProjectDetailsBox() {
+        return projectDetailsBox;
+    }
+    
+    public HBox getProjectHeaderBox() {
+        return projectHeaderBox;
+    }
+
+    public VBox getTeamsBox() {
+        return teamsBox;
+    }
+
+    public VBox getStudentsBox() {
+        return studentsBox;
+    }
+
+    public csgApp getApp() {
+        return app;
+    }
+
+    public CourseSiteController getController() {
+        return controller;
+    }
+
+    public jTPS getJtps() {
+        return jtps;
+    }
+
+    public HBox getTasHeaderBox() {
+        return tasHeaderBox;
+    }
+
+    public Label getTasHeaderLabel() {
+        return tasHeaderLabel;
+    }
+
+    public Label getDisclaimer() {
+        return disclaimer;
+    }
+
+    public Label getSchedule_mainLabel() {
+        return schedule_mainLabel;
+    }
+
+    public Label getMinimize_schedulesButtonLabel() {
+        return minimize_schedulesButtonLabel;
+    }
+
+    public Label getProjectHeaderLabel() {
+        return projectHeaderLabel;
+    }
+
+    public Label getTeamsLabel() {
+        return teamsLabel;
+    }
+
+    public Label getAddEditLabel() {
+        return AddEditLabel;
+    }
+
+    public Label getProjectLinkLabel() {
+        return projectLinkLabel;
+    }
+
+    public Label getFirstNameLabel() {
+        return firstNameLabel;
+    }
+
+    public Label getAstNameLabel() {
+        return astNameLabel;
+    }
+
+    public Label getRoleLabel() {
+        return roleLabel;
+    }
+
+    public Label getTeamLabel() {
+        return teamLabel;
+    }
+
+    public Label getLastNameLabel() {
+        return lastNameLabel;
+    }
+
+    public TextField getSection_textField() {
+        return section_textField;
+    }
+
+    public TextField getInstructor_textField() {
+        return instructor_textField;
+    }
+
+    public TextField getDay_time_textField() {
+        return day_time_textField;
+    }
+
+    public TextField getLocation_textField() {
+        return location_textField;
+    }
+
+    public TextField getSupervising_TA_textField() {
+        return supervising_TA_textField;
+    }
+
+    public TextField getType_textField() {
+        return type_textField;
+    }
+
+    public TextField getTime_textField() {
+        return time_textField;
+    }
+
+    public TextField getTitle_textField() {
+        return title_textField;
+    }
+
+    public TextField getTopic_textField() {
+        return topic_textField;
+    }
+
+    public TextField getLink_textField() {
+        return link_textField;
+    }
+
+    public TextField getCriteria_textField() {
+        return criteria_textField;
+    }
+
+    public ImageView getBannerImageView() {
+        return bannerImageView;
+    }
+
+    public ImageView getLeftFooterImageView() {
+        return leftFooterImageView;
+    }
+
+    public ImageView getRightFooterImageView() {
+        return rightFooterImageView;
+    }
+
+    public HBox getScheduleHeaderBox() {
+        return scheduleHeaderBox;
+    }
+
+    public GridPane getCalendarBoundariesBox() {
+        return calendarBoundariesBox;
+    }
+
+    public VBox getSchedule_details_box() {
+        return schedule_details_box;
+    }
+
+    public HBox getTeamsHeaderLabelBox() {
+        return teamsHeaderLabelBox;
+    }
+
+    public VBox getAddEditTeamBox() {
+        return addEditTeamBox;
+    }
+
+    public HBox getAddEditNameBox() {
+        return addEditNameBox;
+    }
+
+    public HBox getColorBox() {
+        return colorBox;
+    }
+
+    public HBox getStudentsHeaderLabelBox() {
+        return studentsHeaderLabelBox;
+    }
+
+    public Button getSelectDirectory() {
+        return selectDirectory;
+    }
+
+    public Button getTemplateDirectoryButton() {
+        return templateDirectoryButton;
+    }
+
+    public Button getChangeBannerButton() {
+        return changeBannerButton;
+    }
+
+    public Button getChangeLeftFooterButton() {
+        return changeLeftFooterButton;
+    }
+
+    public Button getChangeRightFooterButton() {
+        return changeRightFooterButton;
+    }
+
+    public Button getMinimize_reciationsButton() {
+        return minimize_reciationsButton;
+    }
+
+    public Button getMinimize_schedulesButton() {
+        return minimize_schedulesButton;
+    }
+
+    public Button getAddScheduleButton() {
+        return addScheduleButton;
+    }
+
+    public Button getClearScheduleButton() {
+        return clearScheduleButton;
+    }
+
+    public Button getUpdateScheduleButton() {
+        return updateScheduleButton;
+    }
+
+    public Button getTeamsMinimizeButton() {
+        return teamsMinimizeButton;
+    }
+
+    public Button getAddLinkButton() {
+        return addLinkButton;
+    }
+
+    public Button getClearLinkButton() {
+        return clearLinkButton;
+    }
+
+    public ComboBox getStyleSheetComboBox() {
+        return styleSheetComboBox;
+    }
+
+    public TableView<TeachingAssistant> getTaTable() {
+        return taTable;
+    }
+
+    public TableColumn<TeachingAssistant, String> getNameColumn() {
+        return nameColumn;
+    }
+
+    public TableColumn<TeachingAssistant, String> getEmailColumn() {
+        return emailColumn;
+    }
+
+    public TableView<sitePage> getSiteTable() {
+        return siteTable;
+    }
+
+    public TableColumn<sitePage, Boolean> getUse() {
+        return use;
+    }
+
+    public TableColumn<sitePage, String> getNavbar_title() {
+        return Navbar_title;
+    }
+
+    public TableColumn<sitePage, String> getFile_name() {
+        return File_name;
+    }
+
+    public TableColumn<sitePage, String> getScript() {
+        return Script;
+    }
+
+    public TableView<recitation> getRecitationTable() {
+        return recitationTable;
+    }
+
+    public TableColumn<recitation, String> getSection() {
+        return section;
+    }
+
+    public TableColumn<recitation, String> getInstructor() {
+        return instructor;
+    }
+
+    public TableColumn<recitation, String> getDay_time() {
+        return day_time;
+    }
+
+    public TableColumn<recitation, String> getLocation() {
+        return location;
+    }
+
+    public TableColumn<recitation, String> getTable_TA1() {
+        return Table_TA1;
+    }
+
+    public TableColumn<recitation, String> getTable_TA2() {
+        return Table_TA2;
+    }
+
+    public TableView<schedule> getScheduleTable() {
+        return scheduleTable;
+    }
+
+    public TableColumn<schedule, String> getType() {
+        return type;
+    }
+
+    public TableColumn<schedule, BigInteger> getDate() {
+        return date;
+    }
+
+    public TableColumn<schedule, String> getTitle() {
+        return title;
+    }
+
+    public TableColumn<schedule, String> getTopic() {
+        return topic;
+    }
+
+    public TableView getTeamTable() {
+        return teamTable;
+    }
+
+    public TableColumn<team, String> getName() {
+        return name;
+    }
+
+    public TableColumn<team, String> getColor() {
+        return color;
+    }
+
+    public TableColumn<team, String> getTextColor() {
+        return textColor;
+    }
+
+    public TableColumn<team, String> getLink() {
+        return link;
+    }
+
+    public TableView getStudentTable() {
+        return studentTable;
+    }
+
+    public TableColumn<student, String> getFirstName() {
+        return firstName;
+    }
+
+    public TableColumn<student, String> getLastName() {
+        return lastName;
+    }
+
+    public TableColumn<student, String> getTeam() {
+        return team;
+    }
+
+    public TableColumn<student, String> getRole() {
+        return role;
+    }
+
+    public DatePicker getStartDate() {
+        return startDate;
+    }
+
+    public DatePicker getEndDate() {
+        return endDate;
+    }
+
+    public DatePicker getPlannedDate() {
+        return plannedDate;
+    }
+
+    public ObservableList<sitePage> getSitePages() {
+        return sitePages;
+    }
+
+    public ObservableList<recitation> getRecitations() {
+        return recitations;
+    }
+
+    public ObservableList<schedule> getSchedules() {
+        return schedules;
+    }
+
+    public ObservableList<team> getTeams() {
+        return teams;
+    }
+
+    public ObservableList<student> getStudents() {
+        return students;
+    }
+
+    public HBox getOfficeHoursHeaderBox() {
+        return officeHoursHeaderBox;
+    }
+
+    public Label getOfficeHoursHeaderLabel() {
+        return officeHoursHeaderLabel;
+    }
+
+    public TabPane getTabPane() {
+        return tabPane;
+    }
+
+    public Tab getCourseDetailsTab() {
+        return courseDetailsTab;
+    }
+
+    public Tab getTADetailsTab() {
+        return TADetailsTab;
+    }
+
+    public Tab getRecitationTab() {
+        return recitationTab;
+    }
+
+    public Tab getScheduleTab() {
+        return scheduleTab;
+    }
+
+    public Tab getProjectTab() {
+        return projectTab;
+    }
+
+    public Label getNameTeamLabel() {
+        return nameTeamLabel;
+    }
+
+    public Label getColorLabel() {
+        return colorLabel;
+    }
+
+    public Label getTextColorLabel() {
+        return textColorLabel;
     }
 }
