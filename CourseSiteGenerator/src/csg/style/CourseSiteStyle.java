@@ -103,9 +103,15 @@ public class CourseSiteStyle extends AppStyleComponent {
         
         //COURSE_DETAILS_TAB
         workspaceComponent.getRecitation_mainLabel().getStyleClass().add(CLASS_HEADER_LABEL);
+        workspaceComponent.getFinalCourseDetailsBox().getStyleClass().add(TABS);
         workspaceComponent.getCourse_details_box().getStyleClass().add(TABS);
         workspaceComponent.getRecitation_details_box().getStyleClass().add(TABS);
+        workspaceComponent.getFinalprojectDetailsBox().getStyleClass().add(TABS);
         workspaceComponent.getProjectDetailsBox().getStyleClass().add(TABS);
+        workspaceComponent.getSchedule_details_box().getStyleClass().add(TABS);
+        workspaceComponent.getsPane().getStyleClass().add(TABS);
+        workspaceComponent.getFinalTAPane().getStyleClass().add(TABS);
+        
         
         
         workspaceComponent.getNumber_label().getStyleClass().add(REQUIRED_FIELD);
@@ -145,6 +151,7 @@ public class CourseSiteStyle extends AppStyleComponent {
         workspaceComponent.getLastNameLabel().getStyleClass().add(REQUIRED_FIELD);
         workspaceComponent.getTeamLabel().getStyleClass().add(REQUIRED_FIELD);
         workspaceComponent.getRoleLabel().getStyleClass().add(REQUIRED_FIELD);
+        workspaceComponent.getTextColorLabel().getStyleClass().add(REQUIRED_FIELD);
         
         workspaceComponent.getCourse_info_label().getStyleClass().add(BOX_HEADING);
         workspaceComponent.getSite_template_label().getStyleClass().add(BOX_HEADING);
@@ -152,7 +159,8 @@ public class CourseSiteStyle extends AppStyleComponent {
         workspaceComponent.getAdd_edit_label().getStyleClass().add(BOX_HEADING);
         workspaceComponent.getCalendarBoundariesLabel().getStyleClass().add(BOX_HEADING);
         workspaceComponent.getScheduleItemsLabel().getStyleClass().add(BOX_HEADING);
-        workspaceComponent.getTeamsLabel().getStyleClass().add(REQUIRED_FIELD);
+        workspaceComponent.getTeamsLabel().getStyleClass().add(BOX_HEADING);
+        workspaceComponent.getAddEditStudentLabel().getStyleClass().add(BOX_HEADING);
         
         workspaceComponent.getFinalCalBoundariesBox().getStyleClass().add(CLASS_FINAL_HBOX_IN_TABS);
         workspaceComponent.getCourseInfoBox().getStyleClass().add(CLASS_FINAL_HBOX_IN_TABS);

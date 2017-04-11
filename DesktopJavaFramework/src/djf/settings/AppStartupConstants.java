@@ -32,3 +32,4 @@ public class AppStartupConstants
     // ERROR DIALOG CONTROL
     public static String CLOSE_BUTTON_LABEL = "Close";
 }
+

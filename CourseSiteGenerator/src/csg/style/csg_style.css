@@ -47,7 +47,7 @@
 }
 
 .header_pane{
-    -fx-background-color: #FFE8CC;
+    -fx-background-color: #FDCE99;
 }
 
 .header_label {
@@ -67,14 +67,19 @@
     -fx-font-family: 'Arial Narrow', sans-serif; 
     -fx-font-weight: bold;
 }
-.tab {
+.tabs {
     -fx-background-color: #FDCE99;
 }
 
 .ta_table{
    -fx-font-family: Courier New; 
 }
-
+.tab_table_odd_row{
+    
+}
+.tab_table_even_row{
+    
+}
 .table-view .column-header.ta_table_column_header .label {
     -fx-background-color: #010764;
     -fx-text-fill: white;

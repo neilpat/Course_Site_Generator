@@ -43,11 +43,14 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
 import javafx.geometry.Insets;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.ColumnConstraints;
@@ -58,6 +61,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
+import javafx.util.Callback;
 import javax.imageio.ImageIO;
 
 /**
@@ -127,10 +131,13 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     Label AddEditLabel;
     Label projectLinkLabel;
     Label firstNameLabel;
-    Label astNameLabel;
+    Label lastNameLabel;
     Label roleLabel;
     Label teamLabel;
-    Label lastNameLabel;
+    Label nameTeamLabel;
+    Label colorLabel;
+    Label textColorLabel;
+    Label addEditStudentLabel;
     
     TextField section_textField;
     TextField instructor_textField;
@@ -180,6 +187,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     Button changeBannerButton;
     Button changeLeftFooterButton;
     Button changeRightFooterButton;
+    ScrollPane finalprojectDetailsBox;
     
     //RECITATIONS DETAILS BUTTON
     Button minimize_reciationsButton;
@@ -283,9 +291,15 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     Tab recitationTab;
     Tab scheduleTab;
     Tab projectTab;
-    private Label nameTeamLabel;
-    private Label colorLabel;
-    private Label textColorLabel;
+    
+    private TableColumn undergraduateColumn;
+    private ScrollPane finalCourseDetailsBox;
+    private HBox sPane;
+    private ComboBox beg_hours;
+    private ComboBox end_hours;
+    private ScrollPane finalTAPane;
+    private Button addStudentButton;
+    private Button clearStudeButton;
     
     
     
@@ -339,24 +353,11 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         projectTab.setContent(ProjectDetailsPane(app, jtps, props));
         
         tabPane.prefWidthProperty().bind(((BorderPane)workspace).widthProperty().multiply(.4));
-       
-        SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
-        app.getGUI().getPrimaryScene().setOnKeyPressed(e->{
-                if(e.isControlDown()){
-                    if(e.getCode() == KeyCode.TAB){
-                        int currentTab = selectionModel.getSelectedIndex();
-                        if(currentTab<4){
-                            selectionModel.select(currentTab+1);
-                        }
-                        else{
-                            selectionModel.select(0);
-                        }
-                    }
-                }  
-        });
+        BorderPane.setMargin(tabPane, new Insets(15, 15, 15, 15));
+        ((BorderPane)workspace).setStyle("-fx-background-color: #FFE8CC");
         ((BorderPane)workspace).setCenter(tabPane);
     }
-    public SplitPane TADetailsPane(csgApp app, jTPS jtps, PropertiesManager props){
+    public ScrollPane TADetailsPane(csgApp app, jTPS jtps, PropertiesManager props){
         // INIT THE HEADER ON THE LEFT
         tasHeaderBox = new HBox();
         String tasHeaderText = props.getProperty(csgProp.TAS_HEADER_TEXT.toString());
@@ -369,8 +370,13 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         TAData data = (TAData) app.getDataComponent();
         ObservableList<TeachingAssistant> tableData = data.getTeachingAssistants();
         taTable.setItems(tableData);
+        String undergraduateColumnText = props.getProperty(csgProp.UNDERGRADUATE_COLUMN_TEXT.toString());
         String nameColumnText = props.getProperty(csgProp.NAME_COLUMN_TEXT.toString());
         String emailColumnText = props.getProperty(csgProp.EMAIL_COLUMN_TEXT.toString());
+        undergraduateColumn = new TableColumn(nameColumnText);
+        undergraduateColumn.setCellValueFactory(
+                new PropertyValueFactory<TeachingAssistant, CheckBox>("undergraduate")
+        );
         nameColumn = new TableColumn(nameColumnText);
         nameColumn.setCellValueFactory(
                 new PropertyValueFactory<TeachingAssistant, String>("name")
@@ -381,6 +387,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         );
         taTable.getColumns().add(nameColumn);
         taTable.getColumns().add(emailColumn);
+        
 
         // ADD BOX FOR ADDING A TA
         String namePromptText = props.getProperty(csgProp.NAME_PROMPT_TEXT.toString());
@@ -407,9 +414,6 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         addBox.getChildren().add(emailTextField);
         addBox.getChildren().add(addButton);
         addBox.getChildren().add(clearButton);
-        //updateBox.getChildren().add(nameTextField);
-        //updateBox.getChildren().add(emailTextField);
-        //updateBox.getChildren().add(updateButton);
 
         // INIT THE HEADER ON THE RIGHT
         officeHoursHeaderBox = new HBox();
@@ -447,28 +451,41 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
             end_times.add(buildCellText(i, "00"));
             //end_times.add(buildCellText(i, "30"));
         }
-        ComboBox beg_hours = new ComboBox();
+        beg_hours = new ComboBox();
         beg_hours.setPromptText("Start Time");
         beg_hours.getItems().addAll(beg_times);
+        beg_hours.setPrefWidth(20);
         
-        ComboBox end_hours = new ComboBox();
+        end_hours = new ComboBox();
         end_hours.setPromptText("End Time");
         end_hours.getItems().addAll(end_times);
+        end_hours.setPrefWidth(20);
         
-        HBox final_right = new HBox();
-        VBox box2 = new VBox();
+        //HBox final_right = new HBox();
+        HBox box2 = new HBox();
         Button submit = new Button("Submit");
         //box2.getChildren().add(rightPane);
         box2.getChildren().add(beg_hours);
         box2.getChildren().add(end_hours);
         box2.getChildren().add(submit);
-        rightPane.getChildren().add(box2);
-        final_right.getChildren().add(rightPane);
-        final_right.getChildren().add(box2);
+        box2.setSpacing(5);
+        officeHoursHeaderBox.getChildren().add(box2);
+        officeHoursHeaderBox.setSpacing(40);
+        //rightPane.getChildren().add(box2);
+        //final_right.getChildren().add(rightPane);
+        //final_right.getChildren().add(box2);
         //Controls for beg_hours and end_hours, changes end hours to relate with beg hours
         
         // BOTH PANES WILL NOW GO IN A SPLIT PANE
-        SplitPane sPane = new SplitPane(leftPane, new ScrollPane(final_right));
+        leftPane.setPrefWidth(458);
+        leftPane.setPrefHeight(200);
+        sPane = new HBox();
+        sPane.getChildren().add(leftPane);
+        sPane.getChildren().add(rightPane);
+        sPane.setSpacing(20);
+        sPane.setPadding(new Insets(10, 10, 10, 10));
+        
+        //sPane = new SplitPane(leftPane, new ScrollPane(rightPane));
 
         // MAKE SURE THE TABLE EXTENDS DOWN FAR ENOUGH
         taTable.prefHeightProperty().bind(workspace.heightProperty().multiply(1.9));
@@ -689,10 +706,22 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
                 }
             }
         });
-        return sPane;
+        finalTAPane = new ScrollPane();
+        finalTAPane.setContent(sPane);
+        //sPane.prefWidthProperty().bind(finalTAPane.widthProperty().multiply(.60));
+        finalTAPane.setPadding(new Insets(10, 100, 10, 100));
+        return finalTAPane;
     }
     // WE'LL PROVIDE AN ACCESSOR METHOD FOR EACH VISIBLE COMPONENT
     // IN CASE A CONTROLLER OR STYLE CLASS NEEDS TO CHANGE IT
+
+    public ScrollPane getFinalTAPane() {
+        return finalTAPane;
+    }
+
+    public HBox getsPane() {
+        return sPane;
+    }
     
     public HBox getTAsHeaderBox() {
         return tasHeaderBox;
@@ -923,7 +952,8 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         
     }
     
-    public VBox CourseDetailsPane(csgApp app, jTPS jtps, PropertiesManager props){
+    public ScrollPane CourseDetailsPane(csgApp app, jTPS jtps, PropertiesManager props){
+        finalCourseDetailsBox = new ScrollPane();
         course_details_box = new VBox();
         
         course_info_label = new Label(props.getProperty(csgProp.COURSE_INFO_LABEL.toString()));
@@ -940,8 +970,8 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         exportDirectory = new Label("Please Select A Directory");// for the selected directory
         templateDirectory = new Label("Please Select A Directory");// for the selected directory
         
-        selectDirectory = new Button("Change");
-        templateDirectoryButton = new Button("Select Template Directory");
+        selectDirectory = new Button(props.getProperty(csgProp.CHANGE_BUTTON));
+        templateDirectoryButton = new Button(props.getProperty(csgProp.SELECT_TEMPLATE_BUTTON));
         
         TextField titleField = new TextField();
         titleField.setPrefWidth(375);
@@ -1072,19 +1102,20 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         siteTable = new TableView<sitePage>();
         siteTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         
-        use = new TableColumn("Use");
-        use.setCellValueFactory(
-                new PropertyValueFactory<sitePage, Boolean>("use")
-        );
-        Navbar_title = new TableColumn("NavBar Title");
+        use = new TableColumn(props.getProperty(csgProp.USE_LABEL));
+        use.setCellValueFactory(new PropertyValueFactory<sitePage, Boolean>("use1"));
+        use.setCellFactory(e-> new CheckBoxTableCell());
+        siteTable.setEditable(true);
+            
+        Navbar_title = new TableColumn(props.getProperty(csgProp.NAVBAR_TITLE_LABEL));
         Navbar_title.setCellValueFactory(
                 new PropertyValueFactory<sitePage, String>("title")
         );
-        File_name = new TableColumn("File Name");
+        File_name = new TableColumn(props.getProperty(csgProp.FILE_NAME_LABEL));
         File_name.setCellValueFactory(
                 new PropertyValueFactory<sitePage, String>("fileName")
         );
-        Script = new TableColumn("Script");
+        Script = new TableColumn(props.getProperty(csgProp.SCRIPT_LABEL));
         Script.setCellValueFactory(
                 new PropertyValueFactory<sitePage, String>("script")
         );
@@ -1122,9 +1153,9 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         leftFooterImageView = new ImageView();
         rightFooterImageView = new ImageView();
         
-        changeBannerButton = new Button("Change");
-        changeLeftFooterButton = new Button("Change");
-        changeRightFooterButton = new Button("Change");
+        changeBannerButton = new Button(props.getProperty(csgProp.CHANGE_BUTTON));
+        changeLeftFooterButton = new Button(props.getProperty(csgProp.CHANGE_BUTTON));
+        changeRightFooterButton = new Button(props.getProperty(csgProp.CHANGE_BUTTON));
         
         logoImagePane.add(bannerImage, 0, 0);
         logoImagePane.add(bannerImageView, 1, 0);
@@ -1136,31 +1167,17 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         logoImagePane.add(rightFooterImageView,1,2);
         logoImagePane.add(changeRightFooterButton, 2, 2);
         
-        changeBannerButton.setOnAction(e->{
-//            FileChooser fc = new FileChooser();
-//            Image bannerImage;
-//            fc.getExtensionFilters().add
-//                (new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
-//            try{
-//                 bannerImage = ImageIO.read(fc.showOpenDialog(app.getGUI().getWindow()));
-//                 bannerImageView.setImage(bannerImage);
-//            }catch(IOException ex){
-//                ex.
-//            }
-           
-             
-            
-            
-        });
-        
         HBox styleSheetBox = new HBox();
         styleSheetComboBox = new ComboBox();
         
         ObservableList<String> stylesheets = FXCollections.observableArrayList();
         stylesheets.add("sea_wolf.css");
         stylesheets.add("island_gator.css");
+        stylesheets.add("roadrunner.css");
+        stylesheets.add("eagle.css");
         styleSheetComboBox.getItems().addAll(stylesheets);
         styleSheetComboBox.setPrefWidth(200);
+        styleSheetComboBox.setPromptText(stylesheets.get(0).toString());
         
         styleSheetLabel = new Label(props.getProperty(csgProp.STYLE_SHEET_LABEL.toString()));
         styleSheetBox.getChildren().add(styleSheetLabel);
@@ -1179,9 +1196,14 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         course_details_box.getChildren().add(pageStyle);
         course_details_box.setAlignment(Pos.TOP_CENTER);
         course_details_box.setSpacing(10);
-        course_details_box.setPadding(new Insets(10, 300, 10, 300));
-        course_details_box.setStyle("-fx-background-color: #FDCE99;");
-        return course_details_box;
+        finalCourseDetailsBox.setPadding(new Insets(10, 300, 10, 300));
+        finalCourseDetailsBox.setContent(course_details_box);
+        
+        return finalCourseDetailsBox;
+    }
+
+    public ScrollPane getFinalCourseDetailsBox() {
+        return finalCourseDetailsBox;
     }
 
     public Label getCourse_info_label() {
@@ -1279,11 +1301,16 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         TAData data = (TAData) app.getDataComponent();
         TeachingAssistant teachingAssistant_1 = data.getTA("Bryan Robicheau", "bryan.robicheau@stonybrook.edu");
         TeachingAssistant teachingAssistant_2 = data.getTA("Calvin Cheng", "calvin.cheng@stonybrook.edu");
-        String TA1 = "Jarry Jone";//teachingAssistant_1.getName();
-        String TA2 = "Hellen Corpac";//teachingAssistant_2.getName();
+        String TA1 = "Jarry Jone";
+        String TA2 = "Hellen Corpac";
+        String TA3 = "Jerry Sandy";
+        String TA4 = "Mark Levondaski";
+        String TA5 = "Sam Miranda";
         
         recitation R02 = new recitation("R02", "McKenna", "Wed 3:30pm-4:23pm", "Old CS2114", TA1, TA2);
-        recitation R05 = new recitation("R05", "Fodor", "Thu 1:30pm-2:53pm", "New CS1014", TA2, TA1);
+        recitation R05 = new recitation("R05", "Fodor", "Tue 1:30pm-2:53pm", "New CS1014", TA2, TA3);
+        recitation R07 = new recitation("R07", "McDonnel", "Thu 5:30pm-7:53pm", "New CS1014", TA3, TA4);
+        recitation R08 = new recitation("R08", "Esmali", "Mon 10:30am-1:00pm", "New CS1014", TA4, TA5);
         
         recitations = FXCollections.observableArrayList();
         recitations.add(R02);
@@ -1291,27 +1318,27 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         
         recitationTable = new TableView<recitation>();
         recitationTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        section = new TableColumn("Section");
+        section = new TableColumn(props.getProperty(csgProp.SECTION_LABEL));
         section.setCellValueFactory(
                 new PropertyValueFactory<recitation, String>("section")
         );
-        instructor = new TableColumn("Instructor");
+        instructor = new TableColumn(props.getProperty(csgProp.INSTRUCTOR_LABEL));
         instructor.setCellValueFactory(
                 new PropertyValueFactory<recitation, String>("instructor")
         );
-        day_time = new TableColumn("Day/Time");
+        day_time = new TableColumn(props.getProperty(csgProp.DAY_TIME_LABEL));
         day_time.setCellValueFactory(
                 new PropertyValueFactory<recitation, String>("day_time")
         );
-        location = new TableColumn("Section");
+        location = new TableColumn(props.getProperty(csgProp.LOCATION_LABEL));
         location.setCellValueFactory(
                 new PropertyValueFactory<recitation, String>("location")
         );
-        Table_TA1 = new TableColumn("TA");
+        Table_TA1 = new TableColumn(props.getProperty(csgProp.TA_LABEL));
         Table_TA1.setCellValueFactory(
                 new PropertyValueFactory<recitation, String>("TA1")
         );
-        Table_TA2 = new TableColumn("TA");
+        Table_TA2 = new TableColumn(props.getProperty(csgProp.TA_LABEL));
         Table_TA2.setCellValueFactory(
                 new PropertyValueFactory<recitation, String>("TA2")
         );
@@ -1389,19 +1416,6 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         recitation_details_box.setPadding(new Insets(10, 300, 10, 300));
         recitation_details_box.setStyle("-fx-background-color: #FDCE99;");
         
-//        minimize_reciationsButton.setOnAction(e->{
-////            double orgTableHeight = recitationTable.getMaxHeight();
-////            double orgAddEditHeight = add_edit_box.getMaxHeight();
-////            if(orgTableHeight>0 || orgAddEditHeight>0){
-////                recitationTable.setMaxHeight(0);
-////                add_edit_box.setMaxHeight(0);
-////            }
-////            else{
-////                recitationTable.setMaxHeight(orgTableHeight);
-////                add_edit_box.setMaxHeight(orgAddEditHeight);
-////            }
-//                add_edit_box.setMaxHeight(10);
-//        });
         
         return recitation_details_box;
        
@@ -1529,22 +1543,22 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         
         scheduleTable = new TableView<schedule>();
         scheduleTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        type = new TableColumn("Type");
+        type = new TableColumn(props.getProperty(csgProp.TYPE_LABEL));
         type.setCellValueFactory(
                 new PropertyValueFactory<schedule, String>("type")
         );
         type.prefWidthProperty().bind(scheduleTable.widthProperty().multiply(0.2));
-        date = new TableColumn("Date");
+        date = new TableColumn(props.getProperty(csgProp.DATE_LABEL));
         date.setCellValueFactory(
                 new PropertyValueFactory<schedule, BigInteger>("date")
         );
         date.prefWidthProperty().bind(scheduleTable.widthProperty().multiply(0.2));
-        title = new TableColumn("Title");
+        title = new TableColumn(props.getProperty(csgProp.TITLE_LABEL));
         title.setCellValueFactory(
                 new PropertyValueFactory<schedule, String>("title")
         );
         title.prefWidthProperty().bind(scheduleTable.widthProperty().multiply(0.2));
-        topic = new TableColumn("Topic");
+        topic = new TableColumn(props.getProperty(csgProp.TOPIC_LABEL));
         topic.setCellValueFactory(
                 new PropertyValueFactory<schedule, String>("topic")
         );
@@ -1558,8 +1572,6 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         
         scheduleTable.setItems(schedules);
         scheduleTable.setMaxHeight(100);
-        //scheduleTable.setMaxWidth(500);
-        
         
         add_edit_schedule_box = new VBox();
         add_edit_label = new Label(props.getProperty(csgProp.ADD_EDIT_LABEL.toString()));
@@ -1636,7 +1648,6 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         schedule_details_box.setAlignment(Pos.TOP_CENTER);
         schedule_details_box.setSpacing(10);
         schedule_details_box.setPadding(new Insets(10, 300, 10, 300));
-        schedule_details_box.setStyle("-fx-background-color: #FDCE99;");
         
         return schedule_details_box;
     }
@@ -1693,7 +1704,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         return scheduleItemsLabel;
     }
     public ScrollPane ProjectDetailsPane(csgApp app, jTPS jtps, PropertiesManager props){
-        ScrollPane finalprojectDetailsBox = new ScrollPane();
+        finalprojectDetailsBox = new ScrollPane();
         projectDetailsBox = new VBox();
         projectHeaderBox = new HBox();
         projectHeaderLabel = new Label("Projects");
@@ -1703,7 +1714,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         
         teamsHeaderLabelBox = new HBox();
         teamsLabel = new Label("Teams");
-        teamsMinimizeButton = new Button();
+        teamsMinimizeButton = new Button(props.getProperty(csgProp.MINIMIZE_BUTTON));
         teamsHeaderLabelBox.getChildren().addAll(teamsLabel,teamsMinimizeButton);
         
         teamTable = new TableView<team>();
@@ -1743,7 +1754,8 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         teams.add(C4Comics);
         
         teamTable.setItems(teams);
-        teamTable.setMaxHeight(100);
+        teamTable.setMaxHeight(150);
+        teamTable.setMaxWidth(600);
         
         teamsBox.getChildren().add(teamsHeaderLabelBox);
         teamsBox.getChildren().add(teamTable);
@@ -1832,27 +1844,27 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         studentsBox = new VBox();
         studentsHeaderLabelBox = new HBox();
             Label studentsHeaderLabel = new Label("Students");
-            Button minimizeStudentButton = new Button("-");
+            Button minimizeStudentButton = new Button(props.getProperty(csgProp.MINIMIZE_BUTTON));
             studentsHeaderLabelBox.getChildren().addAll(studentsHeaderLabel,minimizeStudentButton);
         
         studentTable = new TableView<student>();
         studentTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        firstName = new TableColumn("firstname");
+        firstName = new TableColumn(props.getProperty(csgProp.FIRST_NAME_LABEL));
         firstName.setCellValueFactory(
                 new PropertyValueFactory<student, String>("firstName")
         );
         firstName.prefWidthProperty().bind(studentTable.widthProperty().multiply(0.2));
-        lastName = new TableColumn("lastName");
+        lastName = new TableColumn(props.getProperty(csgProp.LAST_NAME_LABEL));
         lastName.setCellValueFactory(
                 new PropertyValueFactory<student, String>("lastName")
         );
         lastName.prefWidthProperty().bind(studentTable.widthProperty().multiply(0.2));
-        team = new TableColumn("team");
+        team = new TableColumn(props.getProperty(csgProp.TEAM_NAME_LABEL));
         team.setCellValueFactory(
                 new PropertyValueFactory<student, String>("team")
         );
         team.prefWidthProperty().bind(studentTable.widthProperty().multiply(0.2));
-        role = new TableColumn("role");
+        role = new TableColumn(props.getProperty(csgProp.ROLE_LABEL));
         role.setCellValueFactory(
                 new PropertyValueFactory<student, String>("role")
         );
@@ -1863,15 +1875,19 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         studentTable.getColumns().add(lastName);
         studentTable.getColumns().add(team);
         studentTable.getColumns().add(role);
+        studentTable.setMaxHeight(100);
+        studentTable.setMaxWidth(600);
         
         student student1 = new student("Jane", "Jade", "Atomic", "Lead");
         student student2 = new student("Neil", "Smith", "C4 Atomic", "Developer");
+        student student3 = new student("Jason", "Ronald", "Rocket Dev", "Designer");
+        student student4 = new student("Taylor", "Kass", "Fun2Code", "Developer");
         
         students = FXCollections.observableArrayList();
-        students.add(student1);
+        students.addAll(student1, student2, student3, student4);
         
         studentTable.setItems(students);
-        studentTable.setMaxHeight(100);
+        studentTable.setMaxHeight(150);
         
         studentsBox.getChildren().add(studentsHeaderLabelBox);
         studentsBox.getChildren().add(studentTable);
@@ -1879,19 +1895,19 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         studentsBox.setSpacing(10);
         
             GridPane addEditStudentBox = new GridPane();
-            Label addEditStudentLabel = new Label(props.getProperty(csgProp.ADD_EDIT_LABEL.toString()));
-            firstNameLabel = new Label("First Name");
-            lastNameLabel = new Label("Last Name");
-            teamLabel = new Label("Team");
-            roleLabel = new Label("Role");
+            addEditStudentLabel = new Label(props.getProperty(csgProp.ADD_EDIT_LABEL.toString()));
+            firstNameLabel = new Label(props.getProperty(csgProp.FIRST_NAME_LABEL));
+            lastNameLabel = new Label(props.getProperty(csgProp.LAST_NAME_LABEL));
+            teamLabel = new Label(props.getProperty(csgProp.TEAM_NAME_LABEL));
+            roleLabel = new Label(props.getProperty(csgProp.ROLE_LABEL));
             
             TextField firstNameField = new TextField();
             TextField lastNameField = new TextField();
             TextField teamField = new TextField();
             TextField roleField = new TextField();
             
-            Button addStudentButton = new Button();
-            Button clearStudeButton = new Button();
+            addStudentButton = new Button(props.getProperty(csgProp.ADD_BUTTON_TEXT));
+            clearStudeButton = new Button(props.getProperty(csgProp.CLEAR_BUTTON_TEXT));
             
             addEditStudentBox.add(addEditStudentLabel, 0, 0);
             addEditStudentBox.add(firstNameLabel, 0, 1);
@@ -1910,9 +1926,20 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         projectDetailsBox.getChildren().add(projectHeaderBox);
         projectDetailsBox.getChildren().add(teamsBox);
         projectDetailsBox.getChildren().add(studentsBox);
-        projectDetailsBox.setPadding(new Insets(10, 300, 10, 300));
-        projectDetailsBox.setSpacing(10);
+       
+        projectDetailsBox.setPrefWidth(700);
         finalprojectDetailsBox.setContent(projectDetailsBox);
+        finalprojectDetailsBox.setPadding(new Insets(10, 267, 10, 266));
+        finalprojectDetailsBox.setStyle("-fx-background-color: #FDCE99");
+        
+        return finalprojectDetailsBox;
+    }
+
+    public Label getAddEditStudentLabel() {
+        return addEditStudentLabel;
+    }
+
+    public ScrollPane getFinalprojectDetailsBox() {
         return finalprojectDetailsBox;
     }
 
@@ -1985,7 +2012,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     }
 
     public Label getAstNameLabel() {
-        return astNameLabel;
+        return lastNameLabel;
     }
 
     public Label getRoleLabel() {

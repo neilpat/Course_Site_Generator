@@ -1,7 +1,9 @@
 package csg.data;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.scene.control.CheckBox;
 
 /**
  * This class represents a Teaching Assistant for the table of TAs.
@@ -10,6 +12,7 @@ import javafx.beans.property.StringProperty;
  */
 public class TeachingAssistant<E extends Comparable<E>> implements Comparable<E>  {
     // THE TABLE WILL STORE TA NAMES AND EMAILS
+    CheckBox undergraduate;
     private final StringProperty name;
     private final StringProperty email;
 

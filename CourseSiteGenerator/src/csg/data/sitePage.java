@@ -6,27 +6,28 @@
 package csg.data;
 
 import javafx.beans.property.StringProperty;
+import javafx.scene.control.CheckBox;
 
 /**
  *
  * @author Neil
  */
 public class sitePage {
-    boolean use;
+    Boolean use1;
     String title;
     String fileName;
     String script;
     
-    public sitePage(boolean use, String title, String fileName, 
-            String script ){
-        this.use = use;
+    public sitePage(Boolean use, String title, String fileName, 
+        String script ){
+        this.use1 = use;
         this.title = title;
         this.fileName = fileName;
         this.script = script;
     }
     
-    public boolean returnUse(){
-        return use;
+    public Boolean returnUse(){
+        return use1;
     }
     
     public String getTitle() {

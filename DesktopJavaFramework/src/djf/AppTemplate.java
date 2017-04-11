@@ -7,6 +7,8 @@ import javafx.stage.Stage;
 import properties_manager.PropertiesManager;
 import static djf.settings.AppPropertyType.*;
 import static djf.settings.AppStartupConstants.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import properties_manager.InvalidXMLFileFormatException;
 
 /**
@@ -95,7 +97,25 @@ public abstract class AppTemplate extends Application {
 	try {
 	    // LOAD APP PROPERTIES, BOTH THE BASIC UI STUFF FOR THE FRAMEWORK
 	    // AND THE CUSTOM UI STUFF FOR THE WORKSPACE
-	    boolean success = loadProperties(APP_PROPERTIES_FILE_NAME);
+            ButtonType english = new ButtonType("English");
+            ButtonType french = new ButtonType("French");
+            Alert alert = new Alert(Alert.AlertType.NONE, "Please Choose A Language", english, french, ButtonType.CANCEL);
+        alert.showAndWait();
+        primaryStage.setTitle("Language");
+        boolean success;
+        if (alert.getResult() == english) {
+            success = loadProperties(APP_PROPERTIES_FILE_NAME);
+        }    
+        else if(alert.getResult() == french){
+            success = loadProperties("app_properties_french.xml");
+        }
+        else{
+            success = loadProperties(APP_PROPERTIES_FILE_NAME);
+        }
+        // SET THE WINDOW TITLE
+       
+        
+	    //boolean success = loadProperties(APP_PROPERTIES_FILE_NAME);
 	    
 	    if (success) {
                 // GET THE TITLE FROM THE XML FILE
