@@ -93,7 +93,7 @@ public class CourseSiteController {
         // EVERYTHING IS FINE, ADD A NEW TA
         else {
             // ADD THE NEW TA TO THE DATA
-            data.addTA(name,email);
+            data.addTA(Boolean.TRUE,name,email);
             
             
             // CLEAR THE TEXT FIELDS

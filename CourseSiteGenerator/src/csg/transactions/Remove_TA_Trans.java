@@ -38,7 +38,7 @@ public class Remove_TA_Trans implements jTPS_Transaction{
     }
     @Override
     public void undoTransaction(){
-        data.addTA(ta.getName(), ta.getEmail());
+        data.addTA(Boolean.TRUE,ta.getName(), ta.getEmail());
         ta = data.getTA(ta.getName(), ta.getEmail());
         Set<String> keySet = officeHours.keySet();
         Iterator<String> keySetIterator = keySet.iterator();

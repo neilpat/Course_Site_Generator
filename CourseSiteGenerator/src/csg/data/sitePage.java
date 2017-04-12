@@ -5,6 +5,8 @@
  */
 package csg.data;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.control.CheckBox;
 
@@ -13,20 +15,20 @@ import javafx.scene.control.CheckBox;
  * @author Neil
  */
 public class sitePage {
-    Boolean use1;
+    BooleanProperty use1;
     String title;
     String fileName;
     String script;
     
     public sitePage(Boolean use, String title, String fileName, 
         String script ){
-        this.use1 = use;
+        use1 = new SimpleBooleanProperty(use);
         this.title = title;
         this.fileName = fileName;
         this.script = script;
     }
-    
-    public Boolean returnUse(){
+
+    public BooleanProperty returnUse(){
         return use1;
     }
     

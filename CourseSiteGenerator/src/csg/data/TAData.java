@@ -19,6 +19,7 @@ import csg.transactions.Remove_TA_Trans;
 import csg.transactions.Toggle_TAOfficeHours_Trans;
 import csg.transactions.Update_TA_Trans;
 import csg.workspace.CourseSiteWorkspace;
+import javafx.beans.property.BooleanProperty;
 
 /**
  * This is the data component for TAManagerApp. It has all the data needed
@@ -248,8 +249,8 @@ public class TAData implements AppDataComponent {
         }
         return false;
     }
-    public void addTA_trans(String initName, String initEmail){
-        TeachingAssistant ta = new TeachingAssistant(initName, initEmail);
+    public void addTA_trans(Boolean value, String initName, String initEmail){
+        TeachingAssistant ta = new TeachingAssistant(value, initName, initEmail);
         if(!containsTA(initName) && !containsTA(initEmail)){
            teachingAssistants.add(ta);
             jTPS_Transaction trans = new Add_TA_Trans(ta, this);
@@ -259,9 +260,9 @@ public class TAData implements AppDataComponent {
         Collections.sort(teachingAssistants);
 
     }
-    public void addTA(String initName, String initEmail) {
+    public void addTA(Boolean value, String initName, String initEmail) {
         // MAKE THE TA
-        TeachingAssistant ta = new TeachingAssistant(initName, initEmail);
+        TeachingAssistant ta = new TeachingAssistant(value, initName, initEmail);
         
         // ADD THE TA
         if (!containsTA(initName) && !containsTA(initEmail)) {

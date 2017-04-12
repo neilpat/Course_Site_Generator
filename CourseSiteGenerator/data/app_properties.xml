@@ -89,6 +89,10 @@
         <property name="MISSING_TA_EMAIL_MESSAGE"       value="You must provide a TA Email"></property>
         <property name="TA_NAME_AND_EMAIL_NOT_UNIQUE_TITLE"     value="TA Name and Email Not Unique"></property>
         <property name="TA_NAME_AND_EMAIL_NOT_UNIQUE_MESSAGE"   value="You must provide a unique TA Name and Email"></property>
+        <property name="START_TIME_LABEL"           value=" Start Time"></property>
+        <property name="END_TIME_LABEL"             value=" End Time"></property>
+        <property name="SUBMIT_BUTTON_LABEL"        value=" Submit"></property>
+        
         
         <!--COURSE DETAILS STUFF -->
         <property name = "COURSE_DETAILS_TAB"           value="Course Details"></property>
@@ -99,6 +103,7 @@
         <property name = "NUMBER_LABEL"                 value="Number"></property>
         <property name = "SEMESTER_LABEL"               value="Semester"></property>
         <property name = "YEAR_LABEL"                   value="Year"></property>
+        <property name = "SELECT_DIRECTORY_LABEL"       value=" Please Select A Directory..."></property>
         <property name = "TITLE_LABEL"                  value="Title"></property>
         <property name = "INSTRUCTOR_NAME_LABEL"        value="Insturctor Name"></property>
         <property name = "INSTURCTOR_HOME_LABEL"        value="Instructor Home"></property>
@@ -108,6 +113,7 @@
         <property name = "RIGHT_FOOTER_IMAGE_LABEL"     value="Right Footer Image"></property>
         <property name = "STYLE_SHEET_LABEL"            value="Stylesheet"></property>
         <property name="DISCLAIMER_LABEL"		        value="NOTE: New stylesheets may be palced in work/css to be selected."></property>
+        <property name="STYLE_DISCALIMER_LABEL"		    value="The selected directory should contain the complete template, including the HTML file"></property>
     
         
         <!--RECITATION DETAILS STUFF -->
@@ -152,7 +158,8 @@
         <property name = "FILE_NAME_LABEL"             value="File Name"></property>
         <property name = "SCRIPT_LABEL"                value="Script"></property>
         <property name = "TA_LABEL"                    value="TA"></property>
-        
+        <property name = "TEXT_COLOR_TEXT"             value="Color"></property>
+        <property name = "COLOR_COLUMN_TEXT"           value="Text Color"></property>
         <property name = "MINIMIZE_BUTTON"             value="-"></property>
     </property_list>
     <property_options_list>

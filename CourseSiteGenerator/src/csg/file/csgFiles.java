@@ -73,7 +73,7 @@ public class csgFiles implements AppFileComponent {
             JsonObject jsonTA = jsonTAArray.getJsonObject(i);
             String name = jsonTA.getString(JSON_NAME);
             String email = jsonTA.getString(JSON_EMAIL);
-            dataManager.addTA(name,email);
+            dataManager.addTA(true,name,email);
         }
 
         // AND THEN ALL THE OFFICE HOURS

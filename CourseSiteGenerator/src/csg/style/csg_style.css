@@ -74,14 +74,8 @@
 .ta_table{
    -fx-font-family: Courier New; 
 }
-.tab_table_odd_row{
-    
-}
-.tab_table_even_row{
-    
-}
 .table-view .column-header.ta_table_column_header .label {
-    -fx-background-color: #010764;
+    -fx-background-color: #5C755E;
     -fx-text-fill: white;
     -fx-font-size: 10pt;
     -fx-font-family: Courier New; 
@@ -125,7 +119,7 @@
 }
 
 .office_hours_grid_time_column_header_pane{
-      -fx-background-color: #010764;
+      -fx-background-color: #5C755E;
       -fx-padding: 7;
 }
 
@@ -135,7 +129,7 @@
 }
 
 .office_hours_grid_day_column_header_pane{
-    -fx-background-color: #010764;
+    -fx-background-color: #5C755E;
     -fx-padding: 7;
 }
 
@@ -146,7 +140,7 @@
 }
 
 .office_hours_grid_time_cell_pane{
-    -fx-background-color: #031195;
+    -fx-background-color: #9C9F84;
     -fx-border-width: 1px;
     -fx-border-style: dashed;
         
@@ -160,7 +154,7 @@
 }
 
 .office_hours_grid_ta_cell_pane{
-     -fx-background-color: #ABAA7A;
+     -fx-background-color: #F7DCB4;
      -fx-border-width: 1pt;
      -fx-border-color: black;
      -fx-font-family: Courier New;

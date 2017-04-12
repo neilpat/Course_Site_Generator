@@ -113,7 +113,7 @@ public class CourseSiteStyle extends AppStyleComponent {
         workspaceComponent.getFinalTAPane().getStyleClass().add(TABS);
         
         
-        
+        //COURSE INFO
         workspaceComponent.getNumber_label().getStyleClass().add(REQUIRED_FIELD);
         workspaceComponent.getExportDirectory().getStyleClass().add(REQUIRED_FIELD);
         workspaceComponent.getSubject_label().getStyleClass().add(REQUIRED_FIELD);
@@ -128,12 +128,15 @@ public class CourseSiteStyle extends AppStyleComponent {
         workspaceComponent.getRightFooterImage().getStyleClass().add(REQUIRED_FIELD);
         workspaceComponent.getStyleSheetLabel().getStyleClass().add(REQUIRED_FIELD);
         
+        //RECITATION
         workspaceComponent.getSection_label().getStyleClass().add(REQUIRED_FIELD);
         workspaceComponent.getInstructor_label().getStyleClass().add(REQUIRED_FIELD);
         workspaceComponent.getDay_time_label().getStyleClass().add(REQUIRED_FIELD);
         workspaceComponent.getLocation_label().getStyleClass().add(REQUIRED_FIELD);
         workspaceComponent.getSupervising_TA_label().getStyleClass().add(REQUIRED_FIELD);
         
+        //SCHEDULE
+        workspaceComponent.getSchedule_mainLabel().getStyleClass().add(CLASS_HEADER_LABEL);
         workspaceComponent.getStartDateLabel().getStyleClass().add(REQUIRED_FIELD);
         workspaceComponent.getEndDateLabel().getStyleClass().add(REQUIRED_FIELD);
         workspaceComponent.getType_label().getStyleClass().add(REQUIRED_FIELD);
@@ -143,6 +146,8 @@ public class CourseSiteStyle extends AppStyleComponent {
         workspaceComponent.getLink_label().getStyleClass().add(REQUIRED_FIELD);
         workspaceComponent.getTime_label().getStyleClass().add(REQUIRED_FIELD);
         
+        //PROJECT
+        workspaceComponent.getProjectHeaderLabel().getStyleClass().add(CLASS_HEADER_LABEL);
         workspaceComponent.getNameTeamLabel().getStyleClass().add(REQUIRED_FIELD);
         workspaceComponent.getColorLabel().getStyleClass().add(REQUIRED_FIELD);
         workspaceComponent.getTextColor().getStyleClass().add(REQUIRED_FIELD);

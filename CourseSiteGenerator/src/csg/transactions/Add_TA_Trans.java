@@ -23,7 +23,7 @@ public class Add_TA_Trans implements jTPS_Transaction{
     }
     @Override
     public void doTransaction() {
-        data.addTA(ta.getName(), ta.getEmail());
+        data.addTA(Boolean.TRUE,ta.getName(), ta.getEmail());
         ta = data.getTA(ta.getName(), ta.getEmail());
     }
     @Override
