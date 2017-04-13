@@ -8,7 +8,7 @@
 -->
 <properties>
     <property_list>
-        <property name="APP_TITLE"	             value=" Générateur de site de cours "></property>
+        <property name="APP_TITLE"	             value="Course Site Generator"></property>
 	   <property name="APP_LOGO"	             value="TAManagerLogo.png"></property>
 	   <property name="APP_PATH_CSS"	         value="style/"></property>
         <property name="APP_CSS"	             value="csg_style.css"></property>
@@ -89,8 +89,7 @@
         <property name="MISSING_TA_EMAIL_MESSAGE"       value=" Vous devez fournir un e-mail TA"></property>
         <property name="TA_NAME_AND_EMAIL_NOT_UNIQUE_TITLE"     value=" TA Nom et Email Non Unique"></property>
         <property name="TA_NAME_AND_EMAIL_NOT_UNIQUE_MESSAGE"   value=" Vous devez fournir un nom et un email de TA unique"></property>
-        <property name="START_TIME_LABEL"           value=" VHeure de début
-"></property>
+        <property name="START_TIME_LABEL"           value=" VHeure de début"></property>
         <property name="END_TIME_LABEL"             value=" heure de fin"></property>
         <property name="SUBMIT_BUTTON_LABEL"        value=" soumettre"></property>
         
@@ -104,8 +103,7 @@
         <property name = "SEMESTER_LABEL"               value=" Semestre"></property>
         <property name = "YEAR_LABEL"                   value=" An
 "></property>
-        <property name = "SELECT_DIRECTORY_LABEL"       value=" 
-Sélectionnez un répertoire ..."></property>
+        <property name = "SELECT_DIRECTORY_LABEL"       value=" Sélectionnez un répertoire ..."></property>
         <property name = "TITLE_LABEL"                  value=" Titre"></property>
         <property name = "INSTRUCTOR_NAME_LABEL"        value=" Nom de l'instructeur"></property>
         <property name = "INSTURCTOR_HOME_LABEL"        value=" Accueil de l'instructeur"></property>
@@ -170,18 +168,15 @@ Le répertoire sélectionné doit contenir le modèle complet, y compris le fich
     </property_list>
     <property_options_list>
         <property_options name="OFFICE_HOURS_TABLE_HEADERS">
-            <option>Heure de début
-</option>
-            <option>Heure de fin
-</option>
+            <option>Heure de début</option>
+            <option>Heure de fin</option>
         </property_options>
         <property_options name="DAYS_OF_WEEK">
-            <option>Heure de fin
-</option>
-            <option>MARDI</option>
-            <option>MERCREDI</option>
-            <option>JEUDI</option>
-            <option>VENDREDI</option>
+            <option>MONDAY</option>
+            <option>TUESDAY</option>
+            <option>WEDNESDAY</option>
+            <option>THURSDAY</option>
+            <option>FRIDAY</option>
         </property_options>
     </property_options_list>
 </properties>

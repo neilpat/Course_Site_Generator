@@ -155,6 +155,7 @@
 
 .office_hours_grid_ta_cell_pane{
      -fx-background-color: #F7DCB4;
+     -fx-text-fill: black;
      -fx-border-width: 1pt;
      -fx-border-color: black;
      -fx-font-family: Courier New;

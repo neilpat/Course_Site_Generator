@@ -32,6 +32,8 @@ import csg.workspace.CourseSiteWorkspace;
  * This class provides responses to all workspace interactions, meaning
  * interactions with the application controls not including the file
  * toolbar.
+ * 
+ * @author Richard McKenna
  * @co-author Niral Patel (1110626877)
  * @version 1.0
  */
@@ -93,7 +95,7 @@ public class CourseSiteController {
         // EVERYTHING IS FINE, ADD A NEW TA
         else {
             // ADD THE NEW TA TO THE DATA
-            data.addTA(Boolean.TRUE,name,email);
+            data.addTA(true,name,email);
             
             
             // CLEAR THE TEXT FIELDS
@@ -140,9 +142,6 @@ public class CourseSiteController {
         
         TextField nameTextField = workspace.getNameTextField();
         TextField emailTextField = workspace.getEmailTextField();
-        //nameTextField.setText(taName);
-        //emailTextField.setText(e);
-        //workspace.nameTextField.setText(taName);
         
         
         // AND TOGGLE THE OFFICE HOURS IN THE CLICKED CELL

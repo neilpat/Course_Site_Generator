@@ -381,7 +381,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         undergraduateColumnText = props.getProperty(csgProp.UNDERGRADUATE_COLUMN_TEXT.toString());
         nameColumnText = props.getProperty(csgProp.NAME_COLUMN_TEXT.toString());
         emailColumnText = props.getProperty(csgProp.EMAIL_COLUMN_TEXT.toString());
-        undergraduateColumn = new TableColumn(undergraduateColumnText);
+        undergraduateColumn = new TableColumn("Undergraduate");
         undergraduateColumn.prefWidthProperty().bind(taTable.widthProperty().multiply(0.2));
         undergraduateColumn.setCellValueFactory(
                 new PropertyValueFactory<TeachingAssistant, Boolean>("undergraduate"));
@@ -408,6 +408,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         taTable.getColumns().add(undergraduateColumn);
         taTable.getColumns().add(nameColumn);
         taTable.getColumns().add(emailColumn);
+        taTable.setPrefHeight(500);
         taTable.setEditable(true);
         
         
@@ -446,6 +447,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         
         // THESE WILL STORE PANES AND LABELS FOR OUR OFFICE HOURS GRID
         officeHoursGridPane = new GridPane();
+        officeHoursGridPane.setPrefWidth(700);
         officeHoursGridTimeHeaderPanes = new HashMap();
         officeHoursGridTimeHeaderLabels = new HashMap();
         officeHoursGridDayHeaderPanes = new HashMap();
@@ -461,6 +463,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         leftPane.getChildren().add(taTable);        
         leftPane.getChildren().add(addBox);
         VBox rightPane = new VBox();
+        rightPane.setPrefWidth(730);
         rightPane.getChildren().add(officeHoursHeaderBox);
         rightPane.getChildren().add(officeHoursGridPane);
         
@@ -493,7 +496,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         box2.getChildren().add(submit);
         box2.setSpacing(2);
         officeHoursHeaderBox.getChildren().add(box2);
-        officeHoursHeaderBox.setSpacing(30);
+        officeHoursHeaderBox.setSpacing(60);
         
         // BOTH PANES WILL NOW GO IN A SPLIT PANE
         leftPane.setPrefWidth(458);
@@ -502,7 +505,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         sPane.getChildren().add(leftPane);
         sPane.getChildren().add(rightPane);
         sPane.setSpacing(20);
-        sPane.setPadding(new Insets(10, 10, 10, 10));
+        sPane.setPadding(new Insets(10, 5, 10, 5));
         
         //sPane = new SplitPane(leftPane, new ScrollPane(rightPane));
 
@@ -591,9 +594,6 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
                     
                     int org_start_time = data.getStartHour();
                     int org_end_time = data.getEndHour();
-//                    resetWorkspace();
-//                    ((TAData)(app.getDataComponent())).initHours(start_time, end_time);
-//                    reloadOfficeHoursGrid(data);
                     if(Integer.parseInt(start_time)> org_start_time || Integer.parseInt(end_time)< org_end_time){
                         AppYesNoCancelDialogSingleton dialogSingleton = AppYesNoCancelDialogSingleton.getSingleton();
                         dialogSingleton.show("WARNING", "You are deleting some rows in the Grid!");
@@ -694,8 +694,8 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
             addBox.getChildren().remove(addButton);
             addBox.getChildren().remove(updateButton);
             addBox.getChildren().remove(clearButton);
-            addBox.getChildren().add(updateButton);
-            addBox.getChildren().add(clearButton);
+            //addBox.getChildren().add(updateButton);
+            //addBox.getChildren().add(clearButton);
         });
         updateButton.setOnAction(e -> {
                 controller.handleUpdateTA();
@@ -733,6 +733,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         });
         finalTAPane = new ScrollPane();
         finalTAPane.setContent(sPane);
+        sPane.setStyle("-fx-background-color: #FDCE99");
         finalTAPane.setPadding(new Insets(10, 10, 10, 10));
         finalTAPane.setStyle("-fx-background-color: #FDCE99");
         return finalTAPane;
@@ -1401,11 +1402,11 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         location_label = new Label(props.getProperty(csgProp.LOCATION_LABEL.toString()));
         supervising_TA_label = new Label(props.getProperty(csgProp.SUPERVISING_TA_LABEL.toString()));
         
-        section_textField = new TextField();
-        instructor_textField = new TextField();
-        day_time_textField = new TextField();
-        location_textField = new TextField();
-        supervising_TA_textField = new TextField();
+        section_textField = new TextField("R01");
+        instructor_textField = new TextField("McKenna");
+        day_time_textField = new TextField("Mon/Tue");
+        location_textField = new TextField("New CS");
+        supervising_TA_textField = new TextField("Andrew");
         
         addButton = new Button(props.getProperty(csgProp.ADD_BUTTON_TEXT.toString()));
         addButton.setPrefWidth(130);

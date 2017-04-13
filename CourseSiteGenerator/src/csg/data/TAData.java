@@ -285,6 +285,16 @@ public class TAData implements AppDataComponent {
      * it's not there it adds it.
      */
     public void toggleTAOfficeHours(String cellKey, String taName) {
+//        StringProperty cellProp = officeHours.get(cellKey);
+//        String cellText = cellProp.getValue();
+//        if(cellText.contains(taName)){
+//            cellText = cellText.replace("\n"+ taName, "");
+//            cellProp.setValue(cellText);
+//        }
+//        else{
+//            cellProp.setValue(cellText+ "\n"+taName);
+//        }
+        
         StringProperty cellProp = officeHours.get(cellKey);
         String cellVal = cellProp.getValue();
         String cellText = cellProp.getValue();
