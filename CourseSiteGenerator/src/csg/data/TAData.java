@@ -19,6 +19,7 @@ import csg.transactions.Remove_TA_Trans;
 import csg.transactions.Toggle_TAOfficeHours_Trans;
 import csg.transactions.Update_TA_Trans;
 import csg.workspace.CourseSiteWorkspace;
+import java.math.BigInteger;
 import javafx.beans.property.BooleanProperty;
 
 /**
@@ -36,6 +37,12 @@ public class TAData implements AppDataComponent {
     // NOTE THAT THIS DATA STRUCTURE WILL DIRECTLY STORE THE
     // DATA IN THE ROWS OF THE TABLE VIEW
     ObservableList<TeachingAssistant> teachingAssistants;
+    ObservableList<courses> courses;
+    ObservableList<sitePage> pages;
+    ObservableList<recitation> recitaitons;
+    ObservableList<schedule> schedules;
+    ObservableList<team> teams;
+    ObservableList<student> students;
 
     // THIS WILL STORE ALL THE OFFICE HOURS GRID DATA, WHICH YOU
     // SHOULD NOTE ARE StringProperty OBJECTS THAT ARE CONNECTED
@@ -59,6 +66,9 @@ public class TAData implements AppDataComponent {
     // DEFAULT VALUES FOR START AND END HOURS IN MILITARY HOURS
     public static final int MIN_START_HOUR = 0;
     public static final int MAX_END_HOUR = 23;
+    
+    
+    
 
     /**
      * This constructor will setup the required data structures for
@@ -73,7 +83,12 @@ public class TAData implements AppDataComponent {
 
         // CONSTRUCT THE LIST OF TAs FOR THE TABLE
         teachingAssistants = FXCollections.observableArrayList();
-
+        courses = FXCollections.observableArrayList();
+        pages = FXCollections.observableArrayList();
+        recitaitons = FXCollections.observableArrayList();
+        schedules = FXCollections.observableArrayList();
+        teams = FXCollections.observableArrayList();
+        students = FXCollections.observableArrayList();
         // THESE ARE THE DEFAULT OFFICE HOURS
         startHour = MIN_START_HOUR;
         endHour = MAX_END_HOUR;
@@ -100,6 +115,9 @@ public class TAData implements AppDataComponent {
         endHour = MAX_END_HOUR;
         teachingAssistants.clear();
         officeHours.clear();
+        courses.clear();
+        pages.clear();
+        recitaitons.clear();
     }
     
     // ACCESSOR METHODS
@@ -380,5 +398,148 @@ public class TAData implements AppDataComponent {
             } 
             }
         }    catch(NullPointerException e){}
+    }
+    
+    public void addCourse(String initName, String initNumber) {
+        // MAKE THE COURSE
+        courses course = new courses(initName, initNumber);
+        
+        // ADD THE COURSE
+        if (!containsCourse(initName)) {
+            courses.add(course);
+        }
+
+        
+    }
+    public boolean containsCourse(String testName) {
+        for (courses course : courses) {
+            if (course.getName().equals(testName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public ObservableList<courses> getCourses() {
+        return courses;
+    }
+
+    public ObservableList<sitePage> getPages() {
+        return pages;
+    }
+    
+    public void addPage(Boolean use, String NavBarTitle, String FileName, String Script){
+        sitePage page = new sitePage(use, NavBarTitle, FileName, Script);
+        
+        // ADD THE COURSE
+        if (!containsPage(NavBarTitle)) {
+            pages.add(page);
+        }
+
+        // SORT THE TAS
+        Collections.sort(pages);
+    }
+    public boolean containsPage(String testName) {
+        for (sitePage page: pages) {
+            if (page.getTitle().equals(testName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public void addRecitation(String section, String instructor, String day_time, 
+            String location, String TA1, String TA2){
+            recitation rec = new recitation(section,instructor,day_time,location,TA1,TA2);
+        
+        // ADD THE COURSE
+        if (!containsRecitation(section)) {
+            recitaitons.add(rec);
+        }
+
+        // SORT THE TAS
+        Collections.sort(pages);
+    }
+    public boolean containsRecitation(String testName) {
+        for (recitation rec: recitaitons) {
+            if (rec.getSection().equals(testName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public ObservableList<recitation> getRecitaitons() {
+        return recitaitons;
+    }
+    
+    public void addSchedule(String type, String date, String title, String topic){
+        schedule sch = new schedule(type, date, title, topic);
+        
+        // ADD THE COURSE
+       if(!containsSchedule(date)){
+            schedules.add(sch);
+        }
+
+        // SORT THE TAS
+        Collections.sort(schedules);
+    }
+    public boolean containsSchedule(String date) {
+        for (schedule sch: schedules) {
+            if (sch.getDate().equals(date)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public ObservableList<schedule> getSchedules() {
+        return schedules;
+    }
+    
+    public void addTeam(String name, String color, String textColor, String link){
+        team tm = new team(name, color, textColor, link);
+        
+        // ADD THE COURSE
+       if(!containsTeam(name)){
+            teams.add(tm);
+        }
+
+        // SORT THE TAS
+        Collections.sort(schedules);
+    }
+    public boolean containsTeam(String name) {
+        for (team tm: teams) {
+            if (tm.getName().equals(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public ObservableList<team> getTeams() {
+        return teams;
+    }
+    public void addStudent(String firstName, String lastName, String assignedTeam, String role){
+       student stu = new student(firstName, lastName, assignedTeam, role);
+        
+        // ADD THE COURSE
+       if(!containsStudent(firstName, lastName)){
+            students.add(stu);
+        }
+
+        // SORT THE TAS
+        Collections.sort(students);
+    }
+    public boolean containsStudent(String firstName, String lastName) {
+        for (student stu: students) {
+            if (stu.getFirstName().equals(firstName) && stu.getLastName().equals(lastName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public ObservableList<student> getStudents() {
+        return students;
     }
 }

@@ -161,7 +161,7 @@
      -fx-font-family: Courier New;
 }
 .office_hours_grid_ta_cell_pane:hover{
-     -fx-border-width: 2pt;
+     /*-fx-border-width: 2pt;*/
      -fx-border-color: #CCCC00;
      -fx-font-family: Courier New;
 }

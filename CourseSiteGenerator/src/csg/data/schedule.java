@@ -11,13 +11,13 @@ import java.math.BigInteger;
  *
  * @author Neil
  */
-public class schedule {
+public class schedule <E extends Comparable<E>> implements Comparable<E> {
     String type;
-    BigInteger date;
+    String date;
     String title;
     String topic;
 
-    public schedule(String type, BigInteger date, String title, String topic) {
+    public schedule(String type, String date, String title, String topic) {
         this.type = type;
         this.date = date;
         this.title = title;
@@ -28,7 +28,7 @@ public class schedule {
         return type;
     }
 
-    public BigInteger getDate() {
+    public String getDate() {
         return date;
     }
 
@@ -38,6 +38,11 @@ public class schedule {
 
     public String getTopic() {
         return topic;
+    }
+
+    @Override
+    public int compareTo(E otherDate) {
+       return getDate().compareTo(((schedule)otherDate).getDate());
     }
     
     

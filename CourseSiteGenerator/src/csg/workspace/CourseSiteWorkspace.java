@@ -34,6 +34,7 @@ import csg.csgProp;
 import csg.style.CourseSiteStyle;
 import csg.data.TAData;
 import csg.data.TeachingAssistant;
+import csg.data.courses;
 import csg.data.recitation;
 import csg.data.schedule;
 import csg.data.sitePage;
@@ -694,8 +695,8 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
             addBox.getChildren().remove(addButton);
             addBox.getChildren().remove(updateButton);
             addBox.getChildren().remove(clearButton);
-            //addBox.getChildren().add(updateButton);
-            //addBox.getChildren().add(clearButton);
+            addBox.getChildren().add(updateButton);
+            addBox.getChildren().add(clearButton);
         });
         updateButton.setOnAction(e -> {
                 controller.handleUpdateTA();
@@ -1010,20 +1011,26 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         TextField instructorHomeField = new TextField();
         instructorHomeField.setPrefWidth(375);
        
-        //begin for course details HBox
-        ComboBox Subject = new ComboBox();
-        ObservableList<String> subjects = FXCollections.observableArrayList();
-        subjects.add("CSE");
-        subjects.add("ISE");
-        Subject.getItems().addAll(subjects);
-        Subject.setPrefWidth(125);
         
+        
+        //begin for course details HBox
+        ComboBox sub_name = new ComboBox();
+//        ObservableList<String> subjects = FXCollections.observableArrayList();
+//        subjects.add("CSE");
+//        subjects.add("ISE");
+//        Subject.getItems().addAll(subjects);
+//        Subject.setPrefWidth(125);
+
+        TAData data = (TAData) app.getDataComponent();
+        ObservableList<courses> courseData = data.getCourses();
+        sub_name.setItems(courseData);
         ComboBox Number = new ComboBox();
-        ObservableList<String> numbers = FXCollections.observableArrayList();
-        numbers.add("219");
-        numbers.add("220");
-        Number.getItems().addAll(numbers);
-        Number.setPrefWidth(125);
+        
+//        ObservableList<String> numbers = FXCollections.observableArrayList();
+//        numbers.add("219");
+//        numbers.add("220");
+//        Number.getItems().addAll(numbers);
+//        Number.setPrefWidth(125);
         
         ComboBox Semester= new ComboBox();
         ObservableList<String> semesters = FXCollections.observableArrayList();
@@ -1051,7 +1058,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         courseInfo.setHgap(5);
         courseInfo.add(course_info_label, 0, 0);
         courseInfo.add(subject_label, 0, 1);
-        courseInfo.add(Subject, 1, 1);
+        courseInfo.add(sub_name, 1, 1);
         courseInfo.add(number_label, 2, 1);
         courseInfo.add(Number, 3, 1);
         courseInfo.add(semester_label, 0, 2);
@@ -1115,21 +1122,13 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         });
         finalSiteTemplateBox.setSpacing(10);
         
-        sitePage Home = new sitePage(true, "Home", "index.html", "HomeBuilder.js");
-        sitePage Syllabus = new sitePage(true, "Syllabus", "syllabus.html", "SyllabusBuilder.js");
-        sitePage Schedule = new sitePage(true, "Schedule", "schedule.html", "scheduleBuilder.js");
-        sitePage HWs = new sitePage(true, "HWs", "hws.html", "HWsBuilder.js");
-        sitePage Projects = new sitePage(true, "Projects", "projects.html", "ProjectsBuilder.js");
+          sitePages = FXCollections.observableArrayList();
         
-        sitePages = FXCollections.observableArrayList();
-        sitePages.add(Home);
-        sitePages.add(Syllabus);
-        sitePages.add(Schedule);
-        sitePages.add(HWs);
-        sitePages.add(Projects);
         
         siteTable = new TableView<sitePage>();
         siteTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        sitePages = data.getPages();
+        siteTable.setItems(sitePages);
         
         use = new TableColumn(props.getProperty(csgProp.USE_LABEL));
         use.setCellValueFactory(
@@ -1163,8 +1162,6 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         siteTable.getColumns().add(Navbar_title);
         siteTable.getColumns().add(File_name);
         siteTable.getColumns().add(Script);
-        
-        siteTable.setItems(sitePages);
         
         finalSiteTemplateBox.getChildren().add(siteTable);
         
@@ -1338,27 +1335,13 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         recitationHeaderBox.getChildren().add(minimize_reciationsButton);
         
         TAData data = (TAData) app.getDataComponent();
-        TeachingAssistant teachingAssistant_1 = data.getTA("Bryan Robicheau", "bryan.robicheau@stonybrook.edu");
-        TeachingAssistant teachingAssistant_2 = data.getTA("Calvin Cheng", "calvin.cheng@stonybrook.edu");
-        String TA1 = "Jarry Jone";
-        String TA2 = "Hellen Corpac";
-        String TA3 = "Jerry Sandy";
-        String TA4 = "Mark Levondaski";
-        String TA5 = "Sam Miranda";
-        
-        recitation R02 = new recitation("R02", "McKenna", "Wed 3:30pm-4:23pm", "Old CS2114", TA1, TA2);
-        recitation R05 = new recitation("R05", "Fodor", "Tue 1:30pm-2:53pm", "New CS1014", TA2, TA3);
-        recitation R07 = new recitation("R07", "McDonnel", "Thu 5:30pm-7:53pm", "New CS1014", TA3, TA4);
-        recitation R08 = new recitation("R08", "Esmali", "Mon 10:30am-1:00pm", "New CS1014", TA4, TA5);
         
         recitations = FXCollections.observableArrayList();
-        recitations.add(R02);
-        recitations.add(R05);
-        recitations.add(R07);
-        recitations.add(R08);
         
         recitationTable = new TableView<recitation>();
         recitationTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        recitations = data.getRecitaitons();
+        recitationTable.setItems(recitations);
         section = new TableColumn(props.getProperty(csgProp.SECTION_LABEL));
         section.setCellValueFactory(
                 new PropertyValueFactory<recitation, String>("section")
@@ -1391,7 +1374,6 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         recitationTable.getColumns().add(Table_TA1);
         recitationTable.getColumns().add(Table_TA2);
         recitationTable.setMaxHeight(200);
-        recitationTable.setItems(recitations);
         
         
         add_edit_box = new VBox();
@@ -1572,18 +1554,13 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
             }
         });
         
-        
-        BigInteger date1 = new BigInteger("02092017");
-        BigInteger date2 = new BigInteger("02142017");
-        schedule Holiday = new schedule("Holiday", date1, "SNOW DAY","");
-        schedule Lecture = new schedule("Lecture", date2, "Lecture 3", "Event Programming");
+        TAData data = (TAData) app.getDataComponent();
         
         schedules = FXCollections.observableArrayList();
-        schedules.add(Holiday);
-        schedules.add(Lecture);
-        
+        schedules = data.getSchedules();
         scheduleTable = new TableView<schedule>();
         scheduleTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        scheduleTable.setItems(schedules);
         type = new TableColumn(props.getProperty(csgProp.TYPE_LABEL));
         type.setCellValueFactory(
                 new PropertyValueFactory<schedule, String>("type")
@@ -1610,8 +1587,6 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         scheduleTable.getColumns().add(title);
         scheduleTable.getColumns().add(topic);
         
-        
-        scheduleTable.setItems(schedules);
         scheduleTable.setMaxHeight(100);
         
         add_edit_schedule_box = new VBox();
@@ -1758,8 +1733,13 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         teamsMinimizeButton = new Button(props.getProperty(csgProp.MINIMIZE_BUTTON));
         teamsHeaderLabelBox.getChildren().addAll(teamsLabel,teamsMinimizeButton);
         
+        TAData data = (TAData) app.getDataComponent();
+        teams = FXCollections.observableArrayList();
+        teams = data.getTeams();
         teamTable = new TableView<team>();
         teamTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        teamTable.setItems(teams);
+        
         name = new TableColumn(props.getProperty(csgProp.NAME_COLUMN_TEXT));
         name.setCellValueFactory(
                 new PropertyValueFactory<team, String>("name")
@@ -1787,14 +1767,6 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         teamTable.getColumns().add(textColor);
         teamTable.getColumns().add(link);
         
-        team atomicComics = new team("Atomic Comics", "blue", "yellow", "hello.org");
-        team C4Comics = new team("Atomic Comics", "blue", "yellow", "hello.org");
-        
-        teams = FXCollections.observableArrayList();
-        teams.add(atomicComics);
-        teams.add(C4Comics);
-        
-        teamTable.setItems(teams);
         teamTable.setMaxHeight(150);
         teamTable.setMaxWidth(600);
         
@@ -1921,15 +1893,10 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         studentTable.setMaxHeight(100);
         studentTable.setMaxWidth(600);
         
-        student student1 = new student("Jane", "Jade", "Atomic", "Lead");
-        student student2 = new student("Neil", "Smith", "C4 Atomic", "Developer");
-        student student3 = new student("Jason", "Ronald", "Rocket Dev", "Designer");
-        student student4 = new student("Taylor", "Kass", "Fun2Code", "Developer");
-        
         students = FXCollections.observableArrayList();
-        students.addAll(student1, student2, student3, student4);
+        students = data.getStudents();
+        studentTable.setItems(students);;
         
-        studentTable.setItems(students);
         studentTable.setMaxHeight(150);
         
         studentsBox.getChildren().add(studentsHeaderLabelBox);

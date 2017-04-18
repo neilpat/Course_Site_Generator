@@ -106,8 +106,8 @@ public class CourseSiteController {
             nameTextField.requestFocus();
             
             TeachingAssistant ta = data.getTA(name, email);
-            jTPS_Transaction trans = new Add_TA_Trans(ta, data);
-            workspace.getJTPS().addTransaction(trans);
+//            jTPS_Transaction trans = new Add_TA_Trans(ta, data);
+//            workspace.getJTPS().addTransaction(trans);
         }
         app.getGUI().updateToolbarControls(false);
         
@@ -149,8 +149,8 @@ public class CourseSiteController {
         data.toggleTAOfficeHours(cellKey, taName);
         
        
-        jTPS_Transaction trans = new Toggle_TAOfficeHours_Trans(cellKey,taName, data);
-        workspace.getJTPS().addTransaction(trans);
+//        jTPS_Transaction trans = new Toggle_TAOfficeHours_Trans(cellKey,taName, data);
+//        workspace.getJTPS().addTransaction(trans);
         
         app.getGUI().updateToolbarControls(false);
         AppFileController appFileController = app.getGUI().getAppfileController();
@@ -183,8 +183,8 @@ public class CourseSiteController {
             }
         }    catch(NullPointerException e){}
 //       
-        jTPS_Transaction trans = new Remove_TA_Trans(focused, dataComponent, keys, props);
-        workspace.getJTPS().addTransaction(trans);
+//        jTPS_Transaction trans = new Remove_TA_Trans(focused, dataComponent, keys, props);
+//        workspace.getJTPS().addTransaction(trans);
         
         dataComponent.deleteTA(focused);
         app.getGUI().updateToolbarControls(false);
@@ -265,8 +265,8 @@ public class CourseSiteController {
            ta.setEmail(email);
            String newName = name;
         
-           jTPS_Transaction trans = new Update_TA_Trans(app,focused, dataComponent,orgName);
-           workspace.getJTPS().addTransaction(trans);
+//           jTPS_Transaction trans = new Update_TA_Trans(app,focused, dataComponent,orgName);
+//           workspace.getJTPS().addTransaction(trans);
            
            app.getGUI().updateToolbarControls(false);
            AppFileController appFileController = app.getGUI().getAppfileController();

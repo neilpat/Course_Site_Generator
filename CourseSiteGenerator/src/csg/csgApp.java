@@ -6,6 +6,7 @@ import static javafx.application.Application.launch;
 import csg.data.TAData;
 import csg.file.csgFiles;
 import csg.style.CourseSiteStyle;
+import csg.test_bed.testSave;
 import csg.workspace.CourseSiteWorkspace;
 
 /**
@@ -33,7 +34,8 @@ public class csgApp extends AppTemplate {
         // WHEN IT IS CONSTRUCTED, SO BE CAREFUL OF THE ORDER
         dataComponent = new TAData(this);
         workspaceComponent = new CourseSiteWorkspace(this);
-        fileComponent = new csgFiles(this);
+        //fileComponent = new csgFiles(this);
+        fileComponent = new testSave(this);
         styleComponent = new CourseSiteStyle(this);
     }
     

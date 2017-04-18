@@ -14,7 +14,7 @@ import javafx.scene.control.CheckBox;
  *
  * @author Neil
  */
-public class sitePage {
+public class sitePage <E extends Comparable<E>> implements Comparable<E>{
     BooleanProperty use1;
     String title;
     String fileName;
@@ -42,6 +42,11 @@ public class sitePage {
 
     public String getScript() {
         return script;
+    }
+
+    @Override
+    public int compareTo(E otherPage) {
+       return getTitle().compareTo(((sitePage)otherPage).getTitle());
     }
     
     
