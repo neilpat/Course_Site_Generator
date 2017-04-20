@@ -17,7 +17,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SelectionMode;
-import javafx.scene.control.SplitPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -41,22 +40,16 @@ import csg.data.sitePage;
 import csg.data.student;
 import csg.data.team;
 import java.io.File;
-import java.io.IOException;
 import java.math.BigInteger;
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ColorPicker;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.SingleSelectionModel;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
@@ -64,9 +57,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 import javafx.util.Callback;
-import javax.imageio.ImageIO;
 
 /**
  * This class serves as the workspace component for the TA Manager
@@ -274,7 +265,6 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     TextField nameTextField;
     TextField emailTextField;
     Button addButton;
-    Button updateButton;
     Button clearButton;
 
     // THE HEADER ON THE RIGHT
@@ -301,13 +291,16 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     
     TableColumn undergraduateColumn;
     ScrollPane finalCourseDetailsBox;
-    HBox sPane;
+    SplitPane sPane;
     ComboBox beg_hours;
     ComboBox end_hours;
     ScrollPane finalTAPane;
     String undergraduateColumnText;
     String nameColumnText;
     String emailColumnText;
+    private HBox final_right;
+    HBox box2;
+    private VBox rightPane;
     
     
     
@@ -366,7 +359,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         ((BorderPane)workspace).setStyle("-fx-background-color: #FFE8CC");
         ((BorderPane)workspace).setCenter(tabPane);
     }
-    public ScrollPane TADetailsPane(csgApp app, jTPS jtps, PropertiesManager props){
+    public SplitPane TADetailsPane(csgApp app, jTPS jtps, PropertiesManager props){
         // INIT THE HEADER ON THE LEFT
         tasHeaderBox = new HBox();
         String tasHeaderText = props.getProperty(csgProp.TAS_HEADER_TEXT.toString());
@@ -418,22 +411,18 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         String namePromptText = props.getProperty(csgProp.NAME_PROMPT_TEXT.toString());
         String emailPromptText = props.getProperty(csgProp.EMAIL_PROMPT_TEXT.toString());
         String addButtonText = props.getProperty(csgProp.ADD_BUTTON_TEXT.toString());
-        String updateButtonText = props.getProperty(csgProp.UPDATE_BUTTON_TEXT.toString());
         String clearButtonText = props.getProperty(csgProp.CLEAR_BUTTON_TEXT.toString());
         nameTextField = new TextField();
         emailTextField = new TextField();
         nameTextField.setPromptText(namePromptText);
         emailTextField.setPromptText(emailPromptText);
         addButton = new Button(addButtonText);
-        updateButton = new Button(updateButtonText);
         clearButton = new Button(clearButtonText);
         clearButton.setDisable(true);
         addBox = new HBox();
-        //updateBox = new HBox();
         nameTextField.prefWidthProperty().bind(addBox.widthProperty().multiply(.4));
         emailTextField.prefWidthProperty().bind(addBox.widthProperty().multiply(.4));
         addButton.prefWidthProperty().bind(addBox.widthProperty().multiply(.2));
-        updateButton.prefWidthProperty().bind(addBox.widthProperty().multiply(.2));
         clearButton.prefWidthProperty().bind(addBox.widthProperty().multiply(.2));
         addBox.getChildren().add(nameTextField);
         addBox.getChildren().add(emailTextField);
@@ -448,7 +437,6 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         
         // THESE WILL STORE PANES AND LABELS FOR OUR OFFICE HOURS GRID
         officeHoursGridPane = new GridPane();
-        officeHoursGridPane.setPrefWidth(700);
         officeHoursGridTimeHeaderPanes = new HashMap();
         officeHoursGridTimeHeaderLabels = new HashMap();
         officeHoursGridDayHeaderPanes = new HashMap();
@@ -463,8 +451,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         leftPane.getChildren().add(tasHeaderBox);        
         leftPane.getChildren().add(taTable);        
         leftPane.getChildren().add(addBox);
-        VBox rightPane = new VBox();
-        rightPane.setPrefWidth(730);
+        rightPane = new VBox();
         rightPane.getChildren().add(officeHoursHeaderBox);
         rightPane.getChildren().add(officeHoursGridPane);
         
@@ -474,41 +461,25 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         
         for(int i = 0; i<24 ;i ++){
             beg_times.add(buildCellText(i, "00"));
-            //beg_times.add(buildCellText(i, "30"));
             end_times.add(buildCellText(i, "00"));
-            //end_times.add(buildCellText(i, "30"));
         }
-        beg_hours = new ComboBox();
-        beg_hours.setPromptText(props.getProperty(csgProp.START_TIME_LABEL));
+        ComboBox beg_hours = new ComboBox();
+        beg_hours.setPromptText("Start Time");
         beg_hours.getItems().addAll(beg_times);
-        beg_hours.setPrefWidth(115);
         
-        end_hours = new ComboBox();
-        end_hours.setPromptText(props.getProperty(csgProp.END_TIME_LABEL));
+        ComboBox end_hours = new ComboBox();
+        end_hours.setPromptText("End Time");
         end_hours.getItems().addAll(end_times);
-        end_hours.setPrefWidth(115);
         
-        //HBox final_right = new HBox();
-        HBox box2 = new HBox();
-        Button submit = new Button(props.getProperty(csgProp.SUBMIT_BUTTON_LABEL));
-        //box2.getChildren().add(rightPane);
+        box2 = new HBox();
+        Button submit = new Button("Submit");
         box2.getChildren().add(beg_hours);
         box2.getChildren().add(end_hours);
         box2.getChildren().add(submit);
-        box2.setSpacing(2);
         officeHoursHeaderBox.getChildren().add(box2);
-        officeHoursHeaderBox.setSpacing(60);
         
         // BOTH PANES WILL NOW GO IN A SPLIT PANE
-        leftPane.setPrefWidth(458);
-        leftPane.setPrefHeight(200);
-        sPane = new HBox();
-        sPane.getChildren().add(leftPane);
-        sPane.getChildren().add(rightPane);
-        sPane.setSpacing(20);
-        sPane.setPadding(new Insets(10, 5, 10, 5));
-        
-        //sPane = new SplitPane(leftPane, new ScrollPane(rightPane));
+        sPane = new SplitPane(leftPane, new ScrollPane(rightPane));
 
         // MAKE SURE THE TABLE EXTENDS DOWN FAR ENOUGH
         taTable.prefHeightProperty().bind(workspace.heightProperty().multiply(1.9));
@@ -684,7 +655,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         });
 
         taTable.setOnKeyReleased(e -> {
-            if(e.getCode() == KeyCode.BACK_SPACE){
+            if(e.getCode() == KeyCode.DELETE){
                 controller.handleDelteKey();
             }
         });
@@ -692,26 +663,21 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         taTable.setOnMouseClicked(e ->{
             clearButton.setDisable(false);
             controller.handleSelctedTA();
-            addBox.getChildren().remove(addButton);
-            addBox.getChildren().remove(updateButton);
-            addBox.getChildren().remove(clearButton);
-            addBox.getChildren().add(updateButton);
-            addBox.getChildren().add(clearButton);
-        });
-        updateButton.setOnAction(e -> {
-                controller.handleUpdateTA();
-                taTable.refresh(); 
+            if(((TeachingAssistant)taTable.getFocusModel().getFocusedItem()) != null){
+                 ((Button)addBox.getChildren().get(2))
+                         .setText(props.getProperty(csgProp.UPDATE_BUTTON_TEXT.toString()));
+                 
+                 addBox.getChildren().get(3).setDisable(false);
+            }
+           
         });
         clearButton.setOnAction(e ->{
             controller.handleClear();
-            addBox.getChildren().remove(addButton);
-            addBox.getChildren().remove(updateButton);
-            addBox.getChildren().remove(clearButton);
-            addBox.getChildren().add(addButton);
-            addBox.getChildren().add(clearButton);
+            ((Button)addBox.getChildren().get(2))
+                    .setText(props.getProperty(csgProp.ADD_BUTTON_TEXT.toString()));
+            addBox.getChildren().get(3).setDisable(true);
             taTable.getSelectionModel().clearSelection();
         });
-        
         // CONTROLS FOR ADDING TAs
         nameTextField.setOnAction(e -> {
             controller.handleAddTA();
@@ -720,7 +686,15 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
             controller.handleAddTA();
         });
         addButton.setOnAction(e -> {
-            controller.handleAddTA();
+            if(((Button)addBox.getChildren().get(2)).getText()
+                    .equals(props.getProperty(csgProp.UPDATE_BUTTON_TEXT.toString()))){
+                controller.handleUpdateTA();
+            }
+            else{
+                controller.handleAddTA();
+            }
+            taTable.refresh();
+            
         });
         app.getGUI().getPrimaryScene().setOnKeyPressed(e ->{
             if(e.isControlDown()){
@@ -732,12 +706,8 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
                 }
             }
         });
-        finalTAPane = new ScrollPane();
-        finalTAPane.setContent(sPane);
         sPane.setStyle("-fx-background-color: #FDCE99");
-        finalTAPane.setPadding(new Insets(10, 10, 10, 10));
-        finalTAPane.setStyle("-fx-background-color: #FDCE99");
-        return finalTAPane;
+        return sPane;
     }
     // WE'LL PROVIDE AN ACCESSOR METHOD FOR EACH VISIBLE COMPONENT
     // IN CASE A CONTROLLER OR STYLE CLASS NEEDS TO CHANGE IT
@@ -746,7 +716,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         return finalTAPane;
     }
 
-    public HBox getsPane() {
+    public SplitPane getsPane() {
         return sPane;
     }
     
@@ -780,9 +750,6 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
 
     public Button getAddButton() {
         return addButton;
-    }
-    public Button getUpdateButton() {
-        return updateButton;
     }
     public Button getClearButton() {
         return clearButton;
@@ -1011,36 +978,40 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         TextField instructorHomeField = new TextField();
         instructorHomeField.setPrefWidth(375);
        
-        
+        TAData data = (TAData) app.getDataComponent();
         
         //begin for course details HBox
-        ComboBox sub_name = new ComboBox();
-//        ObservableList<String> subjects = FXCollections.observableArrayList();
-//        subjects.add("CSE");
-//        subjects.add("ISE");
-//        Subject.getItems().addAll(subjects);
-//        Subject.setPrefWidth(125);
-
-        TAData data = (TAData) app.getDataComponent();
-        ObservableList<courses> courseData = data.getCourses();
-        sub_name.setItems(courseData);
-        ComboBox Number = new ComboBox();
-        
-//        ObservableList<String> numbers = FXCollections.observableArrayList();
-//        numbers.add("219");
-//        numbers.add("220");
-//        Number.getItems().addAll(numbers);
-//        Number.setPrefWidth(125);
-        
-        ComboBox Semester= new ComboBox();
+        ObservableList<courses> courses = data.getCourses();
+        ObservableList<String> subjects = FXCollections.observableArrayList();
+        ObservableList<String> numbers = FXCollections.observableArrayList();
         ObservableList<String> semesters = FXCollections.observableArrayList();
+        ObservableList<String> years = FXCollections.observableArrayList();
+        
+        ComboBox sub_name = new ComboBox();
+        ComboBox Number = new ComboBox();
+        ComboBox Semester= new ComboBox();
+        ComboBox Year= new ComboBox();
+        sub_name.setOnMouseClicked(e->{
+            for(int i=0;i<courses.size();i++){
+                if (!sub_name.getItems().contains(courses.get(i).getName())) {
+                    sub_name.getItems().add(courses.get(i).getName());
+                }
+                if (!Number.getItems().contains(courses.get(i).getNumber())) {
+                    Number.getItems().add(courses.get(i).getNumber());
+                }
+                
+            }
+            //sub_name.getItems().add(subjects);
+            //Number.getItems().add(numbers);
+        });
+        Number.setPrefWidth(125);
+        sub_name.setPrefWidth(125);
+
         semesters.add("Spring");
         semesters.add("Fall");
         Semester.getItems().addAll(semesters);
         Semester.setPrefWidth(125);
         
-        ComboBox Year= new ComboBox();
-        ObservableList<String> years = FXCollections.observableArrayList();
         years.add("2017");
         years.add("2016");
         Year.getItems().addAll(years);
@@ -1394,7 +1365,6 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         addButton.setPrefWidth(130);
         clearButton = new Button(props.getProperty(csgProp.CLEAR_BUTTON_TEXT.toString()));
         clearButton.setPrefWidth(130);
-        updateButton = new Button(props.getProperty(csgProp.UPDATE_BUTTON_TEXT.toString()));
         
         GridPane add_edit_input = new GridPane();
         RowConstraints rowHeight = new RowConstraints(35);
@@ -1749,6 +1719,8 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         color.setCellValueFactory(
                 new PropertyValueFactory<team, String>("color")
         );
+        color.prefWidthProperty().bind(teamTable.widthProperty().multiply(0.2));
+        
         color.prefWidthProperty().bind(teamTable.widthProperty().multiply(0.2));
         textColor = new TableColumn(props.getProperty(csgProp.TEXT_COLOR_TEXT));
         textColor.setCellValueFactory(

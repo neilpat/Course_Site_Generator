@@ -112,9 +112,6 @@ public abstract class AppTemplate extends Application {
             success = loadProperties(APP_PROPERTIES_FILE_NAME);
         }
         // SET THE WINDOW TITLE
-       
-        
-	    //boolean success = loadProperties(APP_PROPERTIES_FILE_NAME);
 	    
 	    if (success) {
                 // GET THE TITLE FROM THE XML FILE

@@ -3,7 +3,6 @@ package csg.file;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javafx.beans.property.StringProperty;
-import javax.json.JsonValue;
 import csg.data.TAData;
 
 /**
@@ -50,6 +49,8 @@ public class TimeSlot {
      * the grid excluding empty time slots. This helps us do our file
      * input since it reflects how office hours are stored in the 
      * JSON file.
+     * @param data
+     * @return 
      */
     public static ArrayList<TimeSlot> buildOfficeHoursList(TAData data) {
         // BUILD AND RETURN THIS LIST
@@ -66,8 +67,7 @@ public class TimeSlot {
                 String day = gridHeaders.get(col);
                 String timeCellKey = data.getCellKey(0, row);
                 String time = officeHours.get(timeCellKey).getValue().replace(":", "_");
-                for (int i = 0; i < taNames.length; i++) {
-                    String taName = taNames[i];
+                for (String taName : taNames) {
                     if (taName.length() > 0) {
                         // ADD A TIME SLOT FOR EACH TA FOR EACH GRID CELL
                         TimeSlot ts = new TimeSlot(day, time, taName);

@@ -24,14 +24,13 @@ import javax.json.stream.JsonGenerator;
 import csg.csgApp;
 import csg.data.TAData;
 import csg.data.TeachingAssistant;
+import csg.data.courses;
 import csg.data.recitation;
 import csg.data.schedule;
 import csg.data.sitePage;
 import csg.data.student;
 import csg.data.team;
 import csg.file.TimeSlot;
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import javafx.collections.FXCollections;
 
 /**
@@ -41,7 +40,7 @@ import javafx.collections.FXCollections;
  * 
  * @co-author Niral Patel (1110626877)
  */
-public class testSave implements AppFileComponent {
+public class testSave implements AppFileComponent{
     // THIS IS THE APP ITSELF
     csgApp app;
     
@@ -55,6 +54,10 @@ public class testSave implements AppFileComponent {
     static final String JSON_NAME = "name";
     static final String JSON_EMAIL = "email";
     static final String JSON_UNDERGRAD_TAS = "undergrad_tas";
+    
+    static final String JSON_COURSES = "courses";
+    static final String JSON_COURSE_NAME = "course_name";
+    static final String JSON_COURSE_NUMBER = "course_number";
     
     static final String JSON_SITE_PAGE = "site_pages";
     static final String JSON_USE = "site_page_use";
@@ -86,11 +89,12 @@ public class testSave implements AppFileComponent {
     static final String JSON_LAST_NAME = "last_name";
     static final String JSON_ASSIGNED_TEAM = "assigned_team";
     static final String JSON_ROLE = "role";
+    
     public testSave(csgApp initApp) {
         app = initApp;
     }
 
-    @Override
+  
     public void loadData(AppDataComponent data, String filePath) throws IOException {
 	// CLEAR THE OLD DATA OUT
 	TAData dataManager = (TAData)data;
@@ -101,10 +105,10 @@ public class testSave implements AppFileComponent {
 	// LOAD THE START AND END HOURS
 	String startHour = json.getString(JSON_START_HOUR);
         String endHour = json.getString(JSON_END_HOUR);
-        dataManager.initHours(startHour, endHour);
+        //dataManager.initHours(startHour, endHour);        ///////////////////
 
         // NOW RELOAD THE WORKSPACE WITH THE LOADED DATA
-        app.getWorkspaceComponent().reloadWorkspace(app.getDataComponent());
+        //app.getWorkspaceComponent().reloadWorkspace(app.getDataComponent());      /////////////////
 
         // NOW LOAD ALL THE UNDERGRAD TAs
         JsonArray jsonTAArray = json.getJsonArray(JSON_UNDERGRAD_TAS);
@@ -112,7 +116,7 @@ public class testSave implements AppFileComponent {
             JsonObject jsonTA = jsonTAArray.getJsonObject(i);
             String name = jsonTA.getString(JSON_NAME);
             String email = jsonTA.getString(JSON_EMAIL);
-            dataManager.addTA(true,name,email);
+            //dataManager.addTA(true,name,email);
         }
 
         // AND THEN ALL THE OFFICE HOURS
@@ -122,7 +126,7 @@ public class testSave implements AppFileComponent {
             String day = jsonOfficeHours.getString(JSON_DAY);
             String time = jsonOfficeHours.getString(JSON_TIME);
             String name = jsonOfficeHours.getString(JSON_NAME);
-            dataManager.addOfficeHoursReservation(day, time, name);
+            //dataManager.addOfficeHoursReservation(day, time, name);
         }
         
         // NOW LOAD ALL THE SITE PAGES
@@ -181,6 +185,16 @@ public class testSave implements AppFileComponent {
             String role = jsonStudent.getString(JSON_ROLE);
             dataManager.addStudent(first_name,last_name,assigned_team,role);
         }
+        
+        //CONTENT FOR THE COMBO BOXES
+        // NOW LOAD ALL THE STUDENTS
+        JsonArray jsonCoursesArray = json.getJsonArray(JSON_COURSES);
+        for (int i = 0; i < jsonCoursesArray.size(); i++) {
+            JsonObject jsonCourse = jsonCoursesArray.getJsonObject(i);
+            String course_name = jsonCourse.getString(JSON_COURSE_NAME);
+            String course_number = jsonCourse.getString(JSON_COURSE_NUMBER);
+            dataManager.addCourse(course_name, course_number);
+        }
     }
       
     // HELPER METHOD FOR LOADING DATA FROM A JSON FORMAT
@@ -193,7 +207,6 @@ public class testSave implements AppFileComponent {
 	return json;
     }
 
-    @Override
     public void saveData(AppDataComponent data, String filePath) throws IOException {
 	// GET THE DATA
 	TAData dataManager = (TAData)data;
@@ -300,7 +313,7 @@ public class testSave implements AppFileComponent {
         JsonArrayBuilder teamBuilder = Json.createArrayBuilder();
         
         team atomicComics = new team("Atomic Comics", "blue", "yellow", "hello.org");
-        team C4Comics = new team("Atomic Comics", "blue", "yellow", "hello.org");
+        team C4Comics = new team("C4 Comics", "pink", "white", "byebye.org");
         
 	ObservableList<team> teams = FXCollections.observableArrayList();
         teams.addAll(atomicComics, C4Comics);
@@ -336,12 +349,42 @@ public class testSave implements AppFileComponent {
 	}
 	JsonArray studentArray = teamBuilder.build();
         
+        //FOR THE COMBOX BOXES
+        
+        courses course1 = new courses("CSE", "219");
+        courses course2 = new courses("CSE", "220");
+        courses course3 = new courses("CSE", "214");
+        courses course4 = new courses("CSE", "320");
+        courses course5 = new courses("CSE", "310");
+        courses course6 = new courses("CSE", "308");
+        courses course7 = new courses("ISE", "114");
+        courses course8 = new courses("ISE", "203");
+        courses course9 = new courses("ISE", "303");
+        courses course10 = new courses("ISE", "420");
+        courses course11 = new courses("ISE", "260");
+        courses course12 = new courses("ISE", "337");
+        
+        JsonArrayBuilder courseArrayBuilder = Json.createArrayBuilder();
+	ObservableList<courses> course = dataManager.getCourses();
+        course.addAll(course1,course2,course3,course4,course5, course6, 
+                course7,course8, course9, course10,course11, course12);
+	for (courses cs : course) {	    
+	    JsonObject courseJson = Json.createObjectBuilder()
+                    .add(JSON_COURSE_NAME, cs.getName())
+		    .add(JSON_COURSE_NUMBER, cs.getNumber()).build();
+                    
+	    courseArrayBuilder.add(courseJson);
+	}
+	JsonArray coursesArray = courseArrayBuilder.build();
+        
+        
 	// THEN PUT IT ALL TOGETHER IN A JsonObject
 	JsonObject dataManagerJSO = Json.createObjectBuilder()
 		.add(JSON_START_HOUR, "" + dataManager.getStartHour())
 		.add(JSON_END_HOUR, "" + dataManager.getEndHour())
                 .add(JSON_UNDERGRAD_TAS, undergradTAsArray)
                 .add(JSON_OFFICE_HOURS, timeSlotsArray)
+                .add(JSON_COURSES, coursesArray)
                 .add(JSON_SITE_PAGE, sitePageArray)
                 .add(JSON_RECITATION, recitationArray)
                 .add(JSON_SCHEDULE, scheduleArray)
@@ -367,17 +410,13 @@ public class testSave implements AppFileComponent {
 	pw.write(prettyPrinted);
 	pw.close();
     }
-    
-    // IMPORTING/EXPORTING DATA IS USED WHEN WE READ/WRITE DATA IN AN
-    // ADDITIONAL FORMAT USEFUL FOR ANOTHER PURPOSE, LIKE ANOTHER APPLICATION
-
     @Override
-    public void importData(AppDataComponent data, String filePath) throws IOException {
+    public void exportData(AppDataComponent data, String filePath) throws IOException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void exportData(AppDataComponent data, String filePath) throws IOException {
+    public void importData(AppDataComponent data, String filePath) throws IOException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

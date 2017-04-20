@@ -93,8 +93,8 @@ public class CourseSiteStyle extends AppStyleComponent {
         // LEFT SIDE - THE TA DATA ENTRY
         workspaceComponent.getAddBox().getStyleClass().add(CLASS_ADD_TA_PANE);
         workspaceComponent.getNameTextField().getStyleClass().add(CLASS_ADD_TA_TEXT_FIELD);
+        workspaceComponent.getEmailTextField().getStyleClass().add(CLASS_ADD_TA_TEXT_FIELD);
         workspaceComponent.getAddButton().getStyleClass().add(CLASS_ADD_TA_BUTTON);
-        workspaceComponent.getUpdateButton().getStyleClass().add(CLASS_UPDATE_TA_BUTTON);
         workspaceComponent.getClearButton().getStyleClass().add(CLASS_CLEAR_TA_BUTTON);
 
         // RIGHT SIDE - THE HEADER
@@ -110,7 +110,7 @@ public class CourseSiteStyle extends AppStyleComponent {
         workspaceComponent.getProjectDetailsBox().getStyleClass().add(TABS);
         workspaceComponent.getSchedule_details_box().getStyleClass().add(TABS);
         workspaceComponent.getsPane().getStyleClass().add(TABS);
-        workspaceComponent.getFinalTAPane().getStyleClass().add(TABS);
+        //workspaceComponent.getFinalTAPane().getStyleClass().add(TABS);
         
         
         //COURSE INFO

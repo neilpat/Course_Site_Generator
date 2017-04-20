@@ -96,13 +96,13 @@ public class TAData implements AppDataComponent {
         //THIS WILL STORE OUR OFFICE HOURS
         officeHours = new HashMap();
         
-        // THESE ARE THE LANGUAGE-DEPENDENT OFFICE HOURS GRID HEADERS
-        PropertiesManager props = PropertiesManager.getPropertiesManager();
-        ArrayList<String> timeHeaders = props.getPropertyOptionsList(csgProp.OFFICE_HOURS_TABLE_HEADERS);
-        ArrayList<String> dowHeaders = props.getPropertyOptionsList(csgProp.DAYS_OF_WEEK);
-        gridHeaders = new ArrayList();
-        gridHeaders.addAll(timeHeaders);
-        gridHeaders.addAll(dowHeaders);
+         //THESE ARE THE LANGUAGE-DEPENDENT OFFICE HOURS GRID HEADERS
+//        PropertiesManager props = PropertiesManager.getPropertiesManager();
+//        ArrayList<String> timeHeaders = props.getPropertyOptionsList(csgProp.OFFICE_HOURS_TABLE_HEADERS);
+//        ArrayList<String> dowHeaders = props.getPropertyOptionsList(csgProp.DAYS_OF_WEEK);
+//        gridHeaders = new ArrayList();
+//        gridHeaders.addAll(timeHeaders);
+//        gridHeaders.addAll(dowHeaders);
     }
     
     /**
@@ -118,6 +118,7 @@ public class TAData implements AppDataComponent {
         courses.clear();
         pages.clear();
         recitaitons.clear();
+        students.clear();
     }
     
     // ACCESSOR METHODS
@@ -140,7 +141,7 @@ public class TAData implements AppDataComponent {
         return gridHeaders;
     }
 
-    public ObservableList getTeachingAssistants() {
+    public ObservableList<TeachingAssistant> getTeachingAssistants() {
         return teachingAssistants;
     }
     
@@ -275,7 +276,7 @@ public class TAData implements AppDataComponent {
             CourseSiteWorkspace workspace = (CourseSiteWorkspace)app.getWorkspaceComponent();
             workspace.getJTPS().addTransaction(trans); 
         }
-        Collections.sort(teachingAssistants);
+        //Collections.sort(teachingAssistants);
 
     }
     public void addTA(Boolean value, String initName, String initEmail) {
@@ -288,7 +289,7 @@ public class TAData implements AppDataComponent {
         }
 
         // SORT THE TAS
-        Collections.sort(teachingAssistants);
+        //Collections.sort(teachingAssistants);
         
     }
     
@@ -303,15 +304,6 @@ public class TAData implements AppDataComponent {
      * it's not there it adds it.
      */
     public void toggleTAOfficeHours(String cellKey, String taName) {
-//        StringProperty cellProp = officeHours.get(cellKey);
-//        String cellText = cellProp.getValue();
-//        if(cellText.contains(taName)){
-//            cellText = cellText.replace("\n"+ taName, "");
-//            cellProp.setValue(cellText);
-//        }
-//        else{
-//            cellProp.setValue(cellText+ "\n"+taName);
-//        }
         
         StringProperty cellProp = officeHours.get(cellKey);
         String cellVal = cellProp.getValue();
@@ -405,15 +397,15 @@ public class TAData implements AppDataComponent {
         courses course = new courses(initName, initNumber);
         
         // ADD THE COURSE
-        if (!containsCourse(initName)) {
+        if (!containsCourse(initName, initNumber)) {
             courses.add(course);
         }
 
         
     }
-    public boolean containsCourse(String testName) {
+    public boolean containsCourse(String testName, String testNumber) {
         for (courses course : courses) {
-            if (course.getName().equals(testName)) {
+            if (course.getName().equals(testName) && course.getNumber().equals(testNumber)) {
                 return true;
             }
         }
@@ -436,7 +428,7 @@ public class TAData implements AppDataComponent {
         }
 
         // SORT THE TAS
-        Collections.sort(pages);
+        //Collections.sort(pages);
     }
     public boolean containsPage(String testName) {
         for (sitePage page: pages) {
@@ -457,7 +449,7 @@ public class TAData implements AppDataComponent {
         }
 
         // SORT THE TAS
-        Collections.sort(pages);
+        //Collections.sort(pages);
     }
     public boolean containsRecitation(String testName) {
         for (recitation rec: recitaitons) {
@@ -481,7 +473,7 @@ public class TAData implements AppDataComponent {
         }
 
         // SORT THE TAS
-        Collections.sort(schedules);
+        //Collections.sort(schedules);
     }
     public boolean containsSchedule(String date) {
         for (schedule sch: schedules) {
@@ -505,7 +497,7 @@ public class TAData implements AppDataComponent {
         }
 
         // SORT THE TAS
-        Collections.sort(schedules);
+        //Collections.sort(schedules);
     }
     public boolean containsTeam(String name) {
         for (team tm: teams) {
@@ -528,7 +520,7 @@ public class TAData implements AppDataComponent {
         }
 
         // SORT THE TAS
-        Collections.sort(students);
+        //Collections.sort(students);
     }
     public boolean containsStudent(String firstName, String lastName) {
         for (student stu: students) {

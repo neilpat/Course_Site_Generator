@@ -4,17 +4,115 @@
     "endHour":"23",
     "undergrad_tas":[
         {
-            "undergraduate":false,
-            "name":"neil patel",
+            "undergraduate":true,
+            "name":"neil",
             "email":"neil@stonybrook.edu"
         },
         {
             "undergraduate":true,
-            "name":"niral patel",
-            "email":"niral@stonybrook.edu"
+            "name":"neils",
+            "email":"neil@stonybrook.edu"
         }
     ],
     "officeHours":[
+    ],
+    "courses":[
+        {
+            "course_name":"CSE",
+            "course_number":"219"
+        },
+        {
+            "course_name":"CSE",
+            "course_number":"220"
+        },
+        {
+            "course_name":"CSE",
+            "course_number":"214"
+        },
+        {
+            "course_name":"CSE",
+            "course_number":"320"
+        },
+        {
+            "course_name":"CSE",
+            "course_number":"310"
+        },
+        {
+            "course_name":"CSE",
+            "course_number":"308"
+        },
+        {
+            "course_name":"ISE",
+            "course_number":"114"
+        },
+        {
+            "course_name":"ISE",
+            "course_number":"203"
+        },
+        {
+            "course_name":"ISE",
+            "course_number":"303"
+        },
+        {
+            "course_name":"ISE",
+            "course_number":"420"
+        },
+        {
+            "course_name":"ISE",
+            "course_number":"260"
+        },
+        {
+            "course_name":"ISE",
+            "course_number":"337"
+        },
+        {
+            "course_name":"CSE",
+            "course_number":"219"
+        },
+        {
+            "course_name":"CSE",
+            "course_number":"220"
+        },
+        {
+            "course_name":"CSE",
+            "course_number":"214"
+        },
+        {
+            "course_name":"CSE",
+            "course_number":"320"
+        },
+        {
+            "course_name":"CSE",
+            "course_number":"310"
+        },
+        {
+            "course_name":"CSE",
+            "course_number":"308"
+        },
+        {
+            "course_name":"ISE",
+            "course_number":"114"
+        },
+        {
+            "course_name":"ISE",
+            "course_number":"203"
+        },
+        {
+            "course_name":"ISE",
+            "course_number":"303"
+        },
+        {
+            "course_name":"ISE",
+            "course_number":"420"
+        },
+        {
+            "course_name":"ISE",
+            "course_number":"260"
+        },
+        {
+            "course_name":"ISE",
+            "course_number":"337"
+        }
     ],
     "site_pages":[
         {

@@ -1,12 +1,9 @@
 package djf.controller;
 
-import com.apple.mrj.MRJFileUtils;
 import djf.ui.AppYesNoCancelDialogSingleton;
 import djf.ui.AppMessageDialogSingleton;
 import djf.ui.AppGUI;
 import djf.components.AppDataComponent;
-import java.io.File;
-import java.io.IOException;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import properties_manager.PropertiesManager;
@@ -28,12 +25,11 @@ import static djf.settings.AppPropertyType.SAVE_UNSAVED_WORK_MESSAGE;
 import static djf.settings.AppPropertyType.SAVE_UNSAVED_WORK_TITLE;
 import static djf.settings.AppPropertyType.SAVE_WORK_TITLE;
 import static djf.settings.AppStartupConstants.PATH_WORK;
-import java.nio.file.Path;
 import javafx.stage.DirectoryChooser;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import org.apache.commons.io.FileUtils;
 
 /**
  * This class provides the event programmed responses for the file controls
@@ -253,26 +249,27 @@ public class AppFileController {
         }
     }
     public void handleExportRequest() throws IOException{
-        String fileName = "../TAManagerTester/public_html/js/OfficeHoursGridData.json"; // SAVE IT TO A FILE
-        
-        File directory = new File(fileName);
-        // get all the files from a directory
-        try{
-             saveWork(directory);
-        }catch(IOException exception){
-                AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
-		PropertiesManager props = PropertiesManager.getPropertiesManager();
-                dialog.show(props.getProperty(SAVE_ERROR_TITLE), props.getProperty(SAVE_ERROR_MESSAGE));
-        }
-        PropertiesManager props = PropertiesManager.getPropertiesManager();
-        DirectoryChooser choose = new DirectoryChooser();
-        choose.setTitle("Export");
-        File file = choose.showDialog(null);
-        System.out.println(file.getAbsolutePath());
-        
-        File source_file = directory;
-        File destination_file = file;
-        
+     PropertiesManager props = PropertiesManager.getPropertiesManager();
+      
+	    // MAYBE WE ALREADY KNOW THE FILE
+	 
+		// PROMPT THE USER FOR A FILE NAME
+		FileChooser fc = new FileChooser();
+		fc.setInitialDirectory(new File(PATH_WORK));
+	//	fc.getExtensionFilters().addAll(
+	//	new ExtensionFilter(props.getProperty(WORK_FILE_EXT_DESC), props.getProperty(WORK_FILE_EXT)));
+                DirectoryChooser a=new DirectoryChooser();
+		File selectedFile = a.showDialog(app.getGUI().getWindow());
+                currentWorkFile = selectedFile;
+                System.out.print(selectedFile.getAbsolutePath());
+                URL url = getClass().getResource("TAManagerTester");
+                String url2=url.getPath()+"/files/public_html/js/OfficeHoursGridData.json";
+                System.out.print(url2);
+                saveWork(new File(url2));
+                System.out.print("\n "+url2+"\n");
+                File src = new File(url.getPath());
+                FileUtils.copyDirectory(src,selectedFile);
+
     }
     
 
@@ -387,6 +384,7 @@ public class AppFileController {
         fc.setInitialDirectory(new File(PATH_WORK));
 	fc.setTitle(props.getProperty(LOAD_WORK_TITLE));
         File selectedFile = fc.showOpenDialog(app.getGUI().getWindow());
+        System.out.println(selectedFile.getAbsolutePath().toString());
         File current = currentWorkFile;
 
         // ONLY OPEN A NEW FILE IF THE USER SAYS OK

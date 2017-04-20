@@ -104,15 +104,6 @@
     -fx-border-radius: 10 10 10 10;
     -fx-background-radius: 10 10 10 10;    
 }
-.update_ta_button{
-    -fx-font-size: 10pt;
-    -fx-font-family: Courier New; 
-    -fx-font-weight: bold;
-    -fx-border-radius: 10 10 10 10;
-    -fx-background-radius: 10 10 10 10;    
-}
-
-
 .office_hours_grid{
     -fx-border-width: 1pt;
     -fx-border-color:black;

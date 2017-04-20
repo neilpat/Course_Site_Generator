@@ -34,8 +34,8 @@ public class csgApp extends AppTemplate {
         // WHEN IT IS CONSTRUCTED, SO BE CAREFUL OF THE ORDER
         dataComponent = new TAData(this);
         workspaceComponent = new CourseSiteWorkspace(this);
-        //fileComponent = new csgFiles(this);
-        fileComponent = new testSave(this);
+        fileComponent = new csgFiles(this);
+        //fileComponent = new testSave(this);
         styleComponent = new CourseSiteStyle(this);
     }
     
@@ -44,6 +44,7 @@ public class csgApp extends AppTemplate {
      * will simply call launch, which gets JavaFX rolling, resulting in sending
      * the properly initialized Stage (i.e. window) to the start method inherited
      * from AppTemplate, defined in the Desktop Java Framework.
+     * @param args
      */
     public static void main(String[] args) {
 	Locale.setDefault(Locale.US);
