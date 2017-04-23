@@ -8,6 +8,9 @@ import csg.file.csgFiles;
 import csg.style.CourseSiteStyle;
 import csg.test_bed.testSave;
 import csg.workspace.CourseSiteWorkspace;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This class serves as the application class for our CSG App program. 
@@ -33,7 +36,10 @@ public class csgApp extends AppTemplate {
         // THE WORKSPACE NEEDS THE DATA COMPONENT TO EXIST ALREADY
         // WHEN IT IS CONSTRUCTED, SO BE CAREFUL OF THE ORDER
         dataComponent = new TAData(this);
-        workspaceComponent = new CourseSiteWorkspace(this);
+        try {
+            workspaceComponent = new CourseSiteWorkspace(this);
+        } catch (IOException ex) {
+        }
         fileComponent = new csgFiles(this);
         //fileComponent = new testSave(this);
         styleComponent = new CourseSiteStyle(this);

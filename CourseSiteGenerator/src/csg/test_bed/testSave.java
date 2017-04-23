@@ -105,10 +105,10 @@ public class testSave implements AppFileComponent{
 	// LOAD THE START AND END HOURS
 	String startHour = json.getString(JSON_START_HOUR);
         String endHour = json.getString(JSON_END_HOUR);
-        //dataManager.initHours(startHour, endHour);        ///////////////////
+        dataManager.initHours(startHour, endHour);        ///////////////////
 
         // NOW RELOAD THE WORKSPACE WITH THE LOADED DATA
-        //app.getWorkspaceComponent().reloadWorkspace(app.getDataComponent());      /////////////////
+        app.getWorkspaceComponent().reloadWorkspace(app.getDataComponent());      /////////////////
 
         // NOW LOAD ALL THE UNDERGRAD TAs
         JsonArray jsonTAArray = json.getJsonArray(JSON_UNDERGRAD_TAS);
@@ -116,7 +116,7 @@ public class testSave implements AppFileComponent{
             JsonObject jsonTA = jsonTAArray.getJsonObject(i);
             String name = jsonTA.getString(JSON_NAME);
             String email = jsonTA.getString(JSON_EMAIL);
-            //dataManager.addTA(true,name,email);
+            dataManager.addTA(true,name,email);
         }
 
         // AND THEN ALL THE OFFICE HOURS
@@ -126,7 +126,7 @@ public class testSave implements AppFileComponent{
             String day = jsonOfficeHours.getString(JSON_DAY);
             String time = jsonOfficeHours.getString(JSON_TIME);
             String name = jsonOfficeHours.getString(JSON_NAME);
-            //dataManager.addOfficeHoursReservation(day, time, name);
+            dataManager.addOfficeHoursReservation(day, time, name);             ///////////////
         }
         
         // NOW LOAD ALL THE SITE PAGES

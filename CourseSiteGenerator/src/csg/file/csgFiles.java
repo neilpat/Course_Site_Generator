@@ -27,6 +27,7 @@ import csg.data.TeachingAssistant;
 import csg.data.courses;
 import csg.data.recitation;
 import csg.data.schedule;
+import csg.data.semesters;
 import csg.data.sitePage;
 import csg.data.student;
 import csg.data.team;
@@ -58,6 +59,17 @@ public class csgFiles implements AppFileComponent{
     static final String JSON_COURSE_NAME = "course_name";
     static final String JSON_COURSE_NUMBER = "course_number";
     
+    static final String JSON_SEMESTERS = "semesters";
+    static final String JSON_SEMESTER = "sem";
+    static final String JSON_YEAR = "year";
+    static final String JSON_PAGE_TITLE = "page_title";
+    static final String JSON_INSTRUCTOR_NAME = "instructor_name";
+    static final String JSON_INSTRUCTOR_HOME = "instructor_home";
+    
+    static final String JSON_BANNER_IMAGE_PATH = "banner_image_path";
+    static final String JSON_LEFT_FOOTER_IMAGE_PATH = "left_footer_image_path";
+    static final String JSON_RIGHT_FOOTER_IMAGE_PATH = "right_footer_image_path";
+    
     static final String JSON_SITE_PAGE = "site_pages";
     static final String JSON_USE = "site_page_use";
     static final String JSON_NAV_BAR_TITLE = "nav_bar_title";
@@ -74,8 +86,8 @@ public class csgFiles implements AppFileComponent{
     
     static final String JSON_SCHEDULE = "schedules";
     static final String JSON_TYPE = "type";
-    static final String JSON_DATE = "title";
-    static final String JSON_TITLE = "date";
+    static final String JSON_DATE = "date";
+    static final String JSON_TITLE = "title";
     static final String JSON_TOPIC = "topic";
     
     static final String JSON_TEAM = "teams";
@@ -109,6 +121,34 @@ public class csgFiles implements AppFileComponent{
         // NOW RELOAD THE WORKSPACE WITH THE LOADED DATA
         app.getWorkspaceComponent().reloadWorkspace(app.getDataComponent());
 
+        // ADD THE COURSE NAME AND NUMBER SEMESTER AND YEAR
+        
+        String courseName = json.getString(JSON_COURSE_NAME);
+        String course_Number = json.getString(JSON_COURSE_NUMBER);
+        String semester = json.getString(JSON_SEMESTER);
+        String year = json.getString(JSON_YEAR);
+        
+        dataManager.setCourseName(courseName);
+        dataManager.setCourseNumber(course_Number);
+        dataManager.setSemester(semester);
+        dataManager.setYear(year);
+        
+        String pageTitle = json.getString(JSON_PAGE_TITLE);
+        String instructorName = json.getString(JSON_INSTRUCTOR_NAME);
+        String instructorHome = json.getString(JSON_INSTRUCTOR_HOME);
+        
+        dataManager.setPageTitle(pageTitle);
+        dataManager.setInstructorName(instructorName);
+        dataManager.setInsturctorHome(instructorHome);
+        
+        String bannerImagePath = json.getString(JSON_BANNER_IMAGE_PATH);
+        String leftFooterImagePath = json.getString(JSON_LEFT_FOOTER_IMAGE_PATH);
+        String rightFooterImagePath = json.getString(JSON_RIGHT_FOOTER_IMAGE_PATH);
+        
+        dataManager.setBannerImageFilePath(bannerImagePath);
+        dataManager.setLeftFootImageFilePath(leftFooterImagePath);
+        dataManager.setRightFooterImageFilePath(rightFooterImagePath);
+        
         // NOW LOAD ALL THE UNDERGRAD TAs
         JsonArray jsonTAArray = json.getJsonArray(JSON_UNDERGRAD_TAS);
         for (int i = 0; i < jsonTAArray.size(); i++) {
@@ -184,19 +224,7 @@ public class csgFiles implements AppFileComponent{
             String role = jsonStudent.getString(JSON_ROLE);
             dataManager.addStudent(first_name,last_name,assigned_team,role);
         }
-        
-        //CONTENT FOR THE COMBO BOXES
-        // NOW LOAD ALL THE STUDENTS
-        JsonArray jsonCoursesArray = json.getJsonArray(JSON_COURSES);
-        for (int i = 0; i < jsonCoursesArray.size(); i++) {
-            JsonObject jsonCourse = jsonCoursesArray.getJsonObject(i);
-            String course_name = jsonCourse.getString(JSON_COURSE_NAME);;
-            String course_number = jsonCourse.getString(JSON_COURSE_NUMBER);
-            dataManager.addCourse(course_name, course_number);
-        }
-        
     }
-      
     // HELPER METHOD FOR LOADING DATA FROM A JSON FORMAT
     private JsonObject loadJSONFile(String jsonFilePath) throws IOException {
 	InputStream is = new FileInputStream(jsonFilePath);
@@ -216,7 +244,7 @@ public class csgFiles implements AppFileComponent{
 	ObservableList<TeachingAssistant> tas = dataManager.getTeachingAssistants();
 	for (TeachingAssistant ta : tas) {	    
 	    JsonObject taJson = Json.createObjectBuilder()
-                    .add(JSON_UNDERGRADUTE, ta.getUndergraduate().get())
+                    //.add(JSON_UNDERGRADUTE, ta.getUndergraduate().get())
 		    .add(JSON_NAME, ta.getName())
                     .add(JSON_EMAIL,ta.getEmail()).build();
                     
@@ -313,27 +341,22 @@ public class csgFiles implements AppFileComponent{
 	}
 	JsonArray studentArray = teamBuilder.build();
         
-        //FOR THE COMBOX BOXES
-        
-        JsonArrayBuilder courseArrayBuilder = Json.createArrayBuilder();
-	ObservableList<courses> course = dataManager.getCourses();
-	for (courses cs : course) {	    
-	    JsonObject courseJson = Json.createObjectBuilder()
-                    .add(JSON_COURSE_NAME, cs.getName())
-		    .add(JSON_COURSE_NUMBER, cs.getNumber()).build();
-                    
-	    courseArrayBuilder.add(courseJson);
-	}
-	JsonArray coursesArray = courseArrayBuilder.build();
-        
-        
 	// THEN PUT IT ALL TOGETHER IN A JsonObject
 	JsonObject dataManagerJSO = Json.createObjectBuilder()
 		.add(JSON_START_HOUR, "" + dataManager.getStartHour())
 		.add(JSON_END_HOUR, "" + dataManager.getEndHour())
+                .add(JSON_COURSE_NAME, "" + dataManager.getCourseName())
+                .add(JSON_COURSE_NUMBER, "" + dataManager.getCourseNumber())
+                .add(JSON_SEMESTER, "" + dataManager.getSemester())
+                .add(JSON_YEAR, "" + dataManager.getYear())
+                .add(JSON_PAGE_TITLE, "" + dataManager.getPageTitle())
+                .add(JSON_INSTRUCTOR_NAME, "" + dataManager.getInstructorName())
+                .add(JSON_INSTRUCTOR_HOME, "" + dataManager.getInsturctorHome())
+                .add(JSON_BANNER_IMAGE_PATH, "" + dataManager.getBannerImageFilePath())
+                .add(JSON_LEFT_FOOTER_IMAGE_PATH, "" + dataManager.getLeftFootImageFilePath())
+                .add(JSON_RIGHT_FOOTER_IMAGE_PATH, "" + dataManager.getRightFooterImageFilePath())
                 .add(JSON_UNDERGRAD_TAS, undergradTAsArray)
                 .add(JSON_OFFICE_HOURS, timeSlotsArray)
-                .add(JSON_COURSES, coursesArray)
                 .add(JSON_SITE_PAGE, sitePageArray)
                 .add(JSON_RECITATION, recitationArray)
                 .add(JSON_SCHEDULE, scheduleArray)

@@ -38,6 +38,7 @@ public class TAData implements AppDataComponent {
     // DATA IN THE ROWS OF THE TABLE VIEW
     ObservableList<TeachingAssistant> teachingAssistants;
     ObservableList<courses> courses;
+    ObservableList<semesters> semesters;
     ObservableList<sitePage> pages;
     ObservableList<recitation> recitaitons;
     ObservableList<schedule> schedules;
@@ -67,6 +68,19 @@ public class TAData implements AppDataComponent {
     public static final int MIN_START_HOUR = 0;
     public static final int MAX_END_HOUR = 23;
     
+    public String courseName;
+    public String courseNumber;
+    public String semester;
+    public String year;
+    
+    public String pageTitle;
+    public String instructorName;
+    public String insturctorHome;
+    
+    public String bannerImageFilePath;
+    public String leftFootImageFilePath;
+    public String rightFooterImageFilePath;
+    
     
     
 
@@ -84,6 +98,7 @@ public class TAData implements AppDataComponent {
         // CONSTRUCT THE LIST OF TAs FOR THE TABLE
         teachingAssistants = FXCollections.observableArrayList();
         courses = FXCollections.observableArrayList();
+        semesters = FXCollections.observableArrayList();
         pages = FXCollections.observableArrayList();
         recitaitons = FXCollections.observableArrayList();
         schedules = FXCollections.observableArrayList();
@@ -92,17 +107,21 @@ public class TAData implements AppDataComponent {
         // THESE ARE THE DEFAULT OFFICE HOURS
         startHour = MIN_START_HOUR;
         endHour = MAX_END_HOUR;
+//        courseName = courses.get(0).getName();
+//        courseNumber = courses.get(0).getNumber();
+//        semester = semesters.get(0).getSemester();
+//        year = semesters.get(0).getYear();
         
         //THIS WILL STORE OUR OFFICE HOURS
         officeHours = new HashMap();
         
          //THESE ARE THE LANGUAGE-DEPENDENT OFFICE HOURS GRID HEADERS
-//        PropertiesManager props = PropertiesManager.getPropertiesManager();
-//        ArrayList<String> timeHeaders = props.getPropertyOptionsList(csgProp.OFFICE_HOURS_TABLE_HEADERS);
-//        ArrayList<String> dowHeaders = props.getPropertyOptionsList(csgProp.DAYS_OF_WEEK);
-//        gridHeaders = new ArrayList();
-//        gridHeaders.addAll(timeHeaders);
-//        gridHeaders.addAll(dowHeaders);
+        PropertiesManager props = PropertiesManager.getPropertiesManager();
+        ArrayList<String> timeHeaders = props.getPropertyOptionsList(csgProp.OFFICE_HOURS_TABLE_HEADERS);
+        ArrayList<String> dowHeaders = props.getPropertyOptionsList(csgProp.DAYS_OF_WEEK);
+        gridHeaders = new ArrayList();
+        gridHeaders.addAll(timeHeaders);
+        gridHeaders.addAll(dowHeaders);
     }
     
     /**
@@ -121,8 +140,32 @@ public class TAData implements AppDataComponent {
         students.clear();
     }
     
-    // ACCESSOR METHODS
+    public String getBannerImageFilePath() {
+        return bannerImageFilePath;
+    }
 
+    public String getLeftFootImageFilePath() {
+        return leftFootImageFilePath;
+    }
+
+    // ACCESSOR METHODS
+    public String getRightFooterImageFilePath() {
+        return rightFooterImageFilePath;
+    }
+
+    public void setBannerImageFilePath(String bannerImageFilePath) {
+        this.bannerImageFilePath = bannerImageFilePath;
+    }
+
+    public void setLeftFootImageFilePath(String leftFootImageFilePath) {
+        this.leftFootImageFilePath = leftFootImageFilePath;
+    }
+
+    public void setRightFooterImageFilePath(String rightFooterImageFilePath) {
+        this.rightFooterImageFilePath = rightFooterImageFilePath;
+    }
+
+    
     public int getStartHour() {
         return startHour;
     }
@@ -136,6 +179,63 @@ public class TAData implements AppDataComponent {
     public int getEndHour() {
         return endHour;
     }
+
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public String getCourseNumber() {
+        return courseNumber;
+    }
+
+    public String getSemester() {
+        return semester;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
+    }
+
+    public void setCourseNumber(String courseNumber) {
+        this.courseNumber = courseNumber;
+    }
+
+    public void setSemester(String semester) {
+        this.semester = semester;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public String getPageTitle() {
+        return pageTitle;
+    }
+
+    public String getInstructorName() {
+        return instructorName;
+    }
+
+    public String getInsturctorHome() {
+        return insturctorHome;
+    }
+
+    public void setPageTitle(String title) {
+        this.pageTitle = title;
+    }
+
+    public void setInstructorName(String instructorName) {
+        this.instructorName = instructorName;
+    }
+
+    public void setInsturctorHome(String insturctorHome) {
+        this.insturctorHome = insturctorHome;
+    }
+    
     
     public ArrayList<String> getGridHeaders() {
         return gridHeaders;
@@ -390,6 +490,29 @@ public class TAData implements AppDataComponent {
             } 
             }
         }    catch(NullPointerException e){}
+    }
+    
+    public void addSemester(String initName, String initYear) {
+        // MAKE THE COURSE
+        semesters sem = new semesters(initName, initYear);
+        
+        // ADD THE COURSE
+        if (!containsSemester(initName, initYear)) {
+            semesters.add(sem);
+        }
+
+        
+    }
+    public boolean containsSemester(String testName, String testYear) {
+        for (semesters sem : semesters) {
+            if (sem.getSemester().equals(testName) && sem.getYear().equals(testYear)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public ObservableList<semesters> getSemesters() {
+        return semesters;
     }
     
     public void addCourse(String initName, String initNumber) {

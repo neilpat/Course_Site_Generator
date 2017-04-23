@@ -94,7 +94,7 @@ public class testSaveTest{
     public void testLoadDataPages() throws Exception {
         System.out.println("loadDataPages");
         AppDataComponent dataManager = new TAData(app);
-        String filePath = "/Users/Neil/Desktop/CSE 219/HW4/CourseSiteGenerator/work/csgFile.json";
+        String filePath = "/Users/Neil/Desktop/CSE_219/HW4/CourseSiteGenerator/work/csgFile.json";
         testSave ts = new testSave(app);
         ts.loadData(dataManager, filePath);
         
@@ -123,7 +123,7 @@ public class testSaveTest{
     public void testLoadDataTAS() throws Exception {
         System.out.println("loadDataTAS");
         AppDataComponent dataManager = new TAData(app);
-        String filePath = "/Users/Neil/Desktop/CSE 219/HW4/CourseSiteGenerator/work/csgFile.json";
+        String filePath = "/Users/Neil/Desktop/CSE_219/HW4/CourseSiteGenerator/work/csgFile.json";
         testSave ts = new testSave(app);
         ts.loadData(dataManager, filePath);
         
@@ -146,7 +146,7 @@ public class testSaveTest{
     public void testLoadDataRecitations() throws Exception {
         System.out.println("loadDataRecitation");
         AppDataComponent dataManager = new TAData(app);
-        String filePath = "/Users/Neil/Desktop/CSE 219/HW4/CourseSiteGenerator/work/csgFile.json";
+        String filePath = "/Users/Neil/Desktop/CSE_219/HW4/CourseSiteGenerator/work/csgFile.json";
         testSave ts = new testSave(app);
         ts.loadData(dataManager, filePath);
         
@@ -181,7 +181,7 @@ public class testSaveTest{
     public void testLoadDataSchedule() throws Exception {
         System.out.println("loadDataSchedule");
         AppDataComponent dataManager = new TAData(app);
-        String filePath = "/Users/Neil/Desktop/CSE 219/HW4/CourseSiteGenerator/work/csgFile.json";
+        String filePath = "/Users/Neil/Desktop/CSE_219/HW4/CourseSiteGenerator/work/csgFile.json";
         testSave ts = new testSave(app);
         ts.loadData(dataManager, filePath);
         
@@ -208,9 +208,9 @@ public class testSaveTest{
     }
     @Test
     public void testLoadDataTeams() throws Exception {
-        System.out.println("loadDataTAS");
+        System.out.println("loadDataTeams");
         AppDataComponent dataManager = new TAData(app);
-        String filePath = "/Users/Neil/Desktop/CSE 219/HW4/CourseSiteGenerator/work/csgFile.json";
+        String filePath = "/Users/Neil/Desktop/CSE_219/HW4/CourseSiteGenerator/work/csgFile.json";
         testSave ts = new testSave(app);
         ts.loadData(dataManager, filePath);
         
@@ -240,7 +240,7 @@ public class testSaveTest{
     public void testLoadDataStudent() throws Exception {
         System.out.println("loadDataStudent");
         AppDataComponent dataManager = new TAData(app);
-        String filePath = "/Users/Neil/Desktop/CSE 219/HW4/CourseSiteGenerator/work/csgFile.json";
+        String filePath = "/Users/Neil/Desktop/CSE_219/HW4/CourseSiteGenerator/work/csgFile.json";
         testSave ts = new testSave(app);
         ts.loadData(dataManager, filePath);
         
@@ -269,7 +269,7 @@ public class testSaveTest{
     public void testLoadDataCourses() throws Exception {
         System.out.println("loadDataCourses");
         AppDataComponent dataManager = new TAData(app);
-        String filePath = "/Users/Neil/Desktop/CSE 219/HW4/CourseSiteGenerator/work/csgFile.json";
+        String filePath = "/Users/Neil/Desktop/CSE_219/HW4/CourseSiteGenerator/work/csgFile.json";
         testSave ts = new testSave(app);
         ts.loadData(dataManager, filePath);
         
@@ -291,48 +291,4 @@ public class testSaveTest{
             assertEquals(course_number, ((TAData)dataManager).getCourses().get(i).getNumber());
         }
     }
-    
-//
-//    /**
-//     * Test of saveData method, of class testSave.
-//     */
-//    @Test
-//    public void testSaveData() throws Exception {
-//        System.out.println("saveData");
-//        AppDataComponent data = null;
-//        String filePath = "";
-//        testSave instance = null;
-//        instance.saveData(data, filePath);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of exportData method, of class testSave.
-//     */
-//    @Test
-//    public void testExportData() throws Exception {
-//        System.out.println("exportData");
-//        AppDataComponent data = null;
-//        String filePath = "";
-//        testSave instance = null;
-//        instance.exportData(data, filePath);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of importData method, of class testSave.
-//     */
-//    @Test
-//    public void testImportData() throws Exception {
-//        System.out.println("importData");
-//        AppDataComponent data = null;
-//        String filePath = "";
-//        testSave instance = null;
-//        instance.importData(data, filePath);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-    
 }

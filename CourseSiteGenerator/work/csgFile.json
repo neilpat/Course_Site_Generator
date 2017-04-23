@@ -2,15 +2,17 @@
 {
     "startHour":"9",
     "endHour":"20",
+    "course_name":"CSE",
+    "course_number":"320",
+    "sem":"FALL",
+    "year":"2017",
+    "page_title":"Cse 32",
+    "instructor_name":"J Won",
+    "instructor_home":"www.JWong-ma.co",
+    "banner_image_path":"/Users/Neil/Desktop/images/CSLogo.png",
+    "left_footer_image_path":"/Users/Neil/Desktop/images/SBUDarkRedShieldLogo.png",
+    "right_footer_image_path":"/Users/Neil/Desktop/images/SBUWhiteShieldLogo.jpg",
     "undergrad_tas":[
-        {
-            "name":"Aarin Chase",
-            "email":"aarin.chase@stonybrook.edu"
-        },
-        {
-            "name":"Ali Afzal",
-            "email":"ali.afzal@stonybrook.edu"
-        },
         {
             "name":"Anthony Roy",
             "email":"anthony.roy@stonybrook.edu"
@@ -82,13 +84,32 @@
         {
             "name":"Yu Zhao",
             "email":"yu.zhao@stonybrook.edu"
+        },
+        {
+            "name":"Neil Patel",
+            "email":"Neil@stonybrook.edu"
         }
     ],
     "officeHours":[
         {
             "day":"MONDAY",
-            "time":"09_00am",
-            "name":"Aarin Chase"
+            "time":"9_00am",
+            "name":"Neil Patel"
+        },
+        {
+            "day":"TUESDAY",
+            "time":"9_00am",
+            "name":"Neil Patel"
+        },
+        {
+            "day":"WEDNESDAY",
+            "time":"9_00am",
+            "name":"Neil Patel"
+        },
+        {
+            "day":"MONDAY",
+            "time":"9_30am",
+            "name":"Neil Patel"
         },
         {
             "day":"MONDAY",
@@ -99,6 +120,11 @@
             "day":"MONDAY",
             "time":"10_00am",
             "name":"Wonyong Jeong"
+        },
+        {
+            "day":"MONDAY",
+            "time":"10_00am",
+            "name":"Neil Patel"
         },
         {
             "day":"WEDNESDAY",
@@ -277,428 +303,318 @@
         },
         {
             "day":"MONDAY",
-            "time":"01_00pm",
+            "time":"1_00pm",
             "name":"Calvin Cheng"
         },
         {
             "day":"MONDAY",
-            "time":"01_00pm",
+            "time":"1_00pm",
             "name":"Jenny Li"
         },
         {
             "day":"MONDAY",
-            "time":"01_00pm",
+            "time":"1_00pm",
             "name":"Robert Trujillo"
         },
         {
             "day":"TUESDAY",
-            "time":"01_00pm",
+            "time":"1_00pm",
             "name":"Jamie Kunzmann"
         },
         {
-            "day":"TUESDAY",
-            "time":"01_00pm",
-            "name":"Ali Afzal"
-        },
-        {
             "day":"WEDNESDAY",
-            "time":"01_00pm",
+            "time":"1_00pm",
             "name":"Hsiang-Ju Lai"
         },
         {
             "day":"THURSDAY",
-            "time":"01_00pm",
+            "time":"1_00pm",
             "name":"Jamie Kunzmann"
         },
         {
             "day":"THURSDAY",
-            "time":"01_00pm",
+            "time":"1_00pm",
             "name":"Hsiang-Ju Lai"
         },
         {
             "day":"MONDAY",
-            "time":"01_30pm",
+            "time":"1_30pm",
             "name":"Calvin Cheng"
         },
         {
             "day":"MONDAY",
-            "time":"01_30pm",
+            "time":"1_30pm",
             "name":"Jenny Li"
         },
         {
             "day":"MONDAY",
-            "time":"01_30pm",
+            "time":"1_30pm",
             "name":"Robert Trujillo"
         },
         {
             "day":"TUESDAY",
-            "time":"01_30pm",
+            "time":"1_30pm",
             "name":"Jamie Kunzmann"
         },
         {
-            "day":"TUESDAY",
-            "time":"01_30pm",
-            "name":"Ali Afzal"
-        },
-        {
             "day":"WEDNESDAY",
-            "time":"01_30pm",
+            "time":"1_30pm",
             "name":"Hsiang-Ju Lai"
         },
         {
             "day":"THURSDAY",
-            "time":"01_30pm",
+            "time":"1_30pm",
             "name":"Jamie Kunzmann"
         },
         {
             "day":"THURSDAY",
-            "time":"01_30pm",
+            "time":"1_30pm",
             "name":"Hsiang-Ju Lai"
         },
         {
             "day":"MONDAY",
-            "time":"02_00pm",
+            "time":"2_00pm",
             "name":"Robert Trujillo"
         },
         {
             "day":"MONDAY",
-            "time":"02_00pm",
+            "time":"2_00pm",
             "name":"Bryan Robicheau"
         },
         {
-            "day":"TUESDAY",
-            "time":"02_00pm",
-            "name":"Ali Afzal"
-        },
-        {
             "day":"WEDNESDAY",
-            "time":"02_00pm",
+            "time":"2_00pm",
             "name":"Bryan Robicheau"
         },
         {
             "day":"THURSDAY",
-            "time":"02_00pm",
+            "time":"2_00pm",
             "name":"Anthony Roy"
         },
         {
             "day":"MONDAY",
-            "time":"02_30pm",
+            "time":"2_30pm",
             "name":"Bryan Robicheau"
         },
         {
             "day":"MONDAY",
-            "time":"02_30pm",
+            "time":"2_30pm",
             "name":"James Hoffman"
         },
         {
             "day":"TUESDAY",
-            "time":"02_30pm",
+            "time":"2_30pm",
             "name":"Anthony Roy"
         },
         {
             "day":"WEDNESDAY",
-            "time":"02_30pm",
+            "time":"2_30pm",
             "name":"Bryan Robicheau"
         },
         {
             "day":"WEDNESDAY",
-            "time":"02_30pm",
+            "time":"2_30pm",
             "name":"Yu Zhao"
         },
         {
             "day":"THURSDAY",
-            "time":"02_30pm",
+            "time":"2_30pm",
             "name":"Anthony Roy"
         },
         {
             "day":"FRIDAY",
-            "time":"02_30pm",
+            "time":"2_30pm",
             "name":"Jacob Evans"
         },
         {
             "day":"FRIDAY",
-            "time":"02_30pm",
+            "time":"2_30pm",
             "name":"Milto Ndrenika"
         },
         {
             "day":"MONDAY",
-            "time":"03_00pm",
+            "time":"3_00pm",
             "name":"Bryan Robicheau"
         },
         {
             "day":"MONDAY",
-            "time":"03_00pm",
+            "time":"3_00pm",
             "name":"James Hoffman"
         },
         {
             "day":"TUESDAY",
-            "time":"03_00pm",
+            "time":"3_00pm",
             "name":"Anthony Roy"
         },
         {
             "day":"WEDNESDAY",
-            "time":"03_00pm",
+            "time":"3_00pm",
             "name":"Bryan Robicheau"
         },
         {
             "day":"WEDNESDAY",
-            "time":"03_00pm",
+            "time":"3_00pm",
             "name":"Yu Zhao"
         },
         {
             "day":"THURSDAY",
-            "time":"03_00pm",
+            "time":"3_00pm",
             "name":"Anthony Roy"
         },
         {
             "day":"FRIDAY",
-            "time":"03_00pm",
+            "time":"3_00pm",
             "name":"Jacob Evans"
         },
         {
             "day":"FRIDAY",
-            "time":"03_00pm",
+            "time":"3_00pm",
             "name":"Milto Ndrenika"
         },
         {
             "day":"MONDAY",
-            "time":"03_30pm",
+            "time":"3_30pm",
             "name":"Bryan Robicheau"
         },
         {
             "day":"MONDAY",
-            "time":"03_30pm",
+            "time":"3_30pm",
             "name":"James Hoffman"
         },
         {
             "day":"TUESDAY",
-            "time":"03_30pm",
+            "time":"3_30pm",
             "name":"Anthony Roy"
         },
         {
             "day":"WEDNESDAY",
-            "time":"03_30pm",
+            "time":"3_30pm",
             "name":"Bryan Robicheau"
         },
         {
             "day":"THURSDAY",
-            "time":"03_30pm",
+            "time":"3_30pm",
             "name":"Anthony Roy"
         },
         {
             "day":"FRIDAY",
-            "time":"03_30pm",
+            "time":"3_30pm",
             "name":"Milto Ndrenika"
         },
         {
             "day":"MONDAY",
-            "time":"04_00pm",
+            "time":"4_00pm",
             "name":"James Hoffman"
         },
         {
             "day":"TUESDAY",
-            "time":"04_00pm",
+            "time":"4_00pm",
             "name":"Serge Crane"
         },
         {
             "day":"WEDNESDAY",
-            "time":"04_00pm",
+            "time":"4_00pm",
             "name":"Jacob Evans"
         },
         {
             "day":"THURSDAY",
-            "time":"04_00pm",
+            "time":"4_00pm",
             "name":"Muhammad R Islam"
         },
         {
             "day":"FRIDAY",
-            "time":"04_00pm",
+            "time":"4_00pm",
             "name":"Milto Ndrenika"
         },
         {
             "day":"TUESDAY",
-            "time":"04_30pm",
+            "time":"4_30pm",
             "name":"Serge Crane"
         },
         {
             "day":"WEDNESDAY",
-            "time":"04_30pm",
+            "time":"4_30pm",
             "name":"Jacob Evans"
         },
         {
             "day":"THURSDAY",
-            "time":"04_30pm",
+            "time":"4_30pm",
             "name":"Muhammad R Islam"
         },
         {
             "day":"TUESDAY",
-            "time":"05_00pm",
+            "time":"5_00pm",
             "name":"Serge Crane"
         },
         {
             "day":"THURSDAY",
-            "time":"05_00pm",
+            "time":"5_00pm",
             "name":"Muhammad R Islam"
         },
         {
             "day":"THURSDAY",
-            "time":"05_00pm",
+            "time":"5_00pm",
             "name":"Chaeyoung Lee"
         },
         {
-            "day":"TUESDAY",
-            "time":"05_30pm",
-            "name":"Ali Afzal"
-        },
-        {
             "day":"THURSDAY",
-            "time":"05_30pm",
+            "time":"5_30pm",
             "name":"Muhammad R Islam"
         },
         {
             "day":"THURSDAY",
-            "time":"05_30pm",
+            "time":"5_30pm",
             "name":"Chaeyoung Lee"
         },
         {
             "day":"TUESDAY",
-            "time":"06_00pm",
+            "time":"6_00pm",
             "name":"Michael Mathew"
-        },
-        {
-            "day":"WEDNESDAY",
-            "time":"06_00pm",
-            "name":"Aarin Chase"
         },
         {
             "day":"THURSDAY",
-            "time":"06_00pm",
+            "time":"6_00pm",
             "name":"Chaeyoung Lee"
         },
         {
-            "day":"FRIDAY",
-            "time":"06_00pm",
-            "name":"Aarin Chase"
-        },
-        {
             "day":"TUESDAY",
-            "time":"06_30pm",
+            "time":"6_30pm",
             "name":"Michael Mathew"
-        },
-        {
-            "day":"WEDNESDAY",
-            "time":"06_30pm",
-            "name":"Aarin Chase"
         },
         {
             "day":"THURSDAY",
-            "time":"06_30pm",
+            "time":"6_30pm",
             "name":"Chaeyoung Lee"
         },
         {
-            "day":"FRIDAY",
-            "time":"06_30pm",
-            "name":"Aarin Chase"
-        },
-        {
             "day":"MONDAY",
-            "time":"07_00pm",
+            "time":"7_00pm",
             "name":"Hsiang-Ju Lai"
         },
         {
             "day":"TUESDAY",
-            "time":"07_00pm",
+            "time":"7_00pm",
             "name":"Michael Mathew"
         },
         {
             "day":"TUESDAY",
-            "time":"07_00pm",
+            "time":"7_00pm",
             "name":"Hsiang-Ju Lai"
         },
         {
-            "day":"WEDNESDAY",
-            "time":"07_00pm",
-            "name":"Aarin Chase"
-        },
-        {
-            "day":"FRIDAY",
-            "time":"07_00pm",
-            "name":"Aarin Chase"
-        },
-        {
             "day":"MONDAY",
-            "time":"07_30pm",
+            "time":"7_30pm",
             "name":"Hsiang-Ju Lai"
         },
         {
             "day":"TUESDAY",
-            "time":"07_30pm",
+            "time":"7_30pm",
             "name":"Michael Mathew"
         },
         {
             "day":"TUESDAY",
-            "time":"07_30pm",
+            "time":"7_30pm",
             "name":"Hsiang-Ju Lai"
-        },
-        {
-            "day":"WEDNESDAY",
-            "time":"07_30pm",
-            "name":"Aarin Chase"
-        },
-        {
-            "day":"FRIDAY",
-            "time":"07_30pm",
-            "name":"Aarin Chase"
-        }
-    ],
-    "courses":[
-        {
-            "course_name":"CSE",
-            "course_number":"219"
-        },
-        {
-            "course_name":"CSE",
-            "course_number":"220"
-        },
-        {
-            "course_name":"CSE",
-            "course_number":"214"
-        },
-        {
-            "course_name":"CSE",
-            "course_number":"320"
-        },
-        {
-            "course_name":"CSE",
-            "course_number":"310"
-        },
-        {
-            "course_name":"CSE",
-            "course_number":"308"
-        },
-        {
-            "course_name":"ISE",
-            "course_number":"114"
-        },
-        {
-            "course_name":"ISE",
-            "course_number":"203"
-        },
-        {
-            "course_name":"ISE",
-            "course_number":"303"
-        },
-        {
-            "course_name":"ISE",
-            "course_number":"420"
-        },
-        {
-            "course_name":"ISE",
-            "course_number":"260"
-        },
-        {
-            "course_name":"ISE",
-            "course_number":"337"
         }
     ],
     "site_pages":[
@@ -768,6 +684,18 @@
         }
     ],
     "schedules":[
+        {
+            "type":"Holiday",
+            "date":"SNOW DAY",
+            "title":"02/09/2017",
+            "topic":""
+        },
+        {
+            "type":"Lecture",
+            "date":"Lecture 3",
+            "title":"02/14/2017",
+            "topic":"Event Programming"
+        },
         {
             "type":"Holiday",
             "date":"02/09/2017",

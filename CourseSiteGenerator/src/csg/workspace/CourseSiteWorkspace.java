@@ -36,11 +36,18 @@ import csg.data.TeachingAssistant;
 import csg.data.courses;
 import csg.data.recitation;
 import csg.data.schedule;
+import csg.data.semesters;
 import csg.data.sitePage;
 import csg.data.student;
 import csg.data.team;
+import djf.controller.AppFileController;
+import static djf.settings.AppPropertyType.LOAD_WORK_TITLE;
+import static djf.settings.AppStartupConstants.PATH_WORK;
 import java.io.File;
+import java.io.IOException;
 import java.math.BigInteger;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.scene.control.DatePicker;
@@ -57,6 +64,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.util.Callback;
 
 /**
@@ -300,7 +308,17 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     String emailColumnText;
     private HBox final_right;
     HBox box2;
-    private VBox rightPane;
+    VBox rightPane;
+    ComboBox sub_name;
+    ComboBox Number;
+    ComboBox Semester;
+    ComboBox Year;
+    TextField titleField;
+    TextField instructorNameField;
+    TextField instructorHomeField;
+    String bannerFilePath;
+    String leftFooterFilePath;
+    String rightFooterFilePath;
     
     
     
@@ -310,7 +328,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     * generate each pane in the final application.
     * @param initApp 
     */
-    public CourseSiteWorkspace(csgApp initApp) {
+    public CourseSiteWorkspace(csgApp initApp) throws IOException {
         // KEEP THIS FOR LATER
         app = initApp;
            
@@ -490,16 +508,13 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         beg_hours.setOnAction(e ->{
             String start_time = (String)beg_hours.getValue();
             String am_pm = start_time.substring(5,7);
-            int temp;
             int beg_time=-1;
             if(am_pm.equals("am")){
                 beg_time = Integer.parseInt(start_time.substring(0, 2));
-                temp = beg_time;
                 start_time = beg_time +"";
             }
             else{
                 beg_time = 12 + Integer.parseInt(start_time.substring(0,2));
-                temp = beg_time - 12;
                 start_time = beg_time +"";
             }
             if(beg_time >=0){
@@ -941,16 +956,23 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         officeHoursGridTimeCellLabels.clear();
         officeHoursGridTACellPanes.clear();
         officeHoursGridTACellLabels.clear();
+        
+        
     }
     
     @Override
     public void reloadWorkspace(AppDataComponent dataComponent) {
         TAData taData = (TAData)dataComponent;
         reloadOfficeHoursGrid(taData);
+        try {
+            reloadCourseData(taData);
+        } catch (IOException ex) {
+            Logger.getLogger(CourseSiteWorkspace.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }
     
-    public ScrollPane CourseDetailsPane(csgApp app, jTPS jtps, PropertiesManager props){
+    public ScrollPane CourseDetailsPane(csgApp app, jTPS jtps, PropertiesManager props) throws IOException{
         finalCourseDetailsBox = new ScrollPane();
         course_details_box = new VBox();
         
@@ -971,50 +993,56 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         selectDirectory = new Button(props.getProperty(csgProp.CHANGE_BUTTON));
         templateDirectoryButton = new Button(props.getProperty(csgProp.SELECT_TEMPLATE_BUTTON));
         
-        TextField titleField = new TextField();
+        titleField = new TextField();
         titleField.setPrefWidth(375);
-        TextField instructorNameField = new TextField();
+        instructorNameField = new TextField();
         instructorNameField.setPrefWidth(375);
-        TextField instructorHomeField = new TextField();
+        instructorHomeField = new TextField();
         instructorHomeField.setPrefWidth(375);
        
         TAData data = (TAData) app.getDataComponent();
         
         //begin for course details HBox
-        ObservableList<courses> courses = data.getCourses();
-        ObservableList<String> subjects = FXCollections.observableArrayList();
-        ObservableList<String> numbers = FXCollections.observableArrayList();
-        ObservableList<String> semesters = FXCollections.observableArrayList();
-        ObservableList<String> years = FXCollections.observableArrayList();
+        ObservableList<courses> courses = FXCollections.observableArrayList();
+        ObservableList<semesters> sems = FXCollections.observableArrayList();
         
-        ComboBox sub_name = new ComboBox();
-        ComboBox Number = new ComboBox();
-        ComboBox Semester= new ComboBox();
-        ComboBox Year= new ComboBox();
-        sub_name.setOnMouseClicked(e->{
-            for(int i=0;i<courses.size();i++){
-                if (!sub_name.getItems().contains(courses.get(i).getName())) {
-                    sub_name.getItems().add(courses.get(i).getName());
-                }
-                if (!Number.getItems().contains(courses.get(i).getNumber())) {
-                    Number.getItems().add(courses.get(i).getNumber());
-                }
-                
-            }
-            //sub_name.getItems().add(subjects);
-            //Number.getItems().add(numbers);
+        courses cs1 = new courses("CSE", "219");
+        courses cs2 = new courses("ISE", "320");
+        courses cs3 = new courses("CSE", "114");
+        
+        semesters sem1 = new semesters("FALL", "2016");
+        semesters sem2 = new semesters("SPRING", "2017");
+        
+        courses.addAll(cs1,cs2,cs3);
+        sems.addAll(sem1,sem2);
+        
+        sub_name = new ComboBox();
+        Number = new ComboBox();
+        Semester= new ComboBox();
+        Year= new ComboBox();
+        for(int i=0; i<courses.size();i++){
+            sub_name.getItems().add(courses.get(i).getName());
+            Number.getItems().add(courses.get(i).getNumber());
+        }
+        for(int i=0;i < sems.size();i++){
+            Semester.getItems().add(sems.get(i).getSemester());
+            Year.getItems().add(sems.get(i).getYear());
+        }
+        sub_name.setOnAction(e->{
+            data.setCourseName((String)sub_name.getValue());
+        });
+        Number.setOnAction(e->{
+            data.setCourseNumber((String)Number.getValue());
+        });
+        Semester.setOnAction(e->{
+            data.setSemester((String)Semester.getValue());
+        });
+        Year.setOnAction(e->{
+            data.setYear((String)Year.getValue());
         });
         Number.setPrefWidth(125);
         sub_name.setPrefWidth(125);
-
-        semesters.add("Spring");
-        semesters.add("Fall");
-        Semester.getItems().addAll(semesters);
         Semester.setPrefWidth(125);
-        
-        years.add("2017");
-        years.add("2016");
-        Year.getItems().addAll(years);
         Year.setPrefWidth(125);
         
         courseInfoBox = new VBox();
@@ -1049,6 +1077,19 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         courseInfo2.add(instructorNameField, 1, 1);
         courseInfo2.add(instructor_home_label, 0, 2);
         courseInfo2.add(instructorHomeField, 1, 2);
+        
+        titleField.setOnKeyTyped(e->{
+            data.setPageTitle(titleField.getText());
+            AppFileController controller = app.getGUI().getAppfileController();
+            controller.markFileAsNotSaved();
+        });
+        instructorNameField.setOnKeyTyped(e->{
+             data.setInstructorName(instructorNameField.getText());
+        });
+        instructorHomeField.setOnKeyTyped(e->{
+            data.setInsturctorHome(instructorHomeField.getText());
+        });
+        
         
         GridPane DirectoryBox = new GridPane();
         ColumnConstraints widthA = new ColumnConstraints(130);
@@ -1143,13 +1184,14 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
        
         pageStyle.getChildren().add(page_Style_label);
         GridPane logoImagePane = new GridPane();
-        RowConstraints rows = new RowConstraints(30);
-        ColumnConstraints column = new ColumnConstraints(190);
+        RowConstraints rows = new RowConstraints(50);
+        ColumnConstraints column = new ColumnConstraints(140);
+        ColumnConstraints imageColumn = new ColumnConstraints(300);
         logoImagePane.getRowConstraints().add(rows);
         logoImagePane.getRowConstraints().add(rows);
         logoImagePane.getRowConstraints().add(rows);
         logoImagePane.getColumnConstraints().add(column);
-        logoImagePane.getColumnConstraints().add(column);
+        logoImagePane.getColumnConstraints().add(imageColumn);
         logoImagePane.getColumnConstraints().add(column);
         
         bannerImage = new Label(props.getProperty(csgProp.BANNER_IMAGE_LABEL.toString()));
@@ -1163,6 +1205,32 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         changeBannerButton = new Button(props.getProperty(csgProp.CHANGE_BUTTON));
         changeLeftFooterButton = new Button(props.getProperty(csgProp.CHANGE_BUTTON));
         changeRightFooterButton = new Button(props.getProperty(csgProp.CHANGE_BUTTON));
+        
+        changeBannerButton.setOnAction(e->{
+            try {
+                bannerFilePath = controller.handleAddBannerImage("");
+                data.setBannerImageFilePath(bannerFilePath);
+            } catch (IOException ex) {
+                System.out.println("Image Faild To Load");
+            }
+        });
+        changeLeftFooterButton.setOnAction(e->{
+            try {
+                leftFooterFilePath = controller.handleAddLeftFooterImage("");
+                data.setLeftFootImageFilePath(leftFooterFilePath);
+            } catch (IOException ex) {
+                Logger.getLogger(CourseSiteWorkspace.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        changeRightFooterButton.setOnAction(e->{
+            try {
+                rightFooterFilePath = controller.handleAddRightFooterImage("");
+                data.setRightFooterImageFilePath(rightFooterFilePath);
+            } catch (IOException ex) {
+                Logger.getLogger(CourseSiteWorkspace.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        
         
         logoImagePane.add(bannerImage, 0, 0);
         logoImagePane.add(bannerImageView, 1, 0);
@@ -1206,9 +1274,30 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         finalCourseDetailsBox.setPadding(new Insets(10, 300, 10, 300));
         finalCourseDetailsBox.setContent(course_details_box);
         
+        reloadCourseData(data);
+        
         return finalCourseDetailsBox;
     }
-
+    public void reloadCourseData(TAData data) throws IOException{
+        try{
+            sub_name.setPromptText(data.getCourseName());
+            Number.setPromptText(data.getCourseNumber());
+            Semester.setPromptText(data.getSemester());
+            Year.setPromptText(data.getYear());
+            
+            titleField.setText(data.getPageTitle());
+            instructorHomeField.setText(data.getInsturctorHome());
+            instructorNameField.setText(data.getInstructorName());
+            
+            controller.handleAddBannerImage(data.getBannerImageFilePath());
+            controller.handleAddLeftFooterImage(data.getLeftFootImageFilePath());
+            controller.handleAddRightFooterImage(data.getRightFooterImageFilePath());
+            
+        }catch(NullPointerException e){
+            System.out.println("Missing data");
+        }
+        
+    }
     public ScrollPane getFinalCourseDetailsBox() {
         return finalCourseDetailsBox;
     }

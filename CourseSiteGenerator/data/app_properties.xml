@@ -106,7 +106,7 @@
         <property name = "SELECT_DIRECTORY_LABEL"       value=" Please Select A Directory..."></property>
         <property name = "TITLE_LABEL"                  value="Title"></property>
         <property name = "INSTRUCTOR_NAME_LABEL"        value="Insturctor Name"></property>
-        <property name = "INSTURCTOR_HOME_LABEL"        value="Instructor Home"></property>
+        <property name = "INSTRUCTOR_HOME_LABEL"        value="Instructor Home"></property>
         <property name = "EXPORT_DIRECTORY_LABEL"       value="Export Dir"></property>
         <property name = "BANNER_IMAGE_LABEL"           value="Banner School Image"></property>
         <property name = "LEFT_FOOTER_IMAGE_LABEL"      value="Left Footer Image"></property>

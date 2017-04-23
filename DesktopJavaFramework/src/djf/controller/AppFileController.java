@@ -27,9 +27,15 @@ import static djf.settings.AppPropertyType.SAVE_WORK_TITLE;
 import static djf.settings.AppStartupConstants.PATH_WORK;
 import javafx.stage.DirectoryChooser;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import org.apache.commons.io.FileUtils;
+
 
 /**
  * This class provides the event programmed responses for the file controls
@@ -251,25 +257,48 @@ public class AppFileController {
     public void handleExportRequest() throws IOException{
      PropertiesManager props = PropertiesManager.getPropertiesManager();
       
-	    // MAYBE WE ALREADY KNOW THE FILE
-	 
-		// PROMPT THE USER FOR A FILE NAME
-		FileChooser fc = new FileChooser();
+	    DirectoryChooser fc = new DirectoryChooser();
 		fc.setInitialDirectory(new File(PATH_WORK));
-	//	fc.getExtensionFilters().addAll(
-	//	new ExtensionFilter(props.getProperty(WORK_FILE_EXT_DESC), props.getProperty(WORK_FILE_EXT)));
-                DirectoryChooser a=new DirectoryChooser();
-		File selectedFile = a.showDialog(app.getGUI().getWindow());
-                currentWorkFile = selectedFile;
-                System.out.print(selectedFile.getAbsolutePath());
-                URL url = getClass().getResource("TAManagerTester");
-                String url2=url.getPath()+"/files/public_html/js/OfficeHoursGridData.json";
-                System.out.print(url2);
-                saveWork(new File(url2));
-                System.out.print("\n "+url2+"\n");
-                File src = new File(url.getPath());
-                FileUtils.copyDirectory(src,selectedFile);
-
+		fc.setTitle("EXPORT");
+		
+		File selectedFile = fc.showDialog(app.getGUI().getWindow());
+                File fileName = new File("../TAManagerTester/public_html"); 
+                copy(fileName.getAbsolutePath(), selectedFile.getAbsolutePath());
+                File newDestination = new File(selectedFile.getAbsolutePath()+"/js/OfficeHoursGridData.json");
+                System.out.println(currentWorkFile.getAbsolutePath());
+                System.out.println(newDestination.getAbsolutePath());
+                Files.copy(currentWorkFile.toPath(), newDestination.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+    }
+     public void copy(String oldPath, String newPath) { 
+        try { 
+            (new File(newPath)).mkdirs();
+            File old =new File(oldPath); 
+            String[] file = old.list(); 
+            File targget = null; 
+            for (int i = 0; i < file.length; i++) { 
+                if(oldPath.endsWith(File.separator))
+                    targget = new File(oldPath+file[i]); 
+                else
+                    targget = new File(oldPath+File.separator+file[i]); 
+                if(targget.isFile()){ 
+                    FileInputStream input = new FileInputStream(targget); 
+                    FileOutputStream output = new FileOutputStream(newPath + "/" + (targget.getName()).toString()); 
+                    byte[] b = new byte[1024 * 5]; 
+                    int templength; 
+                    while ( (templength = input.read(b)) != -1)
+                        output.write(b, 0, templength); 
+                    output.flush(); 
+                    output.close(); 
+                    input.close(); 
+                } 
+                if(targget.isDirectory())
+                    copy(oldPath+"/"+file[i],newPath+"/"+file[i]); 
+            } 
+        } 
+        catch (Exception e) {  
+            e.printStackTrace(); 
+        } 
     }
     
 
@@ -384,7 +413,6 @@ public class AppFileController {
         fc.setInitialDirectory(new File(PATH_WORK));
 	fc.setTitle(props.getProperty(LOAD_WORK_TITLE));
         File selectedFile = fc.showOpenDialog(app.getGUI().getWindow());
-        System.out.println(selectedFile.getAbsolutePath().toString());
         File current = currentWorkFile;
 
         // ONLY OPEN A NEW FILE IF THE USER SAYS OK

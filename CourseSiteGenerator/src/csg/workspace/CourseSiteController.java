@@ -1,10 +1,8 @@
 package csg.workspace;
 
-import djf.components.AppFileComponent;
 import djf.controller.AppFileController;
 import static csg.csgProp.*;
 import djf.ui.AppMessageDialogSingleton;
-import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
@@ -13,20 +11,22 @@ import java.util.regex.Pattern;
 import javafx.beans.property.StringProperty;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import jtps.jTPS;
-import jtps.jTPS_Transaction;
 import properties_manager.PropertiesManager;
 import csg.csgApp;
 import csg.data.TAData;
 import csg.data.TeachingAssistant;
-import csg.style.CourseSiteStyle;
-import csg.transactions.Add_TA_Trans;
-import csg.transactions.Remove_TA_Trans;
-import csg.transactions.Toggle_TAOfficeHours_Trans;
-import csg.transactions.Update_TA_Trans;
 import csg.workspace.CourseSiteWorkspace;
+import static djf.settings.AppStartupConstants.PATH_WORK;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
+import javax.imageio.ImageIO;
 
 /**
  * This class provides responses to all workspace interactions, meaning
@@ -158,10 +158,7 @@ public class CourseSiteController {
         }catch(NullPointerException e){
             
         }
-        
-        
     }
-
     public void handleDelteKey(){
         CourseSiteWorkspace workspace = (CourseSiteWorkspace)app.getWorkspaceComponent();
         TableView taTable = workspace.getTATable();
@@ -191,8 +188,6 @@ public class CourseSiteController {
         
         AppFileController appFileController = app.getGUI().getAppfileController();
         appFileController.markFileAsNotSaved();
-
-        
     }
     public void handleSelctedTA(){
         CourseSiteWorkspace workspace = (CourseSiteWorkspace)app.getWorkspaceComponent();
@@ -218,7 +213,6 @@ public class CourseSiteController {
     public void handleUpdateTA(){
         CourseSiteWorkspace workspace = (CourseSiteWorkspace)app.getWorkspaceComponent();
         TableView taTable = workspace.getTATable();
-        // IS A TA SELECTED IN THE TABLE?
         Object selectedItem = taTable.getSelectionModel().getSelectedItem();
         // GET THE TA
         TeachingAssistant ta = (TeachingAssistant)selectedItem;
@@ -271,10 +265,7 @@ public class CourseSiteController {
            app.getGUI().updateToolbarControls(false);
            AppFileController appFileController = app.getGUI().getAppfileController();
            appFileController.markFileAsNotSaved();
-        }
-          
-        
-               
+        }     
     }
     public void handleClear(){
         CourseSiteWorkspace workspace = (CourseSiteWorkspace)app.getWorkspaceComponent();
@@ -284,5 +275,83 @@ public class CourseSiteController {
         
         nameTextField.setText("");
         emailTextField.setText("");
+    }
+    public String handleAddBannerImage(String path) throws IOException{
+        File selectedFile;
+        FileChooser fc = new FileChooser();
+        fc.setInitialDirectory(new File(PATH_WORK));
+        fc.setTitle("Banner Image");
+        fc.getExtensionFilters().add(new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
+        
+        if (path.equals("") || path == null) {
+            selectedFile = fc.showOpenDialog(app.getGUI().getWindow());
+        }
+        else{
+            selectedFile = new File(path);
+        }
+        BufferedImage bufferedImage = ImageIO.read(selectedFile);
+        Image image = SwingFXUtils.toFXImage(bufferedImage, null);
+        
+        CourseSiteWorkspace workspace = (CourseSiteWorkspace)app.getWorkspaceComponent();
+        ImageView bannerImageView = workspace.getBannerImageView();
+        bannerImageView.setFitHeight(40);
+        bannerImageView.setFitWidth(250);
+        bannerImageView.setImage(image);
+        
+        String imagePath = selectedFile.getAbsolutePath();
+        return  imagePath;
+    }
+    public String handleAddLeftFooterImage(String path) throws IOException{
+        File selectedFile;
+        FileChooser fc = new FileChooser();
+        fc.setInitialDirectory(new File(PATH_WORK));
+        fc.setTitle("Banner Image");
+        fc.getExtensionFilters().add(new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
+        
+        if (path.equals("") || path == null) {
+            selectedFile = fc.showOpenDialog(app.getGUI().getWindow());
+        }
+        else{
+            selectedFile = new File(path);
+        }
+        
+        BufferedImage bufferedImage = ImageIO.read(selectedFile);
+        Image image = SwingFXUtils.toFXImage(bufferedImage, null);
+        
+        CourseSiteWorkspace workspace = (CourseSiteWorkspace)app.getWorkspaceComponent();
+        ImageView bannerImageView = workspace.getLeftFooterImageView();
+        bannerImageView.setFitHeight(40);
+        bannerImageView.setFitWidth(250);
+        bannerImageView.setImage(image);
+        
+        String imagePath = selectedFile.getAbsolutePath();
+        return  imagePath;
+        
+    }
+    public String handleAddRightFooterImage(String path) throws IOException{
+        File selectedFile;
+        FileChooser fc = new FileChooser();
+        fc.setInitialDirectory(new File(PATH_WORK));
+        fc.setTitle("Banner Image");
+        fc.getExtensionFilters().add(new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
+        
+        if (path.equals("") || path == null) {
+            selectedFile = fc.showOpenDialog(app.getGUI().getWindow());
+        }
+        else{
+            selectedFile = new File(path);
+        }
+        
+        BufferedImage bufferedImage = ImageIO.read(selectedFile);
+        Image image = SwingFXUtils.toFXImage(bufferedImage, null);
+        
+        CourseSiteWorkspace workspace = (CourseSiteWorkspace)app.getWorkspaceComponent();
+        ImageView bannerImageView = workspace.getRightFooterImageView();
+        bannerImageView.setFitHeight(40);
+        bannerImageView.setFitWidth(250);
+        bannerImageView.setImage(image);
+        
+        String imagePath = selectedFile.getAbsolutePath();
+        return  imagePath;
     }
 }

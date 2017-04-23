@@ -27,7 +27,12 @@ public class TimeSlot {
     // ACCESSORS AND MUTATORS
     
     public String getDay() { return day; }
-    public String getTime() { return time; }
+    public String getTime() { 
+        if(time.charAt(0) == '0'){
+            time = time.substring(1,time.length());
+        }
+        return time; 
+    }
     public String getName() { return name; }
     public String getEmail(){ return email;}
     public String getKey() {
