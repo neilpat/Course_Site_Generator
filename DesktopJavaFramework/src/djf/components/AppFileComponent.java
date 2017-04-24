@@ -35,4 +35,14 @@ public interface AppFileComponent {
      * be used for importing app data from another format.
      */
     public void importData(AppDataComponent data, String filePath) throws IOException;
+
+    public void saveOfficeHours(AppDataComponent dataComponent, String taManagerTesterpublic_htmljsOfficeHoursGr);
+
+    public void saveScheduleData(AppDataComponent dataComponent, String taManagerTesterpublic_htmljsTAsDatajson);
+
+    public void saveRecitationData(AppDataComponent dataComponent, String taManagerTesterpublic_htmljsRecitationsDa);
+
+    public void saveTeamsData(AppDataComponent dataComponent, String taManagerTesterpublic_htmljsTeamsAndStude);
+
+    public void saveProjectData(AppDataComponent dataComponent, String taManagerTesterpublic_htmljsProjectDatajs);
 }

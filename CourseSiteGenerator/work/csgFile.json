@@ -6,111 +6,110 @@
     "course_number":"320",
     "sem":"FALL",
     "year":"2017",
-    "page_title":"Cse 32",
-    "instructor_name":"J Won",
-    "instructor_home":"www.JWong-ma.co",
+    "page_title":"Cse 320",
+    "instructor_name":"J Wong",
+    "instructor_home":"www.JWong-ma.com",
     "banner_image_path":"/Users/Neil/Desktop/images/CSLogo.png",
     "left_footer_image_path":"/Users/Neil/Desktop/images/SBUDarkRedShieldLogo.png",
     "right_footer_image_path":"/Users/Neil/Desktop/images/SBUWhiteShieldLogo.jpg",
     "undergrad_tas":[
         {
+            "undergraduate":true,
             "name":"Anthony Roy",
             "email":"anthony.roy@stonybrook.edu"
         },
         {
+            "undergraduate":true,
             "name":"Bryan Robicheau",
             "email":"bryan.robicheau@stonybrook.edu"
         },
         {
+            "undergraduate":true,
             "name":"Calvin Cheng",
             "email":"calvin.cheng@stonybrook.edu"
         },
         {
+            "undergraduate":true,
             "name":"Chaeyoung Lee",
             "email":"chaeyoung.lee@stonybrook.edu"
         },
         {
+            "undergraduate":true,
             "name":"Hsiang-Ju Lai",
             "email":"hsiang-ju.lai@stonybrook.edu"
         },
         {
+            "undergraduate":true,
             "name":"Jacob Evans",
             "email":"jacob.evans@stonybrook.edu"
         },
         {
+            "undergraduate":true,
             "name":"James Hoffman",
             "email":"james.a.hoffman@stonybrook.edu"
         },
         {
+            "undergraduate":true,
             "name":"Jamie Kunzmann",
             "email":"jamie.kunzmann@stonybrook.edu"
         },
         {
+            "undergraduate":true,
             "name":"Jenny Li",
             "email":"jenny.li@stonybrook.edu"
         },
         {
+            "undergraduate":true,
             "name":"Jerrel Sogoni",
             "email":"jerrel.sogoni@stonybrook.edu"
         },
         {
+            "undergraduate":true,
             "name":"Michael Mathew",
             "email":"michael.mathew@stonybrook.edu"
         },
         {
+            "undergraduate":true,
             "name":"Milto Ndrenika",
             "email":"milto.ndrenika@stonybrook.edu"
         },
         {
+            "undergraduate":true,
             "name":"Muhammad R Islam",
             "email":"muhammad.r.islam@stonybrook.edu"
         },
         {
+            "undergraduate":true,
             "name":"Robert Trujillo",
             "email":"robert.trujillo@stonybrook.edu"
         },
         {
+            "undergraduate":true,
             "name":"Serge Crane",
             "email":"serge.crane@stonybrook.edu"
         },
         {
+            "undergraduate":true,
             "name":"Wonje Kang",
             "email":"wonje.kang@stonybrook.edu"
         },
         {
+            "undergraduate":true,
             "name":"Wonyong Jeong",
             "email":"wonyon.jeong@stonybrook.edu"
         },
         {
+            "undergraduate":true,
             "name":"Yu Zhao",
             "email":"yu.zhao@stonybrook.edu"
         },
         {
+            "undergraduate":true,
             "name":"Neil Patel",
             "email":"Neil@stonybrook.edu"
         }
     ],
     "officeHours":[
-        {
-            "day":"MONDAY",
-            "time":"9_00am",
-            "name":"Neil Patel"
-        },
-        {
-            "day":"TUESDAY",
-            "time":"9_00am",
-            "name":"Neil Patel"
-        },
-        {
-            "day":"WEDNESDAY",
-            "time":"9_00am",
-            "name":"Neil Patel"
-        },
-        {
-            "day":"MONDAY",
-            "time":"9_30am",
-            "name":"Neil Patel"
-        },
         {
             "day":"MONDAY",
             "time":"10_00am",
@@ -655,32 +654,32 @@
             "instructor":"McKenna",
             "day_time":"Wed 3:30pm-4:23pm",
             "location":"Old CS2114",
-            "TA1":"Jarry Jone",
-            "TA2":"Hellen Corpac"
+            "ta_1":"Jarry Jone",
+            "ta_2":"Hellen Corpac"
         },
         {
             "section":"R05",
             "instructor":"Fodor",
             "day_time":"Tue 1:30pm-2:53pm",
             "location":"New CS1014",
-            "TA1":"Hellen Corpac",
-            "TA2":"Jerry Sandy"
+            "ta_1":"Hellen Corpac",
+            "ta_2":"Jerry Sandy"
         },
         {
             "section":"R07",
             "instructor":"McDonnel",
             "day_time":"Thu 5:30pm-7:53pm",
             "location":"New CS1014",
-            "TA1":"Jerry Sandy",
-            "TA2":"Mark Levondaski"
+            "ta_1":"Jerry Sandy",
+            "ta_2":"Mark Levondaski"
         },
         {
             "section":"R08",
             "instructor":"Esmali",
             "day_time":"Mon 10:30am-1:00pm",
             "location":"New CS1014",
-            "TA1":"Mark Levondaski",
-            "TA2":"Sam Miranda"
+            "ta_1":"Mark Levondaski",
+            "ta_2":"Sam Miranda"
         }
     ],
     "schedules":[
@@ -725,27 +724,27 @@
     ],
     "students":[
         {
-            "first_name":"Jane",
-            "last_name":"Jade",
-            "assigned_team":"Atomic",
+            "firstName":"Jane",
+            "lastName":"Jade",
+            "team":"Atomic",
             "role":"Lead"
         },
         {
-            "first_name":"Neil",
-            "last_name":"Smith",
-            "assigned_team":"C4 Atomic",
+            "firstName":"Neil",
+            "lastName":"Smith",
+            "team":"C4 Atomic",
             "role":"Developer"
         },
         {
-            "first_name":"Jason",
-            "last_name":"Ronald",
-            "assigned_team":"Rocket Dev",
+            "firstName":"Jason",
+            "lastName":"Ronald",
+            "team":"Rocket Dev",
             "role":"Designer"
         },
         {
-            "first_name":"Taylor",
-            "last_name":"Kass",
-            "assigned_team":"Fun2Code",
+            "firstName":"Taylor",
+            "lastName":"Kass",
+            "team":"Fun2Code",
             "role":"Developer"
         }
     ]

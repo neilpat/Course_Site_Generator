@@ -31,6 +31,7 @@ import csg.data.semesters;
 import csg.data.sitePage;
 import csg.data.student;
 import csg.data.team;
+import java.math.BigDecimal;
 import javafx.collections.FXCollections;
 
 /**
@@ -81,8 +82,8 @@ public class csgFiles implements AppFileComponent{
     static final String JSON_INSTUCTOR = "instructor";
     static final String JSON_DAY_TIME = "day_time";
     static final String JSON_LOCATION = "location";
-    static final String JSON_TA1 = "TA1";
-    static final String JSON_TA2 = "TA2";
+    static final String JSON_TA1 = "ta_1";
+    static final String JSON_TA2 = "ta_2";
     
     static final String JSON_SCHEDULE = "schedules";
     static final String JSON_TYPE = "type";
@@ -91,14 +92,15 @@ public class csgFiles implements AppFileComponent{
     static final String JSON_TOPIC = "topic";
     
     static final String JSON_TEAM = "teams";
+    static final String JSON_TEAM_NAME = "name";
     static final String JSON_COLOR = "color";
     static final String JSON_TEXT_COLOR = "text_color";
     static final String JSON_LINK = "link";
     
     static final String JSON_STUDENT = "students";
-    static final String JSON_FIRST_NAME = "first_name";
-    static final String JSON_LAST_NAME = "last_name";
-    static final String JSON_ASSIGNED_TEAM = "assigned_team";
+    static final String JSON_FIRST_NAME = "firstName";
+    static final String JSON_LAST_NAME = "lastName";
+    static final String JSON_ASSIGNED_TEAM = "team";
     static final String JSON_ROLE = "role";
     
     public csgFiles(csgApp initApp) {
@@ -234,7 +236,103 @@ public class csgFiles implements AppFileComponent{
 	is.close();
 	return json;
     }
+    
+    public void saveOfficeHours(AppDataComponent data, String filePath){
+        TAData dataManager = (TAData)data;
+        
+        JsonArrayBuilder taArrayBuilder = Json.createArrayBuilder();
+	ObservableList<TeachingAssistant> tas = dataManager.getTeachingAssistants();
+	for (TeachingAssistant ta : tas) {	    
+	    JsonObject taJson = Json.createObjectBuilder()
+                    .add(JSON_UNDERGRADUTE, ta.getUndergraduate().get())
+		    .add(JSON_NAME, ta.getName())
+                    .add(JSON_EMAIL,ta.getEmail()).build();
+                    
+	    taArrayBuilder.add(taJson);
+	}
+	JsonArray undergradTAsArray = taArrayBuilder.build();
 
+	// NOW BUILD THE TIME SLOT JSON OBJCTS TO SAVE
+	JsonArrayBuilder timeSlotArrayBuilder = Json.createArrayBuilder();
+	ArrayList<TimeSlot> officeHours = TimeSlot.buildOfficeHoursList(dataManager);
+	for (TimeSlot ts : officeHours) {	    
+	    JsonObject tsJson = Json.createObjectBuilder()
+		    .add(JSON_DAY, ts.getDay())
+		    .add(JSON_TIME, ts.getTime())
+		    .add(JSON_NAME, ts.getName()).build();
+	    timeSlotArrayBuilder.add(tsJson);
+	}
+	JsonArray timeSlotsArray = timeSlotArrayBuilder.build();
+        
+        JsonObject dataManagerJSO = Json.createObjectBuilder()
+		.add(JSON_UNDERGRAD_TAS, undergradTAsArray)
+                .add(JSON_OFFICE_HOURS, timeSlotsArray).build();
+    }
+    public void saveRecitationData(AppDataComponent data, String filePath){
+        TAData dataManager = (TAData)data;
+        
+        JsonArrayBuilder recitationBuilder = Json.createArrayBuilder();
+        
+	ObservableList<recitation> recitations = dataManager.getRecitaitons();
+	for (recitation rt : recitations) {	    
+	    JsonObject recitationJson = Json.createObjectBuilder()
+                    .add(JSON_SECTION, rt.getSection())
+                    .add(JSON_INSTUCTOR,rt.getInstructor())
+                    .add(JSON_DAY_TIME, rt.getDay_time())
+                    .add(JSON_LOCATION,rt.getLocation())
+                    .add(JSON_TA1, rt.getTA1())
+                    .add(JSON_TA2, rt.getTA2()).build();
+                    
+	    recitationBuilder.add(recitationJson);
+	}
+	JsonArray recitationArray = recitationBuilder.build();
+        
+        JsonObject dataManagerJSO = Json.createObjectBuilder()
+		.add(JSON_RECITATION, recitationArray).build();
+    }
+    public void saveScheduleData(AppDataComponent data, String filePath){
+        TAData dataManager = (TAData)data;
+        
+        JsonArrayBuilder scheduleBuilder = Json.createArrayBuilder();
+        
+	ObservableList<schedule> schedules = dataManager.getSchedules();
+	for (schedule sh : schedules) {	    
+	    JsonObject scheduleJson = Json.createObjectBuilder()
+                    .add("type", sh.getType())
+                    .add("date",sh.getDate())
+                    .add("title", sh.getTitle())
+                    .add("topic",sh.getTopic()).build();
+                    
+	    scheduleBuilder.add(scheduleJson);
+	}
+	JsonArray scheduleArray = scheduleBuilder.build();
+        
+        JsonObject dataManagerJSO = Json.createObjectBuilder()
+		.add(JSON_SCHEDULE, scheduleArray).build();
+    }
+    public void saveTeamsData(AppDataComponent data, String filePath){
+        TAData dataManager = (TAData)data;
+        
+        JsonArrayBuilder teamBuilder = Json.createArrayBuilder();
+        
+	ObservableList<team> teams = dataManager.getTeams();
+	for (team tm : teams) {	    
+	    JsonObject teamJson = Json.createObjectBuilder()
+                    .add(JSON_TEAM_NAME, tm.getName())
+                    .add(JSON_COLOR,tm.getColor())
+                    .add(JSON_TEXT_COLOR, tm.getTextColor())
+                    .add(JSON_LINK,tm.getLink()).build();
+                    
+	    teamBuilder.add(teamJson);
+	}
+	JsonArray teamArray = teamBuilder.build();
+        
+        JsonObject dataManagerJSO = Json.createObjectBuilder()
+		.add(JSON_TEAM, teamArray).build();
+    }
+    public void saveProjectData(AppDataComponent data, String filePath){
+        TAData dataManager = (TAData)data;
+    }
     public void saveData(AppDataComponent data, String filePath) throws IOException {
 	// GET THE DATA
 	TAData dataManager = (TAData)data;
@@ -244,7 +342,7 @@ public class csgFiles implements AppFileComponent{
 	ObservableList<TeachingAssistant> tas = dataManager.getTeachingAssistants();
 	for (TeachingAssistant ta : tas) {	    
 	    JsonObject taJson = Json.createObjectBuilder()
-                    //.add(JSON_UNDERGRADUTE, ta.getUndergraduate().get())
+                    .add(JSON_UNDERGRADUTE, ta.getUndergraduate().get())
 		    .add(JSON_NAME, ta.getName())
                     .add(JSON_EMAIL,ta.getEmail()).build();
                     
@@ -317,7 +415,7 @@ public class csgFiles implements AppFileComponent{
 	ObservableList<team> teams = dataManager.getTeams();
 	for (team tm : teams) {	    
 	    JsonObject teamJson = Json.createObjectBuilder()
-                    .add(JSON_NAME, tm.getName())
+                    .add(JSON_TEAM_NAME, tm.getName())
                     .add(JSON_COLOR,tm.getColor())
                     .add(JSON_TEXT_COLOR, tm.getTextColor())
                     .add(JSON_LINK,tm.getLink()).build();
@@ -384,7 +482,7 @@ public class csgFiles implements AppFileComponent{
     }
     @Override
     public void exportData(AppDataComponent data, String filePath) throws IOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     @Override

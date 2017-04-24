@@ -59,6 +59,17 @@ public class testSave implements AppFileComponent{
     static final String JSON_COURSE_NAME = "course_name";
     static final String JSON_COURSE_NUMBER = "course_number";
     
+    static final String JSON_SEMESTERS = "semesters";
+    static final String JSON_SEMESTER = "sem";
+    static final String JSON_YEAR = "year";
+    static final String JSON_PAGE_TITLE = "page_title";
+    static final String JSON_INSTRUCTOR_NAME = "instructor_name";
+    static final String JSON_INSTRUCTOR_HOME = "instructor_home";
+    
+    static final String JSON_BANNER_IMAGE_PATH = "banner_image_path";
+    static final String JSON_LEFT_FOOTER_IMAGE_PATH = "left_footer_image_path";
+    static final String JSON_RIGHT_FOOTER_IMAGE_PATH = "right_footer_image_path";
+    
     static final String JSON_SITE_PAGE = "site_pages";
     static final String JSON_USE = "site_page_use";
     static final String JSON_NAV_BAR_TITLE = "nav_bar_title";
@@ -75,8 +86,8 @@ public class testSave implements AppFileComponent{
     
     static final String JSON_SCHEDULE = "schedules";
     static final String JSON_TYPE = "type";
-    static final String JSON_DATE = "title";
-    static final String JSON_TITLE = "date";
+    static final String JSON_DATE = "date";
+    static final String JSON_TITLE = "title";
     static final String JSON_TOPIC = "topic";
     
     static final String JSON_TEAM = "teams";
@@ -105,11 +116,39 @@ public class testSave implements AppFileComponent{
 	// LOAD THE START AND END HOURS
 	String startHour = json.getString(JSON_START_HOUR);
         String endHour = json.getString(JSON_END_HOUR);
-        dataManager.initHours(startHour, endHour);        ///////////////////
+        
 
         // NOW RELOAD THE WORKSPACE WITH THE LOADED DATA
-        app.getWorkspaceComponent().reloadWorkspace(app.getDataComponent());      /////////////////
+       
 
+        // ADD THE COURSE NAME AND NUMBER SEMESTER AND YEAR
+        
+        String courseName = json.getString(JSON_COURSE_NAME);
+        String course_Number = json.getString(JSON_COURSE_NUMBER);
+        String semester = json.getString(JSON_SEMESTER);
+        String year = json.getString(JSON_YEAR);
+        
+        dataManager.setCourseName(courseName);
+        dataManager.setCourseNumber(course_Number);
+        dataManager.setSemester(semester);
+        dataManager.setYear(year);
+        
+        String pageTitle = json.getString(JSON_PAGE_TITLE);
+        String instructorName = json.getString(JSON_INSTRUCTOR_NAME);
+        String instructorHome = json.getString(JSON_INSTRUCTOR_HOME);
+        
+        dataManager.setPageTitle(pageTitle);
+        dataManager.setInstructorName(instructorName);
+        dataManager.setInsturctorHome(instructorHome);
+        
+        String bannerImagePath = json.getString(JSON_BANNER_IMAGE_PATH);
+        String leftFooterImagePath = json.getString(JSON_LEFT_FOOTER_IMAGE_PATH);
+        String rightFooterImagePath = json.getString(JSON_RIGHT_FOOTER_IMAGE_PATH);
+        
+        dataManager.setBannerImageFilePath(bannerImagePath);
+        dataManager.setLeftFootImageFilePath(leftFooterImagePath);
+        dataManager.setRightFooterImageFilePath(rightFooterImagePath);
+        
         // NOW LOAD ALL THE UNDERGRAD TAs
         JsonArray jsonTAArray = json.getJsonArray(JSON_UNDERGRAD_TAS);
         for (int i = 0; i < jsonTAArray.size(); i++) {
@@ -126,7 +165,6 @@ public class testSave implements AppFileComponent{
             String day = jsonOfficeHours.getString(JSON_DAY);
             String time = jsonOfficeHours.getString(JSON_TIME);
             String name = jsonOfficeHours.getString(JSON_NAME);
-            dataManager.addOfficeHoursReservation(day, time, name);             ///////////////
         }
         
         // NOW LOAD ALL THE SITE PAGES
@@ -184,16 +222,6 @@ public class testSave implements AppFileComponent{
             String assigned_team = jsonStudent.getString(JSON_ASSIGNED_TEAM);
             String role = jsonStudent.getString(JSON_ROLE);
             dataManager.addStudent(first_name,last_name,assigned_team,role);
-        }
-        
-        //CONTENT FOR THE COMBO BOXES
-        // NOW LOAD ALL THE STUDENTS
-        JsonArray jsonCoursesArray = json.getJsonArray(JSON_COURSES);
-        for (int i = 0; i < jsonCoursesArray.size(); i++) {
-            JsonObject jsonCourse = jsonCoursesArray.getJsonObject(i);
-            String course_name = jsonCourse.getString(JSON_COURSE_NAME);
-            String course_number = jsonCourse.getString(JSON_COURSE_NUMBER);
-            dataManager.addCourse(course_name, course_number);
         }
     }
       
@@ -382,9 +410,18 @@ public class testSave implements AppFileComponent{
 	JsonObject dataManagerJSO = Json.createObjectBuilder()
 		.add(JSON_START_HOUR, "" + dataManager.getStartHour())
 		.add(JSON_END_HOUR, "" + dataManager.getEndHour())
+                .add(JSON_COURSE_NAME, "" + dataManager.getCourseName())
+                .add(JSON_COURSE_NUMBER, "" + dataManager.getCourseNumber())
+                .add(JSON_SEMESTER, "" + dataManager.getSemester())
+                .add(JSON_YEAR, "" + dataManager.getYear())
+                .add(JSON_PAGE_TITLE, "" + dataManager.getPageTitle())
+                .add(JSON_INSTRUCTOR_NAME, "" + dataManager.getInstructorName())
+                .add(JSON_INSTRUCTOR_HOME, "" + dataManager.getInsturctorHome())
+                .add(JSON_BANNER_IMAGE_PATH, "" + dataManager.getBannerImageFilePath())
+                .add(JSON_LEFT_FOOTER_IMAGE_PATH, "" + dataManager.getLeftFootImageFilePath())
+                .add(JSON_RIGHT_FOOTER_IMAGE_PATH, "" + dataManager.getRightFooterImageFilePath())
                 .add(JSON_UNDERGRAD_TAS, undergradTAsArray)
                 .add(JSON_OFFICE_HOURS, timeSlotsArray)
-                .add(JSON_COURSES, coursesArray)
                 .add(JSON_SITE_PAGE, sitePageArray)
                 .add(JSON_RECITATION, recitationArray)
                 .add(JSON_SCHEDULE, scheduleArray)
@@ -417,6 +454,31 @@ public class testSave implements AppFileComponent{
 
     @Override
     public void importData(AppDataComponent data, String filePath) throws IOException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void saveOfficeHours(AppDataComponent dataComponent, String taManagerTesterpublic_htmljsOfficeHoursGr) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void saveScheduleData(AppDataComponent dataComponent, String taManagerTesterpublic_htmljsTAsDatajson) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void saveRecitationData(AppDataComponent dataComponent, String taManagerTesterpublic_htmljsRecitationsDa) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void saveTeamsData(AppDataComponent dataComponent, String taManagerTesterpublic_htmljsTeamsAndStude) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void saveProjectData(AppDataComponent dataComponent, String taManagerTesterpublic_htmljsProjectDatajs) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

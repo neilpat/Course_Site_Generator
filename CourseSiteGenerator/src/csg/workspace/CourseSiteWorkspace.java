@@ -41,8 +41,6 @@ import csg.data.sitePage;
 import csg.data.student;
 import csg.data.team;
 import djf.controller.AppFileController;
-import static djf.settings.AppPropertyType.LOAD_WORK_TITLE;
-import static djf.settings.AppStartupConstants.PATH_WORK;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
@@ -64,7 +62,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 import javafx.util.Callback;
 
 /**
@@ -149,7 +146,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     TextField location_textField;
     TextField supervising_TA_textField;
     
-    TextField type_textField;
+    ComboBox type_textField;
     TextField time_textField;
     TextField title_textField;
     TextField topic_textField;
@@ -196,7 +193,6 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     //RECITATIONS DETAILS BUTTON
     Button minimize_reciationsButton;
     Button addRecitationButton;
-    Button updateReciationButton;
     Button clearRecitationButton;
     String add_recText;
     String update_recText;
@@ -323,8 +319,16 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     Button minimizeTAButton;
     ComboBox supervising_TA_ComboBox2;
     ComboBox supervising_TA_ComboBox1;
-    private GridPane add_edit_input;
-    private Button updateRecitationButton;
+    GridPane add_edit_input;
+    Button updateRecitationButton;
+    HBox scheudleItemsHeaderBox;
+    HBox scheduleItemsHeaderBox;
+    TextField nameTeamField;
+    TextField inputColor1Field;
+    TextField inputColor2Field;
+    Circle color1;
+    Circle color2;
+    private Button updateLinkButton;
     
     
     
@@ -333,6 +337,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     * This will be the main workspace. It will contain calls to methods to 
     * generate each pane in the final application.
     * @param initApp 
+     * @throws java.io.IOException 
     */
     public CourseSiteWorkspace(csgApp initApp) throws IOException {
         // KEEP THIS FOR LATER
@@ -1476,8 +1481,9 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         addRecitationButton.setPrefWidth(130);
         updateRecitationButton = new Button(props.getProperty(csgProp.UPDATE_RECITATION_BUTTON.toString()));
         updateRecitationButton.setPrefWidth(130);
-        clearButton = new Button(props.getProperty(csgProp.CLEAR_BUTTON_TEXT.toString()));
-        clearButton.setPrefWidth(130);
+        clearRecitationButton = new Button(props.getProperty(csgProp.CLEAR_RECITATION_BUTTON.toString()));
+        clearRecitationButton.setPrefWidth(130);
+        clearRecitationButton.setDisable(true);
         
         add_edit_input = new GridPane();
         RowConstraints rowHeight = new RowConstraints(35);
@@ -1506,7 +1512,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         add_edit_input.add(supervising_TA_label2, 0, 5);
         add_edit_input.add(supervising_TA_ComboBox2, 1, 5);
         add_edit_input.add(addRecitationButton, 0, 6);
-        add_edit_input.add(clearButton, 1, 6);
+        add_edit_input.add(clearRecitationButton, 1, 6);
         
         add_edit_box.getChildren().add(add_edit_label);
         add_edit_box.getChildren().add(add_edit_input);
@@ -1524,37 +1530,47 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         recitation_details_box.setPadding(new Insets(10, 300, 10, 300));
         recitation_details_box.setStyle("-fx-background-color: #FDCE99;");
         
-        
         recitationTable.setOnMouseClicked(e->{
             controller.handleSelectedRecitation();
             add_edit_input.getChildren().remove(addRecitationButton);
-            add_edit_input.add(updateReciationButton, 0, 6);
+            add_edit_input.add(updateRecitationButton, 0, 6);
+            clearRecitationButton.setDisable(false);
             recitationTable.refresh();
         });
         
-        
         section_textField.setOnAction(e->{
             controller.handleAddRecitaiton();
+            clearRecitationButton.setDisable(false);
         });
         instructor_textField.setOnAction(e->{
             controller.handleAddRecitaiton();
+            clearRecitationButton.setDisable(false);
         });
         location_textField.setOnAction(e->{
             controller.handleAddRecitaiton();
+            clearRecitationButton.setDisable(false);
         });
         day_time_textField.setOnAction(e->{
             controller.handleAddRecitaiton();
+            clearRecitationButton.setDisable(false);
         });
         
         addRecitationButton.setOnAction(e->{
             controller.handleAddRecitaiton();
+            clearRecitationButton.setDisable(true);
             recitationTable.refresh();
         });
-        updateReciationButton.setOnAction(e->{
+        updateRecitationButton.setOnAction(e->{
             controller.handleUpdateRecitation();
+            clearRecitationButton.setDisable(true);
             recitationTable.refresh();
-            
-            
+        });
+        clearRecitationButton.setOnAction(e->{
+            controller.handleClearRecitation();
+            add_edit_input.getChildren().remove(addRecitationButton);
+            add_edit_input.getChildren().remove(updateRecitationButton);
+            add_edit_input.add(addRecitationButton, 0, 6);
+            clearRecitationButton.setDisable(true);
         });
         
         return recitation_details_box;
@@ -1612,8 +1628,8 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         return addRecitationButton;
     }
 
-    public Button getUpdateReciationButton() {
-        return updateReciationButton;
+    public Button getUpdateRecitationButton() {
+        return updateRecitationButton;
     }
 
     public Button getClearRecitationButton() {
@@ -1636,12 +1652,12 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     
     public VBox ScheduleDetailsPane(csgApp app, jTPS jtps, PropertiesManager props){
         schedule_details_box = new VBox();
+        scheduleItemsHeaderBox = new HBox();
         
         scheduleHeaderBox = new HBox();
         schedule_mainLabel = new Label(props.getProperty(csgProp.SCHEDULE_MAIN_LABEL.toString()));
         minimize_schedulesButton = new Button(props.getProperty(csgProp.MINIMIZE_BUTTON.toString()));
         scheduleHeaderBox.getChildren().add(schedule_mainLabel);
-        scheduleHeaderBox.getChildren().add(minimize_schedulesButton);
         
         finalCalBoundariesBox = new VBox();
         calendarBoundariesBox = new GridPane();
@@ -1715,7 +1731,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         scheduleTable.getColumns().add(title);
         scheduleTable.getColumns().add(topic);
         
-        scheduleTable.setMaxHeight(100);
+        scheduleTable.setMaxHeight(200);
         
         add_edit_schedule_box = new VBox();
         add_edit_label = new Label(props.getProperty(csgProp.ADD_EDIT_LABEL.toString()));
@@ -1729,19 +1745,23 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         
         plannedDate = new DatePicker();
        
-        type_textField = new TextField();
+        type_textField = new ComboBox();
+        ObservableList<String> typeOfScheduleList = FXCollections.observableArrayList();
+        typeOfScheduleList.addAll("Holiday","Homework","Lecture","Exam");
+        type_textField.setItems(typeOfScheduleList);
         time_textField = new TextField();
         title_textField = new TextField();
         topic_textField = new TextField();
         link_textField = new TextField();
         criteria_textField = new TextField();
         
-        
         addScheduleButton = new Button(props.getProperty(csgProp.ADD_BUTTON_TEXT.toString()));
         addScheduleButton.setPrefWidth(130);
         clearScheduleButton = new Button(props.getProperty(csgProp.CLEAR_BUTTON_TEXT.toString()));
         clearScheduleButton.setPrefWidth(130);
+        clearScheduleButton.setDisable(true);
         updateScheduleButton = new Button(props.getProperty(csgProp.UPDATE_BUTTON_TEXT.toString()));
+        updateScheduleButton.setPrefWidth(130);
         
         final_scheduleItemsBox = new VBox();
         GridPane add_edit_input_schedule = new GridPane();
@@ -1778,8 +1798,52 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         add_edit_input_schedule.add(addScheduleButton, 0, 8);
         add_edit_input_schedule.add(clearScheduleButton, 1, 8);
         
+        type_textField.setOnAction(e->{
+            data.setType_textField((String)type_textField.getValue());
+        });
+        time_textField.setOnKeyPressed(e->{
+            data.setTime_textField(time_textField.getText());
+        });
+        plannedDate.setOnAction(e->{
+            data.setPlannedDate(plannedDate.getValue().toString());
+            System.out.println(data.getPlannedDate());
+        });
+        title_textField.setOnKeyPressed(e->{
+            data.setTitle_textField(title_textField.getText());
+        });
+        topic_textField.setOnKeyPressed(e->{
+            data.setTopic_textField(topic_textField.getText());
+        });
+        link_textField.setOnKeyPressed(e->{
+            data.setLink_textField(link_textField.getText());
+        });
+        criteria_textField.setOnKeyPressed(e->{
+            data.setCriteria_textField(criteria_textField.getText());
+        });
+        addScheduleButton.setOnAction(e->{
+            controller.handleAddSchedule();
+            scheduleTable.refresh();
+        });
+        updateScheduleButton.setOnAction(e->{
+            controller.handleUpdateSchedule();
+            scheduleTable.refresh();
+        });
+        scheduleTable.setOnMouseClicked(e->{
+            controller.handleSelectedSchedule();
+            add_edit_input_schedule.getChildren().remove(addScheduleButton);
+            add_edit_input_schedule.add(updateScheduleButton, 0, 8);
+            clearScheduleButton.setDisable(false);
+            scheduleTable.refresh();
+        });
+        minimize_schedulesButton.setOnAction(e->{
+            controller.handleDeleteSchedule();
+        });
+        
+        
         scheduleItemsLabel = new Label(props.getProperty(csgProp.SCHEDULE_ITEMS_LABEL.toString()));
-        final_scheduleItemsBox.getChildren().add(scheduleItemsLabel);
+        scheduleItemsHeaderBox.getChildren().add(scheduleItemsLabel);
+        scheduleItemsHeaderBox.getChildren().add(minimize_schedulesButton);
+        final_scheduleItemsBox.getChildren().add(scheduleItemsHeaderBox);
         final_scheduleItemsBox.getChildren().add(scheduleTable);
         final_scheduleItemsBox.getChildren().add(add_edit_input_schedule);
         final_scheduleItemsBox.setPadding(new Insets(5, 5, 0, 5));
@@ -1909,7 +1973,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
             AddEditLabel = new Label(props.getProperty(csgProp.ADD_EDIT_LABEL));
                 addEditNameBox = new HBox();
                     nameTeamLabel = new Label("Name");
-                    TextField nameTeamField = new TextField();
+                   nameTeamField = new TextField();
                     addEditNameBox.getChildren().addAll(nameTeamLabel,nameTeamField);
                     addEditNameBox.setPadding(new Insets(5, 5, 5, 5));
                     addEditNameBox.setSpacing(50);
@@ -1919,18 +1983,18 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
                     colorLabel = new Label("Color");
                     textColorLabel = new Label("Text Color");
                     StackPane color1Pane  = new StackPane();
-                    Circle color1 = new Circle(50);
+                    color1 = new Circle(50);
                     //color1.setFill(Color.WHITE);
                     color1.setFill(Color.WHITE);
-                    TextField inputColor1Field = new TextField();
+                    inputColor1Field = new TextField();
                     inputColor1Field.setAlignment(Pos.CENTER);
                     inputColor1Field.setPrefWidth(40);
                     color1Pane.getChildren().add(color1);
                     color1Pane.getChildren().add(inputColor1Field);
                     StackPane color2Pane = new StackPane();
-                    Circle color2 = new Circle(50);
+                    color2 = new Circle(50);
                     color2.setFill(Color.WHITE);
-                    TextField inputColor2Field = new TextField();
+                    inputColor2Field = new TextField();
                     inputColor2Field.setAlignment(Pos.CENTER);
                     inputColor2Field.setPrefWidth(40);
                     color2Pane.getChildren().add(color2);
@@ -1971,6 +2035,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
                     projectLinkLabel = new Label("Link");
                     TextField linkField = new TextField();
                     addLinkButton = new Button("Add Team");
+                    updateLinkButton = new Button("Update Team");
                     clearLinkButton = new Button(props.getProperty(csgProp.CLEAR_BUTTON_TEXT.toString()));
                     linkBox.add(projectLinkLabel, 0, 0);
                     linkBox.add(linkField, 1, 0);
@@ -1983,6 +2048,42 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
             addEditTeamBox.getChildren().add(addEditNameBox);
             addEditTeamBox.getChildren().add(colorBox);
             addEditTeamBox.getChildren().add(linkBox);
+            
+            nameTeamField.setOnAction(e->{
+                data.setTeamNameField((String)nameTeamField.getText());
+            });
+            color1Pane.setOnMouseClicked(e->{
+                data.setColor((String)inputColor1Field.getText());
+            });
+            color2Pane.setOnMouseClicked(e->{
+                data.setColor((String)inputColor2Field.getText());
+            });
+            
+            teamTable.setOnMouseClicked(e->{
+                controller.handleSelectedTeam();
+                teamTable.refresh();
+                linkBox.getChildren().remove(addLinkButton);
+                linkBox.add(updateLinkButton, 0, 1);
+            });
+            
+            teamsMinimizeButton.setOnAction(e->{
+                controller.handleDeleteTeam();
+                teamTable.refresh();
+            });
+            
+            addLinkButton.setOnAction(e->{
+                controller.handleAddTeam();
+            });
+            clearLinkButton.setOnAction(e->{
+                controller.handleClearTeam();
+                linkBox.getChildren().remove(addLinkButton);
+                linkBox.getChildren().remove(updateLinkButton);
+                linkBox.add(addLinkButton, 0, 1);
+                clearLinkButton.setDisable(true);
+            });
+            
+            
+            
         
         teamsBox.getChildren().add(addEditTeamBox);
         ////////////////////////////////////////////////////////////
@@ -2073,6 +2174,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         projectDetailsBox.getChildren().add(projectHeaderBox);
         projectDetailsBox.getChildren().add(teamsBox);
         projectDetailsBox.getChildren().add(studentsBox);
+        projectDetailsBox.setSpacing(20);
        
         projectDetailsBox.setPrefWidth(700);
         finalprojectDetailsBox.setContent(projectDetailsBox);
@@ -2080,6 +2182,26 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         finalprojectDetailsBox.setStyle("-fx-background-color: #FDCE99");
         
         return finalprojectDetailsBox;
+    }
+
+    public Circle getColor1() {
+        return color1;
+    }
+
+    public Circle getColor2() {
+        return color2;
+    }
+
+    public TextField getInputColor1Field() {
+        return inputColor1Field;
+    }
+
+    public TextField getInputColor2Field() {
+        return inputColor2Field;
+    }
+
+    public TextField getNameTeamField() {
+        return nameTeamField;
     }
 
     public Label getAddEditStudentLabel() {
@@ -2194,7 +2316,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         return supervising_TA_textField;
     }
 
-    public TextField getType_textField() {
+    public ComboBox getType_textField() {
         return type_textField;
     }
 

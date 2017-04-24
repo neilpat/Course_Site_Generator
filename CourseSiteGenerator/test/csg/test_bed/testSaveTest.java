@@ -44,6 +44,9 @@ public class testSaveTest{
     static final String JSON_COURSE_NAME = "course_name";
     static final String JSON_COURSE_NUMBER = "course_number";
     
+    static final String JSON_SEMESTER = "sem";
+    static final String JSON_YEAR = "year";
+    
     static final String JSON_SITE_PAGE = "site_pages";
     static final String JSON_USE = "site_page_use";
     static final String JSON_NAV_BAR_TITLE = "nav_bar_title";
@@ -279,16 +282,17 @@ public class testSaveTest{
 	jsonReader.close();
 	is.close();
         
-        JsonArray getArray = json.getJsonArray(JSON_COURSES);
-
-        for(int i = 0; i < getArray.size(); i++)
-        {
-           JsonObject jsonSchedule = getArray.getJsonObject(i);
-            JsonObject jsonCourse = getArray.getJsonObject(i);
-            String course_name = jsonCourse.getString(JSON_COURSE_NAME);;
-            String course_number = jsonCourse.getString(JSON_COURSE_NUMBER);
-            assertEquals(course_name, ((TAData)dataManager).getCourses().get(i).getName());
-            assertEquals(course_number, ((TAData)dataManager).getCourses().get(i).getNumber());
-        }
+        String courseName = json.getString(JSON_COURSE_NAME);
+        String courseNumber = json.getString(JSON_COURSE_NUMBER);
+        String semester = json.getString(JSON_SEMESTER);
+        String year = json.getString(JSON_YEAR);
+        
+        assertEquals(courseName, ((TAData)dataManager).getCourseName());
+        assertEquals(courseNumber, ((TAData)dataManager).getCourseNumber());
+        assertEquals(semester, ((TAData)dataManager).getSemester());
+        assertEquals(year, ((TAData)dataManager).getYear());
+        
+        
+        
     }
 }

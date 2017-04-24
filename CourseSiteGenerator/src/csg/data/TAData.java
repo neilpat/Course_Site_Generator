@@ -4,7 +4,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import djf.components.AppDataComponent;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
@@ -15,12 +14,7 @@ import csg.csgApp;
 import csg.csgProp;
 import csg.transactions.Add_TA_Trans;
 import csg.transactions.OfficeHours_Grid_Trans;
-import csg.transactions.Remove_TA_Trans;
-import csg.transactions.Toggle_TAOfficeHours_Trans;
-import csg.transactions.Update_TA_Trans;
 import csg.workspace.CourseSiteWorkspace;
-import java.math.BigInteger;
-import javafx.beans.property.BooleanProperty;
 
 /**
  * This is the data component for TAManagerApp. It has all the data needed
@@ -83,6 +77,19 @@ public class TAData implements AppDataComponent {
     
     public String exportDirectoryPath;
     
+    public String type_textField;
+    public String time_textField;
+    public String plannedDate;
+    public String title_textField;
+    public String topic_textField;
+    public String link_textField;
+    public String criteria_textField;
+    
+    public String teamNameField;
+    public String color;
+    public String textColor;
+    
+    
     
     
 
@@ -109,21 +116,17 @@ public class TAData implements AppDataComponent {
         // THESE ARE THE DEFAULT OFFICE HOURS
         startHour = MIN_START_HOUR;
         endHour = MAX_END_HOUR;
-//        courseName = courses.get(0).getName();
-//        courseNumber = courses.get(0).getNumber();
-//        semester = semesters.get(0).getSemester();
-//        year = semesters.get(0).getYear();
         
         //THIS WILL STORE OUR OFFICE HOURS
         officeHours = new HashMap();
         
-         //THESE ARE THE LANGUAGE-DEPENDENT OFFICE HOURS GRID HEADERS
-        PropertiesManager props = PropertiesManager.getPropertiesManager();
-        ArrayList<String> timeHeaders = props.getPropertyOptionsList(csgProp.OFFICE_HOURS_TABLE_HEADERS);
-        ArrayList<String> dowHeaders = props.getPropertyOptionsList(csgProp.DAYS_OF_WEEK);
-        gridHeaders = new ArrayList();
-        gridHeaders.addAll(timeHeaders);
-        gridHeaders.addAll(dowHeaders);
+//         //THESE ARE THE LANGUAGE-DEPENDENT OFFICE HOURS GRID HEADERS
+//        PropertiesManager props = PropertiesManager.getPropertiesManager();
+//        ArrayList<String> timeHeaders = props.getPropertyOptionsList(csgProp.OFFICE_HOURS_TABLE_HEADERS);
+//        ArrayList<String> dowHeaders = props.getPropertyOptionsList(csgProp.DAYS_OF_WEEK);
+//        gridHeaders = new ArrayList();
+//        gridHeaders.addAll(timeHeaders);
+//        gridHeaders.addAll(dowHeaders);
     }
     
     /**
@@ -140,6 +143,94 @@ public class TAData implements AppDataComponent {
         pages.clear();
         recitaitons.clear();
         students.clear();
+    }
+    public  void buildGridHeaders(){
+          //THESE ARE THE LANGUAGE-DEPENDENT OFFICE HOURS GRID HEADERS
+        PropertiesManager props = PropertiesManager.getPropertiesManager();
+        ArrayList<String> timeHeaders = props.getPropertyOptionsList(csgProp.OFFICE_HOURS_TABLE_HEADERS);
+        ArrayList<String> dowHeaders = props.getPropertyOptionsList(csgProp.DAYS_OF_WEEK);
+        gridHeaders = new ArrayList();
+        gridHeaders.addAll(timeHeaders);
+        gridHeaders.addAll(dowHeaders);
+    }
+    public String getTeamNameField() {
+        return teamNameField;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public String getTextColor() {
+        return textColor;
+    }
+
+    public void setTeamNameField(String teamNameField) {
+        this.teamNameField = teamNameField;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public void setTextColor(String textColor) {
+        this.textColor = textColor;
+    }
+
+    public String getPlannedDate() {
+        return plannedDate;
+    }
+
+    public void setPlannedDate(String plannedDate) {
+        this.plannedDate = plannedDate;
+    }
+
+    public void setType_textField(String type_textField) {
+        this.type_textField = type_textField;
+    }
+
+    public void setTime_textField(String time_textField) {
+        this.time_textField = time_textField;
+    }
+
+    public void setTitle_textField(String title_textField) {
+        this.title_textField = title_textField;
+    }
+
+    public void setTopic_textField(String topic_textField) {
+        this.topic_textField = topic_textField;
+    }
+
+    public void setLink_textField(String link_textField) {
+        this.link_textField = link_textField;
+    }
+
+    public void setCriteria_textField(String criteria_textField) {
+        this.criteria_textField = criteria_textField;
+    }
+
+    public String getType_textField() {
+        return type_textField;
+    }
+
+    public String getTime_textField() {
+        return time_textField;
+    }
+
+    public String getTitle_textField() {
+        return title_textField;
+    }
+
+    public String getTopic_textField() {
+        return topic_textField;
+    }
+
+    public String getLink_textField() {
+        return link_textField;
+    }
+
+    public String getCriteria_textField() {
+        return criteria_textField;
     }
 
     public void setExportDirectoryPath(String exportDirectoryPath) {

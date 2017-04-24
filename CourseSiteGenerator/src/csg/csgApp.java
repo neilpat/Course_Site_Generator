@@ -40,6 +40,7 @@ public class csgApp extends AppTemplate {
             workspaceComponent = new CourseSiteWorkspace(this);
         } catch (IOException ex) {
         }
+        ((TAData)dataComponent).buildGridHeaders();
         fileComponent = new csgFiles(this);
         //fileComponent = new testSave(this);
         styleComponent = new CourseSiteStyle(this);

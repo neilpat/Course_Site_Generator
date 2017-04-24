@@ -214,7 +214,13 @@ public class AppFileController {
     // HELPER METHOD FOR SAVING WORK
     private void saveWork(File selectedFile) throws IOException {
 	// SAVE IT TO A FILE
+        
 	app.getFileComponent().saveData(app.getDataComponent(), selectedFile.getPath());
+        app.getFileComponent().saveOfficeHours(app.getDataComponent(), "../TAManagerTester/public_html/js/OfficeHoursGridData.json");
+        app.getFileComponent().saveRecitationData(app.getDataComponent(), "../TAManagerTester/public_html/js/RecitationsData.json");
+        app.getFileComponent().saveScheduleData(app.getDataComponent(), "../TAManagerTester/public_html/js/ScheduleData.json");
+        app.getFileComponent().saveTeamsData(app.getDataComponent(), "../TAManagerTester/public_html/js/TeamsAndStudents.json");
+        app.getFileComponent().saveProjectData(app.getDataComponent(), "../TAManagerTester/public_html/js/ProjectData.json");
 	
 	// MARK IT AS SAVED
 	currentWorkFile = selectedFile;
@@ -265,10 +271,18 @@ public class AppFileController {
                 AppWorkspaceComponent workspace = app.getWorkspaceComponent();
                 File fileName = new File("../TAManagerTester/public_html"); 
                 copy(fileName.getAbsolutePath(), selectedFile.getAbsolutePath());
-                File newDestination = new File(selectedFile.getAbsolutePath()+"/js/OfficeHoursGridData.json");
-                System.out.println(currentWorkFile.getAbsolutePath());
-                System.out.println(newDestination.getAbsolutePath());
-                Files.copy(currentWorkFile.toPath(), newDestination.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                File newDestination1 = new File(selectedFile.getAbsolutePath()+"/js/OfficeHoursGridData.json");
+                File newDestination2 = new File(selectedFile.getAbsolutePath()+"/js/TAsData.json");
+                File newDestination3 = new File(selectedFile.getAbsolutePath()+"/js/RecitationsData.json");
+                File newDestination4 = new File(selectedFile.getAbsolutePath()+"/js/ScheduleData.json");
+                File newDestination5 = new File(selectedFile.getAbsolutePath()+"/js/TeamsAndStudents.json");
+                File newDestination6 = new File(selectedFile.getAbsolutePath()+"/js/Projects.json");
+                Files.copy(currentWorkFile.toPath(), newDestination1.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                Files.copy(currentWorkFile.toPath(), newDestination2.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                Files.copy(currentWorkFile.toPath(), newDestination3.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                Files.copy(currentWorkFile.toPath(), newDestination4.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                Files.copy(currentWorkFile.toPath(), newDestination5.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                Files.copy(currentWorkFile.toPath(), newDestination6.toPath(), StandardCopyOption.REPLACE_EXISTING);
                 AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
     }
      public void copy(String oldPath, String newPath) { 
