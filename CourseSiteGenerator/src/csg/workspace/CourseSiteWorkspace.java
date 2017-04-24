@@ -114,7 +114,8 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     Label instructor_label;
     Label day_time_label;
     Label location_label;
-    Label supervising_TA_label;
+    Label supervising_TA_label1;
+    Label supervising_TA_label2;
     
     Label schedule_mainLabel;
     Label minimize_schedulesButtonLabel;
@@ -319,6 +320,11 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     String bannerFilePath;
     String leftFooterFilePath;
     String rightFooterFilePath;
+    Button minimizeTAButton;
+    ComboBox supervising_TA_ComboBox2;
+    ComboBox supervising_TA_ComboBox1;
+    private GridPane add_edit_input;
+    private Button updateRecitationButton;
     
     
     
@@ -359,8 +365,8 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         projectTab.setClosable(false);
         
         //add all the tabs to the tabPane
-        tabPane.getTabs().add(TADetailsTab);
         tabPane.getTabs().add(courseDetailsTab);
+        tabPane.getTabs().add(TADetailsTab);
         tabPane.getTabs().add(recitationTab);
         tabPane.getTabs().add(scheduleTab);
         tabPane.getTabs().add(projectTab);
@@ -380,9 +386,15 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     public SplitPane TADetailsPane(csgApp app, jTPS jtps, PropertiesManager props){
         // INIT THE HEADER ON THE LEFT
         tasHeaderBox = new HBox();
+        minimizeTAButton = new Button(props.getProperty(csgProp.MINIMIZE_BUTTON.toString()));
         String tasHeaderText = props.getProperty(csgProp.TAS_HEADER_TEXT.toString());
         tasHeaderLabel = new Label(tasHeaderText);
         tasHeaderBox.getChildren().add(tasHeaderLabel);
+        tasHeaderBox.getChildren().add(minimizeTAButton);
+        
+        minimizeTAButton.setOnAction(e->{
+            controller.handleDelteKey();
+        });
 
         // MAKE THE TABLE AND SETUP THE DATA MODEL
         taTable = new TableView();
@@ -1102,9 +1114,10 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         DirectoryBox.setPadding(new Insets(5, 300, 5, 0));
         
         selectDirectory.setOnMouseClicked(e->{
-            DirectoryChooser dc = new DirectoryChooser();
-            File file = dc.showDialog(app.getGUI().getWindow());
+            File file = controller.handleExportDirectoryChooser();
             exportDirectory.setText(file.toString());
+            data.setExportDirectoryPath(file.toString());
+            
         });
         
         courseInfoBox.setPadding(new Insets(5, 5, 5, 10));
@@ -1394,6 +1407,11 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         recitationHeaderBox.getChildren().add(recitation_mainLabel);
         recitationHeaderBox.getChildren().add(minimize_reciationsButton);
         
+        minimize_reciationsButton.setOnAction(e->{
+            controller.handleDelteRecitationKey();
+        });
+        
+        
         TAData data = (TAData) app.getDataComponent();
         
         recitations = FXCollections.observableArrayList();
@@ -1433,7 +1451,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         recitationTable.getColumns().add(location);
         recitationTable.getColumns().add(Table_TA1);
         recitationTable.getColumns().add(Table_TA2);
-        recitationTable.setMaxHeight(200);
+        recitationTable.setMaxHeight(400);
         
         
         add_edit_box = new VBox();
@@ -1442,20 +1460,26 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         instructor_label = new Label(props.getProperty(csgProp.INSTRUCTOR_LABEL.toString()));
         day_time_label = new Label(props.getProperty(csgProp.DAY_TIME_LABEL.toString()));
         location_label = new Label(props.getProperty(csgProp.LOCATION_LABEL.toString()));
-        supervising_TA_label = new Label(props.getProperty(csgProp.SUPERVISING_TA_LABEL.toString()));
+        supervising_TA_label1 = new Label(props.getProperty(csgProp.SUPERVISING_TA_LABEL.toString()));
+        supervising_TA_label2 = new Label(props.getProperty(csgProp.SUPERVISING_TA_LABEL.toString()));
         
-        section_textField = new TextField("R01");
-        instructor_textField = new TextField("McKenna");
-        day_time_textField = new TextField("Mon/Tue");
-        location_textField = new TextField("New CS");
-        supervising_TA_textField = new TextField("Andrew");
-        
-        addButton = new Button(props.getProperty(csgProp.ADD_BUTTON_TEXT.toString()));
-        addButton.setPrefWidth(130);
+        section_textField = new TextField();
+        instructor_textField = new TextField();
+        day_time_textField = new TextField();
+        location_textField = new TextField();
+        supervising_TA_ComboBox1 = new ComboBox();
+        supervising_TA_ComboBox1.setItems(data.getTeachingAssistants());
+        supervising_TA_ComboBox2 = new ComboBox();
+        supervising_TA_ComboBox2.setItems(data.getTeachingAssistants());
+         
+        addRecitationButton = new Button(props.getProperty(csgProp.ADD_RECITATION_BUTTON.toString()));
+        addRecitationButton.setPrefWidth(130);
+        updateRecitationButton = new Button(props.getProperty(csgProp.UPDATE_RECITATION_BUTTON.toString()));
+        updateRecitationButton.setPrefWidth(130);
         clearButton = new Button(props.getProperty(csgProp.CLEAR_BUTTON_TEXT.toString()));
         clearButton.setPrefWidth(130);
         
-        GridPane add_edit_input = new GridPane();
+        add_edit_input = new GridPane();
         RowConstraints rowHeight = new RowConstraints(35);
         ColumnConstraints columnWidth1 = new ColumnConstraints(150);
         ColumnConstraints columnWidth2 = new ColumnConstraints(250);
@@ -1477,17 +1501,19 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         add_edit_input.add(day_time_textField, 1, 2);
         add_edit_input.add(location_label, 0, 3);
         add_edit_input.add(location_textField, 1, 3);
-        add_edit_input.add(supervising_TA_label, 0, 4);
-        add_edit_input.add(supervising_TA_textField, 1, 4);
-        add_edit_input.add(addButton, 0, 5);
-        add_edit_input.add(clearButton, 1, 5);
+        add_edit_input.add(supervising_TA_label1, 0, 4);
+        add_edit_input.add(supervising_TA_ComboBox1, 1, 4);
+        add_edit_input.add(supervising_TA_label2, 0, 5);
+        add_edit_input.add(supervising_TA_ComboBox2, 1, 5);
+        add_edit_input.add(addRecitationButton, 0, 6);
+        add_edit_input.add(clearButton, 1, 6);
         
         add_edit_box.getChildren().add(add_edit_label);
         add_edit_box.getChildren().add(add_edit_input);
         add_edit_box.setPadding(new Insets(5, 0, 0, 5));
         
         recitationTable.prefWidthProperty().bind(recitation_details_box.widthProperty().multiply(.2));
-        recitationTable.prefHeightProperty().bind(recitation_details_box.heightProperty().multiply(.2));
+        recitationTable.prefHeightProperty().bind(recitation_details_box.heightProperty().multiply(.3));
         add_edit_box.prefWidthProperty().bind(recitation_details_box.widthProperty().multiply(.2));
         add_edit_box.prefHeightProperty().bind(recitation_details_box.heightProperty().multiply(.2));
         recitation_details_box.getChildren().add(recitationHeaderBox);
@@ -1499,8 +1525,48 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         recitation_details_box.setStyle("-fx-background-color: #FDCE99;");
         
         
+        recitationTable.setOnMouseClicked(e->{
+            controller.handleSelectedRecitation();
+            add_edit_input.getChildren().remove(addRecitationButton);
+            add_edit_input.add(updateReciationButton, 0, 6);
+            recitationTable.refresh();
+        });
+        
+        
+        section_textField.setOnAction(e->{
+            controller.handleAddRecitaiton();
+        });
+        instructor_textField.setOnAction(e->{
+            controller.handleAddRecitaiton();
+        });
+        location_textField.setOnAction(e->{
+            controller.handleAddRecitaiton();
+        });
+        day_time_textField.setOnAction(e->{
+            controller.handleAddRecitaiton();
+        });
+        
+        addRecitationButton.setOnAction(e->{
+            controller.handleAddRecitaiton();
+            recitationTable.refresh();
+        });
+        updateReciationButton.setOnAction(e->{
+            controller.handleUpdateRecitation();
+            recitationTable.refresh();
+            
+            
+        });
+        
         return recitation_details_box;
        
+    }
+
+    public ComboBox getSupervising_TA_ComboBox2() {
+        return supervising_TA_ComboBox2;
+    }
+
+    public ComboBox getSupervising_TA_ComboBox1() {
+        return supervising_TA_ComboBox1;
     }
 
     public Label getRecitation_mainLabel() {
@@ -1531,8 +1597,11 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         return location_label;
     }
 
-    public Label getSupervising_TA_label() {
-        return supervising_TA_label;
+    public Label getSupervising_TA_label1() {
+        return supervising_TA_label1;
+    }
+    public Label getSupervising_TA_label2() {
+        return supervising_TA_label2;
     }
 
     public VBox getAdd_edit_box() {

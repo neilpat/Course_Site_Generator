@@ -49,6 +49,30 @@ public class recitation {
     public String getTA2() {
         return TA2;
     }
+
+    public void setSection(String section) {
+        this.section = section;
+    }
+
+    public void setInstructor(String instructor) {
+        this.instructor = instructor;
+    }
+
+    public void setDay_time(String day_time) {
+        this.day_time = day_time;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setTA1(String TA1) {
+        this.TA1 = TA1;
+    }
+
+    public void setTA2(String TA2) {
+        this.TA2 = TA2;
+    }
     
     
 }

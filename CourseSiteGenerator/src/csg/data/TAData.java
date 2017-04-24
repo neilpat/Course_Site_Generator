@@ -81,6 +81,8 @@ public class TAData implements AppDataComponent {
     public String leftFootImageFilePath;
     public String rightFooterImageFilePath;
     
+    public String exportDirectoryPath;
+    
     
     
 
@@ -138,6 +140,14 @@ public class TAData implements AppDataComponent {
         pages.clear();
         recitaitons.clear();
         students.clear();
+    }
+
+    public void setExportDirectoryPath(String exportDirectoryPath) {
+        this.exportDirectoryPath = exportDirectoryPath;
+    }
+
+    public String getExportDirectoryPath() {
+        return exportDirectoryPath;
     }
     
     public String getBannerImageFilePath() {

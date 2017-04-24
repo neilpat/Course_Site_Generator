@@ -133,7 +133,8 @@ public class CourseSiteStyle extends AppStyleComponent {
         workspaceComponent.getInstructor_label().getStyleClass().add(REQUIRED_FIELD);
         workspaceComponent.getDay_time_label().getStyleClass().add(REQUIRED_FIELD);
         workspaceComponent.getLocation_label().getStyleClass().add(REQUIRED_FIELD);
-        workspaceComponent.getSupervising_TA_label().getStyleClass().add(REQUIRED_FIELD);
+        workspaceComponent.getSupervising_TA_label1().getStyleClass().add(REQUIRED_FIELD);
+        workspaceComponent.getSupervising_TA_label2().getStyleClass().add(REQUIRED_FIELD);
         
         //SCHEDULE
         workspaceComponent.getSchedule_mainLabel().getStyleClass().add(CLASS_HEADER_LABEL);

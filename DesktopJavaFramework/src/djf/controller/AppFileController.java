@@ -8,6 +8,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import properties_manager.PropertiesManager;
 import djf.AppTemplate;
+import djf.components.AppWorkspaceComponent;
 import static djf.settings.AppPropertyType.LOAD_ERROR_MESSAGE;
 import static djf.settings.AppPropertyType.LOAD_ERROR_TITLE;
 import static djf.settings.AppPropertyType.LOAD_WORK_TITLE;
@@ -260,8 +261,8 @@ public class AppFileController {
 	    DirectoryChooser fc = new DirectoryChooser();
 		fc.setInitialDirectory(new File(PATH_WORK));
 		fc.setTitle("EXPORT");
-		
 		File selectedFile = fc.showDialog(app.getGUI().getWindow());
+                AppWorkspaceComponent workspace = app.getWorkspaceComponent();
                 File fileName = new File("../TAManagerTester/public_html"); 
                 copy(fileName.getAbsolutePath(), selectedFile.getAbsolutePath());
                 File newDestination = new File(selectedFile.getAbsolutePath()+"/js/OfficeHoursGridData.json");

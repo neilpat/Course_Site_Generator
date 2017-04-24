@@ -16,6 +16,7 @@ import properties_manager.PropertiesManager;
 import csg.csgApp;
 import csg.data.TAData;
 import csg.data.TeachingAssistant;
+import csg.data.recitation;
 import csg.workspace.CourseSiteWorkspace;
 import static djf.settings.AppStartupConstants.PATH_WORK;
 import java.awt.image.BufferedImage;
@@ -24,6 +25,7 @@ import java.io.IOException;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javax.imageio.ImageIO;
@@ -353,5 +355,178 @@ public class CourseSiteController {
         
         String imagePath = selectedFile.getAbsolutePath();
         return  imagePath;
+    }
+    public File handleExportDirectoryChooser(){
+        String exportDirectory;
+        DirectoryChooser dc = new DirectoryChooser();
+        File file = dc.showDialog(app.getGUI().getWindow());
+        return file;
+    }
+    
+    public void handleDelteRecitationKey(){
+        CourseSiteWorkspace workspace = (CourseSiteWorkspace)app.getWorkspaceComponent();
+        TableView RecitationTable = workspace.getRecitationTable();
+        recitation focused = (recitation) RecitationTable.getFocusModel().getFocusedItem();
+        TAData dataComponent = (TAData)app.getDataComponent();
+        dataComponent.getRecitaitons().remove(focused);
+    }
+    public void handleSelectedRecitation(){
+        CourseSiteWorkspace workspace = (CourseSiteWorkspace)app.getWorkspaceComponent();
+        TableView recitaitonTable = workspace.getRecitationTable();
+        
+        // IS A TA SELECTED IN THE TABLE?
+        Object selectedItem = recitaitonTable.getSelectionModel().getSelectedItem();
+       
+        // GET THE TA
+        if(selectedItem!=null){
+            recitation rec = (recitation)selectedItem;
+            String section = rec.getSection();
+            String instructor = rec.getInstructor();
+            String day_time = rec.getDay_time();
+            String location = rec.getLocation();
+            String TA1 = rec.getTA1();
+            String TA2 = rec.getTA2();
+       
+        // set the name and email fields with the selected TA
+        
+            TextField sectionTextField = workspace.getSection_textField();
+            TextField instructorTextField = workspace.getInstructor_textField();
+            TextField locationTextField = workspace.getLocation_textField();
+            TextField dayTimeTextField = workspace.getDay_time_textField();
+            //TextField TA1TextField = workspace.get();
+            //TextField TA2TextField = workspace.getInstructor_textField();
+            
+            sectionTextField.setText(section);
+            instructorTextField.setText(instructor);
+            dayTimeTextField.setText(day_time);
+            locationTextField.setText(location);
+            //TA1TextField.setText(instructor);
+            //TA2TextField.setText(instructor);
+        }
+    }
+    public void handleAddRecitaiton(){
+        // WE'LL NEED THE WORKSPACE TO RETRIEVE THE USER INPUT VALUES
+        CourseSiteWorkspace workspace = (CourseSiteWorkspace)app.getWorkspaceComponent();
+        TextField sectionTextField = workspace.getSection_textField();
+        TextField instructorTextField = workspace.getInstructor_textField();
+        TextField locationTextField = workspace.getLocation_textField();
+        TextField dayTimeTextField = workspace.getDay_time_textField();
+        
+        
+        String section = sectionTextField.getText();
+        String instructor = instructorTextField.getText();
+        String day_time = dayTimeTextField.getText();
+        String location = locationTextField.getText();
+        String TA1 = (String)workspace.getSupervising_TA_ComboBox1().getValue();
+        if(TA1 == null || TA1.equals("")){
+            TA1 = "TBA";
+        }
+        String TA2 = (String)workspace.getSupervising_TA_ComboBox2().getValue();
+        if(TA2 == null  || TA2.equals("")){
+            TA2 = "TBA";
+        }
+        // WE'LL NEED TO ASKå THE DATA SOME QUESTIONS TOO
+        TAData data = (TAData)app.getDataComponent();
+        
+        // WE'LL NEED THIS IN CASE WE NEED TO DISPLAY ANY ERROR MESSAGES
+        PropertiesManager props = PropertiesManager.getPropertiesManager();
+        
+        if (section.isEmpty() || section.startsWith(" ")) {
+	    AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+	    dialog.show(props.getProperty(MISSING_SECTION_TITLE), props.getProperty(MISSING_SECTION_MESSAGE));            
+        }
+        // DID THE USER NEGLECT TO PROVIDE A TA EMAIL?
+        else if (instructor.isEmpty()|| instructor.startsWith(" ")) {
+	    AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+	    dialog.show(props.getProperty(MISSING_INSTRUCTOR_TITLE), props.getProperty(MISSING_INSTRUCTOR_MESSAGE));            
+        }
+        else if (location.isEmpty()|| location.startsWith(" ")) {
+	    AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+	    dialog.show(props.getProperty(MISSING_LOCATION_TITLE), props.getProperty(MISSING_LOCATION_MESSAGE));            
+        }
+        else if (day_time.isEmpty()|| day_time.startsWith(" ")) {
+	    AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+	    dialog.show(props.getProperty(MISSING_DAYTIME_TITLE), props.getProperty(MISSING_DAYTIME_MESSAGE));            
+        }
+        // EVERYTHING IS FINE, ADD A NEW TA
+        else {
+            // ADD THE NEW TA TO THE DATA
+            data.addRecitation(section, instructor, day_time, location, TA1, TA2);
+            
+            // CLEAR THE TEXT FIELDS
+            sectionTextField.setText("");
+            instructorTextField.setText("");
+            locationTextField.setText("");
+            dayTimeTextField.setText("");
+            workspace.getSupervising_TA_ComboBox1().setValue(null);
+            workspace.getSupervising_TA_ComboBox2().setValue(null);
+            
+            // AND SEND THE CARET BACK TO THE NAME TEXT FIELD FOR EASY DATA ENTRY
+            sectionTextField.requestFocus();
+            
+//            TeachingAssistant ta = data.getTA(name, email);
+//            jTPS_Transaction trans = new Add_TA_Trans(ta, data);
+//            workspace.getJTPS().addTransaction(trans);
+        }
+        app.getGUI().updateToolbarControls(false);
+        
+        AppFileController appFileController = app.getGUI().getAppfileController();
+        appFileController.markFileAsNotSaved();
+        appFileController.checkFile();
+        
+    }
+    public void handleUpdateRecitation(){
+        CourseSiteWorkspace workspace = (CourseSiteWorkspace)app.getWorkspaceComponent();
+        TableView recTable = workspace.getRecitationTable();
+        Object selectedItem = recTable.getSelectionModel().getSelectedItem();
+        // GET THE TA
+        recitation rec = (recitation)selectedItem;
+        
+        TextField sectionTextField = workspace.getSection_textField();
+        TextField instructorTextField = workspace.getInstructor_textField();
+        TextField locationTextField = workspace.getLocation_textField();
+        TextField dayTimeTextField = workspace.getDay_time_textField();
+        String section = sectionTextField.getText();
+        String instructor = instructorTextField.getText();
+        String day_time = dayTimeTextField.getText();
+        String location = locationTextField.getText();
+        
+        // WE'LL NEED TO ASK THE DATA SOME QUESTIONS TOO
+        TAData data = (TAData)app.getDataComponent();
+        
+        // WE'LL NEED THIS IN CASE WE NEED TO DISPLAY ANY ERROR MESSAGES
+        PropertiesManager props = PropertiesManager.getPropertiesManager();
+        if (section.isEmpty() || section.startsWith(" ")) {
+	    AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+	    dialog.show(props.getProperty(MISSING_SECTION_TITLE), props.getProperty(MISSING_SECTION_MESSAGE));            
+        }
+        // DID THE USER NEGLECT TO PROVIDE A TA EMAIL?
+        else if (instructor.isEmpty()|| instructor.startsWith(" ")) {
+	    AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+	    dialog.show(props.getProperty(MISSING_INSTRUCTOR_TITLE), props.getProperty(MISSING_INSTRUCTOR_MESSAGE));            
+        }
+        else if (location.isEmpty()|| location.startsWith(" ")) {
+	    AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+	    dialog.show(props.getProperty(MISSING_LOCATION_TITLE), props.getProperty(MISSING_LOCATION_MESSAGE));            
+        }
+        else if (day_time.isEmpty()|| day_time.startsWith(" ")) {
+	    AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+	    dialog.show(props.getProperty(MISSING_DAYTIME_TITLE), props.getProperty(MISSING_DAYTIME_MESSAGE));            
+        }
+        // EVERYTHING IS FINE, Change the TA
+        else {
+            // ADD THE NEW TA TO THE DATA
+           rec.setSection(section);
+           rec.setInstructor(instructor);
+           rec.setDay_time(day_time);
+           rec.setLocation(location);
+        
+//           jTPS_Transaction trans = new Update_TA_Trans(app,focused, dataComponent,orgName);
+//           workspace.getJTPS().addTransaction(trans);
+           
+           app.getGUI().updateToolbarControls(false);
+           AppFileController appFileController = app.getGUI().getAppfileController();
+           appFileController.markFileAsNotSaved();
+        }     
     }
 }

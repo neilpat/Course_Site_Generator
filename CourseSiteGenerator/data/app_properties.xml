@@ -131,6 +131,17 @@
         <property name = "ADD_RECITATION_BUTTON"        value="Add Recitation"></property>
         <property name = "CLEAR_RECITATION_BUTTON"      value="Clear"></property>
         <property name = "UPDATE_RECITATION_BUTTON"     value="Update Recitation"></property>
+        <property name="MISSING_SECTION_TITLE"          value="Missing Section"></property>
+        <property name="MISSING_SECTION_MESSAGE"        value="You must provide a Section"></property>
+        <property name="MISSING_INSTRUCTOR_TITLE"         value="Missing Instructor Name"></property>
+        <property name="MISSING_INSTRUCTOR_MESSAGE"       value="You must provide a Instructor Name"></property>
+        <property name="MISSING_LOCATION_TITLE"         value="Missing Location"></property>
+        <property name="MISSING_LOCATION_MESSAGE"       value="You must provide a Location"></property>
+        <property name="MISSING_DAYTIME_TITLE"         value="Missing Day and Time"></property>
+        <property name="MISSING_DAYTIME_MESSAGE"       value="You must provide a Day and Time"></property>
+        <property name="SECTION_NOT_UNIQUE_TITLE"     value="Recitaiton Section Not Unique"></property>
+        <property name="SECTION_NOT_UNIQUE_MESSAGE"   value="You must provide a unique Recitation Section"></property>
+
         
         <!--SCHEDULE DETAILS STUFF -->
         <property name = "SCHEDULE_MAIN_LABEL"          value="Schedule"></property>
