@@ -389,7 +389,8 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         ((BorderPane)workspace).setCenter(tabPane);
     }
     public SplitPane TADetailsPane(csgApp app, jTPS jtps, PropertiesManager props){
-        // INIT THE HEADER ON THE LEFT
+
+// INIT THE HEADER ON THE LEFT
         tasHeaderBox = new HBox();
         minimizeTAButton = new Button(props.getProperty(csgProp.MINIMIZE_BUTTON.toString()));
         String tasHeaderText = props.getProperty(csgProp.TAS_HEADER_TEXT.toString());
@@ -1651,6 +1652,8 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     
     
     public VBox ScheduleDetailsPane(csgApp app, jTPS jtps, PropertiesManager props){
+        TAData data = (TAData) app.getDataComponent();
+        
         schedule_details_box = new VBox();
         scheduleItemsHeaderBox = new HBox();
         
@@ -1689,6 +1692,11 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
                 startDateLabel.setText( props.getProperty(csgProp.STARTDATE_LABEL.toString())
                         +startDate.getValue().getDayOfWeek().toString());
             }
+            String date = startDate.getValue().toString();
+            String[] dateArray = date.split("-", 5);
+            data.setStartDay(dateArray[2]);
+            data.setStartMonth(dateArray[1]);
+            
             
         });
         endDate.setOnAction(e->{
@@ -1696,9 +1704,13 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
                 endDateLabel.setText( props.getProperty(csgProp.ENDDATE_LABEL.toString())
                         +endDate.getValue().getDayOfWeek().toString());
             }
+            String date = endDate.getValue().toString();
+            String[] dateArray = date.split("-", 5);
+            data.setEndDay(dateArray[2]);
+            data.setEndMonth(dateArray[1]);
         });
         
-        TAData data = (TAData) app.getDataComponent();
+        
         
         schedules = FXCollections.observableArrayList();
         schedules = data.getSchedules();
@@ -1747,7 +1759,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
        
         type_textField = new ComboBox();
         ObservableList<String> typeOfScheduleList = FXCollections.observableArrayList();
-        typeOfScheduleList.addAll("Holiday","Homework","Lecture","Exam");
+        typeOfScheduleList.addAll("holidays","hws","lecture","references","recitations");
         type_textField.setItems(typeOfScheduleList);
         time_textField = new TextField();
         title_textField = new TextField();
@@ -1831,6 +1843,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         scheduleTable.setOnMouseClicked(e->{
             controller.handleSelectedSchedule();
             add_edit_input_schedule.getChildren().remove(addScheduleButton);
+            add_edit_input_schedule.getChildren().remove(updateScheduleButton);
             add_edit_input_schedule.add(updateScheduleButton, 0, 8);
             clearScheduleButton.setDisable(false);
             scheduleTable.refresh();

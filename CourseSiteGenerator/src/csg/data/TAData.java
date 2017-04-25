@@ -89,6 +89,12 @@ public class TAData implements AppDataComponent {
     public String color;
     public String textColor;
     
+    public String startMonth;
+    public String startDay;
+    public String endMonth;
+    public String endDay;
+    
+    
     
     
     
@@ -153,6 +159,40 @@ public class TAData implements AppDataComponent {
         gridHeaders.addAll(timeHeaders);
         gridHeaders.addAll(dowHeaders);
     }
+
+    public String getStartMonth() {
+        return startMonth;
+    }
+
+    public String getStartDay() {
+        return startDay;
+    }
+
+    public String getEndMonth() {
+        return endMonth;
+    }
+
+    public String getEndDay() {
+        return endDay;
+    }
+
+    public void setStartMonth(String startMonth) {
+        this.startMonth = startMonth;
+    }
+
+    public void setStartDay(String startDay) {
+        this.startDay = startDay;
+    }
+
+    public void setEndMonth(String endMonth) {
+        this.endMonth = endMonth;
+    }
+
+    public void setEndDay(String endDay) {
+        this.endDay = endDay;
+    }
+
+    
     public String getTeamNameField() {
         return teamNameField;
     }
@@ -688,8 +728,8 @@ public class TAData implements AppDataComponent {
         return recitaitons;
     }
     
-    public void addSchedule(String type, String date, String title, String topic){
-        schedule sch = new schedule(type, date, title, topic);
+    public void addSchedule(String type, String date, String title, String topic, String link, String time,String criteria){
+        schedule sch = new schedule(type, date, title, topic, link, time,criteria);
         
         // ADD THE COURSE
        if(!containsSchedule(date)){

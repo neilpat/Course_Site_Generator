@@ -6,6 +6,8 @@
 package csg.data;
 
 import java.math.BigInteger;
+import java.time.LocalDate;
+import javafx.scene.control.DatePicker;
 
 /**
  *
@@ -16,12 +18,22 @@ public class schedule <E extends Comparable<E>> implements Comparable<E> {
     String date;
     String title;
     String topic;
+    String link;
+    String time;
+    String criteria;
 
-    public schedule(String type, String date, String title, String topic) {
+    public schedule(String type, String date, String title, String topic, String link, String time,String criteria) {
         this.type = type;
         this.date = date;
         this.title = title;
         this.topic = topic;
+        this.link = link;
+        this.time = time;
+        this.criteria = criteria;
+    }
+
+    public String getCriteria() {
+        return criteria;
     }
 
     public String getType() {
@@ -38,6 +50,13 @@ public class schedule <E extends Comparable<E>> implements Comparable<E> {
 
     public String getTopic() {
         return topic;
+    }
+    public String getLink(){
+        return link;
+    }
+
+    public String getTime() {
+        return time;
     }
 
     @Override

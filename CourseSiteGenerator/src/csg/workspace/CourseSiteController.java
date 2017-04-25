@@ -593,7 +593,7 @@ public class CourseSiteController {
         // EVERYTHING IS FINE, ADD A NEW TA
         else {
             // ADD THE NEW TA TO THE DATA
-            data.addSchedule(type, date, title, topic);
+            data.addSchedule(type, date, title, topic, link, time,criteria);
             
             // CLEAR THE TEXT FIELDS
             type_textField.setValue("");
@@ -627,7 +627,7 @@ public class CourseSiteController {
             String type = sch.getType();
             String title = sch.getTitle();
             String topic = sch.getTopic();
-            String date = sch.getDate();
+            //String date = sch.getDate();
         
             DatePicker plannedDate = workspace.getPlannedDate();
             TextField title_textField = workspace.getTitle_textField();

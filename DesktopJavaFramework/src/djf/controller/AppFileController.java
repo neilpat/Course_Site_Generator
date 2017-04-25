@@ -269,7 +269,7 @@ public class AppFileController {
 		fc.setTitle("EXPORT");
 		File selectedFile = fc.showDialog(app.getGUI().getWindow());
                 AppWorkspaceComponent workspace = app.getWorkspaceComponent();
-                File fileName = new File("../TAManagerTester/public_html"); 
+                File fileName = new File("../TAManagerTester/public_html/CSE219"); 
                 copy(fileName.getAbsolutePath(), selectedFile.getAbsolutePath());
                 File newDestination1 = new File(selectedFile.getAbsolutePath()+"/js/OfficeHoursGridData.json");
                 File newDestination2 = new File(selectedFile.getAbsolutePath()+"/js/TAsData.json");
@@ -283,6 +283,20 @@ public class AppFileController {
                 Files.copy(currentWorkFile.toPath(), newDestination4.toPath(), StandardCopyOption.REPLACE_EXISTING);
                 Files.copy(currentWorkFile.toPath(), newDestination5.toPath(), StandardCopyOption.REPLACE_EXISTING);
                 Files.copy(currentWorkFile.toPath(), newDestination6.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                File fileName2 = new File("../TAManagerTester/public_html/CSE308"); 
+                copy(fileName2.getAbsolutePath(), selectedFile.getAbsolutePath());
+                File newDestination7 = new File(selectedFile.getAbsolutePath()+"/js/OfficeHoursGridData.json");
+                File newDestination8 = new File(selectedFile.getAbsolutePath()+"/js/TAsData.json");
+                File newDestination9 = new File(selectedFile.getAbsolutePath()+"/js/RecitationsData.json");
+                File newDestination10 = new File(selectedFile.getAbsolutePath()+"/js/ScheduleData.json");
+                File newDestination11 = new File(selectedFile.getAbsolutePath()+"/js/TeamsAndStudents.json");
+                File newDestination12 = new File(selectedFile.getAbsolutePath()+"/js/Projects.json");
+                Files.copy(currentWorkFile.toPath(), newDestination7.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                Files.copy(currentWorkFile.toPath(), newDestination8.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                Files.copy(currentWorkFile.toPath(), newDestination9.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                Files.copy(currentWorkFile.toPath(), newDestination10.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                Files.copy(currentWorkFile.toPath(), newDestination11.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                Files.copy(currentWorkFile.toPath(), newDestination12.toPath(), StandardCopyOption.REPLACE_EXISTING);
                 AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
     }
      public void copy(String oldPath, String newPath) { 

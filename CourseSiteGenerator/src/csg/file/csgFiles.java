@@ -31,7 +31,11 @@ import csg.data.semesters;
 import csg.data.sitePage;
 import csg.data.student;
 import csg.data.team;
+import java.io.FileNotFoundException;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 
 /**
@@ -90,6 +94,20 @@ public class csgFiles implements AppFileComponent{
     static final String JSON_DATE = "date";
     static final String JSON_TITLE = "title";
     static final String JSON_TOPIC = "topic";
+    static final String JSON_START_MONTH = "startingMondayMonth";
+    static final String JSON_START_DAY = "startingMondayDay";
+    static final String JSON_END_MONTH = "endingFridayMonth";
+    static final String JSON_END_DAY = "endingFridayDay";
+    static final String JSON_HOLIDAYS = "holidays";
+    static final String JSON_LECTURES = "lectures";
+    static final String JSON_REFERENCES = "references";
+    static final String JSON_RECITATIONS = "recitations";
+    static final String JSON_REC_RECITATIONS = "rec_recitations";
+    static final String JSON_SCH_RECITATIONS = "sch_recitations";
+    static final String JSON_HWS = "hws";
+    static final String JSON_MONTH = "month";
+    static final String JSON_CRITERIA = "criteria";
+    
     
     static final String JSON_TEAM = "teams";
     static final String JSON_TEAM_NAME = "name";
@@ -182,9 +200,9 @@ public class csgFiles implements AppFileComponent{
         }
         
          // NOW LOAD ALL THE RECITATIONS
-        JsonArray jsonRecitationArray = json.getJsonArray(JSON_RECITATION);
-        for (int i = 0; i < jsonRecitationArray.size(); i++) {
-            JsonObject jsonRecitation = jsonRecitationArray.getJsonObject(i);
+        JsonArray jsonRecRecitationArray = json.getJsonArray(JSON_REC_RECITATIONS);
+        for (int i = 0; i < jsonRecRecitationArray.size(); i++) {
+            JsonObject jsonRecitation = jsonRecRecitationArray.getJsonObject(i);
             String section = jsonRecitation.getString(JSON_SECTION);
             String instructor = jsonRecitation.getString(JSON_INSTUCTOR);
             String day_time = jsonRecitation.getString(JSON_DAY_TIME);
@@ -195,14 +213,69 @@ public class csgFiles implements AppFileComponent{
         }
         
         // NOW LOAD ALL THE SCHEDULES
-        JsonArray jsonScheduleArray = json.getJsonArray(JSON_SCHEDULE);
-        for (int i = 0; i < jsonScheduleArray.size(); i++) {
-            JsonObject jsonSchedule = jsonScheduleArray.getJsonObject(i);
-            String type = jsonSchedule.getString(JSON_TYPE);
-            String date = jsonSchedule.getString(JSON_DATE);
-            String title = jsonSchedule.getString(JSON_TITLE);
-            String topic = jsonSchedule.getString(JSON_TOPIC);
-            dataManager.addSchedule(type, date, title, topic);
+        JsonArray jsonHolidayArray = json.getJsonArray(JSON_HOLIDAYS);
+        for (int i = 0; i < jsonHolidayArray.size(); i++) {
+            JsonObject jsonHoliday = jsonHolidayArray.getJsonObject(i);
+            //String type = jsonHoliday.getString(JSON_TYPE);
+            String month = jsonHoliday.getString(JSON_MONTH);
+            String day = jsonHoliday.getString(JSON_DAY);
+            String title = jsonHoliday.getString(JSON_TITLE);
+            String link = jsonHoliday.getString(JSON_LINK);
+            
+            String date = "2017-"+month+"-"+day;
+            dataManager.addSchedule(JSON_HOLIDAYS, date, title, "", link, "","");
+        }
+        JsonArray jsonLectureArray = json.getJsonArray(JSON_LECTURES);
+        for (int i = 0; i < jsonLectureArray.size(); i++) {
+            JsonObject jsonLecture = jsonLectureArray.getJsonObject(i);
+            //String type = jsonLecture.getString(JSON_TYPE);
+            String month = jsonLecture.getString(JSON_MONTH);
+            String day = jsonLecture.getString(JSON_DAY);
+            String title = jsonLecture.getString(JSON_TITLE);
+            String topic = jsonLecture.getString(JSON_TOPIC);
+            
+            String date = "2017-"+month+"-"+day;
+            dataManager.addSchedule(JSON_LECTURES, date, title, topic, "", "","");
+        }
+        JsonArray jsonReferencesArray = json.getJsonArray(JSON_REFERENCES);
+        for (int i = 0; i < jsonReferencesArray.size(); i++) {
+            JsonObject jsonReferences = jsonReferencesArray.getJsonObject(i);
+            //String type = jsonReferences.getString(JSON_TYPE);
+             String month = jsonReferences.getString(JSON_MONTH);
+            String day = jsonReferences.getString(JSON_DAY);
+            String title = jsonReferences.getString(JSON_TITLE);
+            String link = jsonReferences.getString(JSON_LINK);
+            String topic = jsonReferences.getString(JSON_TOPIC);
+            
+            String date = "2017-"+month+"-"+day;
+            dataManager.addSchedule(JSON_REFERENCES, date, title, topic, link, "","");
+        }
+        JsonArray jsonSchRecitationsArray = json.getJsonArray(JSON_SCH_RECITATIONS);
+        for (int i = 0; i < jsonSchRecitationsArray.size(); i++) {
+            JsonObject jsonSchRecitations = jsonSchRecitationsArray.getJsonObject(i);
+            //String type = jsonSchRecitations.getString(JSON_TYPE);
+            String month = jsonSchRecitations.getString(JSON_MONTH);
+            String day = jsonSchRecitations.getString(JSON_DAY);
+            String title = jsonSchRecitations.getString(JSON_TITLE);
+            String topic = jsonSchRecitations.getString(JSON_TOPIC);
+            
+            String date = "2017-"+month+"-"+day;
+            dataManager.addSchedule(JSON_SCH_RECITATIONS, date, title, topic, "", "","");
+        }
+        JsonArray jsonHWsArray = json.getJsonArray(JSON_HWS);
+        for (int i = 0; i < jsonHWsArray.size(); i++) {
+            JsonObject jsonHws = jsonHWsArray.getJsonObject(i);
+            //String type = jsonHws.getString(JSON_TYPE);
+            String month = jsonHws.getString(JSON_MONTH);
+            String day = jsonHws.getString(JSON_DAY);
+            String title = jsonHws.getString(JSON_TITLE);
+            String link = jsonHws.getString(JSON_LINK);
+            String topic = jsonHws.getString(JSON_TOPIC);
+            //String time = jsonHws.getString(JSON_TIME);
+            String criteria = jsonHws.getString(JSON_CRITERIA);
+            
+            String date = "2017-"+month+"-"+day;
+            dataManager.addSchedule(JSON_HWS, date, title, topic, link, "",criteria);
         }
         
          // NOW LOAD ALL THE TEAMS
@@ -267,6 +340,34 @@ public class csgFiles implements AppFileComponent{
         JsonObject dataManagerJSO = Json.createObjectBuilder()
 		.add(JSON_UNDERGRAD_TAS, undergradTAsArray)
                 .add(JSON_OFFICE_HOURS, timeSlotsArray).build();
+        
+        Map<String, Object> properties = new HashMap<>(1);
+	properties.put(JsonGenerator.PRETTY_PRINTING, true);
+	JsonWriterFactory writerFactory = Json.createWriterFactory(properties);
+	StringWriter sw = new StringWriter();
+	JsonWriter jsonWriter = writerFactory.createWriter(sw);
+	jsonWriter.writeObject(dataManagerJSO);
+	jsonWriter.close();
+
+	// INIT THE WRITER
+	OutputStream os = null;
+        try {
+            os = new FileOutputStream(filePath);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(csgFiles.class.getName()).log(Level.SEVERE, null, ex);
+        }
+	JsonWriter jsonFileWriter = Json.createWriter(os);
+	jsonFileWriter.writeObject(dataManagerJSO);
+	String prettyPrinted = sw.toString();
+	PrintWriter pw = null;
+        try {
+            pw = new PrintWriter(filePath);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(csgFiles.class.getName()).log(Level.SEVERE, null, ex);
+        }
+	pw.write(prettyPrinted);
+	pw.close();
+        
     }
     public void saveRecitationData(AppDataComponent data, String filePath){
         TAData dataManager = (TAData)data;
@@ -289,26 +390,138 @@ public class csgFiles implements AppFileComponent{
         
         JsonObject dataManagerJSO = Json.createObjectBuilder()
 		.add(JSON_RECITATION, recitationArray).build();
+        
+        Map<String, Object> properties = new HashMap<>(1);
+	properties.put(JsonGenerator.PRETTY_PRINTING, true);
+	JsonWriterFactory writerFactory = Json.createWriterFactory(properties);
+	StringWriter sw = new StringWriter();
+	JsonWriter jsonWriter = writerFactory.createWriter(sw);
+	jsonWriter.writeObject(dataManagerJSO);
+	jsonWriter.close();
+
+	// INIT THE WRITER
+	OutputStream os = null;
+        try {
+            os = new FileOutputStream(filePath);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(csgFiles.class.getName()).log(Level.SEVERE, null, ex);
+        }
+	JsonWriter jsonFileWriter = Json.createWriter(os);
+	jsonFileWriter.writeObject(dataManagerJSO);
+	String prettyPrinted = sw.toString();
+	PrintWriter pw = null;
+        try {
+            pw = new PrintWriter(filePath);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(csgFiles.class.getName()).log(Level.SEVERE, null, ex);
+        }
+	pw.write(prettyPrinted);
+	pw.close();
     }
     public void saveScheduleData(AppDataComponent data, String filePath){
         TAData dataManager = (TAData)data;
         
-        JsonArrayBuilder scheduleBuilder = Json.createArrayBuilder();
+        JsonArrayBuilder holidayBuilder = Json.createArrayBuilder();
+        JsonArrayBuilder lecturesBuilder = Json.createArrayBuilder();
+        JsonArrayBuilder referencesBuilder = Json.createArrayBuilder();
+        JsonArrayBuilder recitationsBuilder = Json.createArrayBuilder();
+        JsonArrayBuilder hwsBuilder = Json.createArrayBuilder();
         
 	ObservableList<schedule> schedules = dataManager.getSchedules();
-	for (schedule sh : schedules) {	    
-	    JsonObject scheduleJson = Json.createObjectBuilder()
-                    .add("type", sh.getType())
-                    .add("date",sh.getDate())
-                    .add("title", sh.getTitle())
-                    .add("topic",sh.getTopic()).build();
-                    
-	    scheduleBuilder.add(scheduleJson);
-	}
-	JsonArray scheduleArray = scheduleBuilder.build();
-        
+	for (schedule sh : schedules) {	 
+            if(sh.getType().equals("holidays")){
+                String[] date = sh.getDate().split("-",5);
+                JsonObject holidaysJson = Json.createObjectBuilder()
+                    .add(JSON_MONTH, date[1])
+                    .add(JSON_DAY, date[2])
+                    .add(JSON_TITLE, sh.getTitle())
+                    .add(JSON_LINK, sh.getLink()).build();
+                
+                holidayBuilder.add(holidaysJson);
+            }
+            if(sh.getType().equals("lectures")){
+                String[] date = sh.getDate().split("-",5);
+                JsonObject lecturesJson = Json.createObjectBuilder()
+                    .add(JSON_MONTH, date[1])
+                    .add(JSON_DAY, date[2])
+                    .add(JSON_TITLE, sh.getTitle())
+                    .add(JSON_TOPIC, sh.getTopic())
+                    .add(JSON_LINK, sh.getLink()).build();
+                
+                lecturesBuilder.add(lecturesJson);
+            }
+            if(sh.getType().equals("references")){
+                String[] date = sh.getDate().split("-",5);
+                JsonObject referencesJson = Json.createObjectBuilder()
+                    .add(JSON_MONTH, date[1])
+                    .add(JSON_DAY, date[2])
+                    .add(JSON_TITLE, sh.getTitle())
+                    .add(JSON_TOPIC, sh.getTopic())
+                    .add(JSON_LINK, sh.getLink()).build();
+                
+                referencesBuilder.add(referencesJson);
+            }
+            if(sh.getType().equals("recitations")){
+                String[] date = sh.getDate().split("-",5);
+                JsonObject recitaionsJson = Json.createObjectBuilder()
+                    .add(JSON_MONTH, date[1])
+                    .add(JSON_DAY, date[2])
+                    .add(JSON_TITLE, sh.getTitle())
+                    .add(JSON_TOPIC, sh.getTopic()).build();
+                
+                recitationsBuilder.add(recitationsBuilder);
+            }
+            if(sh.getType().equals("hws")){
+                String[] date = sh.getDate().split("-",5);
+                JsonObject hwsJson = Json.createObjectBuilder()
+                    .add(JSON_MONTH, date[1])
+                    .add(JSON_DAY, date[2])
+                    .add(JSON_TITLE, sh.getTitle())
+                    .add(JSON_TOPIC, sh.getTopic())
+                    .add(JSON_LINK, sh.getLink())
+                    .add(JSON_TIME, sh.getTime())
+                    .add(JSON_CRITERIA, sh.getCriteria()).build();
+                
+                hwsBuilder.add(hwsJson);
+            }
+        }
         JsonObject dataManagerJSO = Json.createObjectBuilder()
-		.add(JSON_SCHEDULE, scheduleArray).build();
+		.add(JSON_START_MONTH, dataManager.getStartMonth())
+                .add(JSON_START_DAY, dataManager.getStartDay())
+                .add(JSON_END_DAY, dataManager.getEndDay())
+                .add(JSON_END_MONTH, dataManager.getEndMonth())
+                .add(JSON_HOLIDAYS, holidayBuilder)
+                .add(JSON_LECTURES, lecturesBuilder)
+                .add(JSON_REFERENCES, referencesBuilder)
+                .add(JSON_RECITATIONS, recitationsBuilder)
+                .add(JSON_HWS, hwsBuilder).build();
+        
+        Map<String, Object> properties = new HashMap<>(1);
+	properties.put(JsonGenerator.PRETTY_PRINTING, true);
+	JsonWriterFactory writerFactory = Json.createWriterFactory(properties);
+	StringWriter sw = new StringWriter();
+	JsonWriter jsonWriter = writerFactory.createWriter(sw);
+	jsonWriter.writeObject(dataManagerJSO);
+	jsonWriter.close();
+
+	// INIT THE WRITER
+	OutputStream os = null;
+        try {
+            os = new FileOutputStream(filePath);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(csgFiles.class.getName()).log(Level.SEVERE, null, ex);
+        }
+	JsonWriter jsonFileWriter = Json.createWriter(os);
+	jsonFileWriter.writeObject(dataManagerJSO);
+	String prettyPrinted = sw.toString();
+	PrintWriter pw = null;
+        try {
+            pw = new PrintWriter(filePath);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(csgFiles.class.getName()).log(Level.SEVERE, null, ex);
+        }
+	pw.write(prettyPrinted);
+	pw.close();
     }
     public void saveTeamsData(AppDataComponent data, String filePath){
         TAData dataManager = (TAData)data;
@@ -329,9 +542,38 @@ public class csgFiles implements AppFileComponent{
         
         JsonObject dataManagerJSO = Json.createObjectBuilder()
 		.add(JSON_TEAM, teamArray).build();
+        
+        Map<String, Object> properties = new HashMap<>(1);
+	properties.put(JsonGenerator.PRETTY_PRINTING, true);
+	JsonWriterFactory writerFactory = Json.createWriterFactory(properties);
+	StringWriter sw = new StringWriter();
+	JsonWriter jsonWriter = writerFactory.createWriter(sw);
+	jsonWriter.writeObject(dataManagerJSO);
+	jsonWriter.close();
+
+	// INIT THE WRITER
+	OutputStream os = null;
+        try {
+            os = new FileOutputStream(filePath);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(csgFiles.class.getName()).log(Level.SEVERE, null, ex);
+        }
+	JsonWriter jsonFileWriter = Json.createWriter(os);
+	jsonFileWriter.writeObject(dataManagerJSO);
+	String prettyPrinted = sw.toString();
+	PrintWriter pw = null;
+        try {
+            pw = new PrintWriter(filePath);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(csgFiles.class.getName()).log(Level.SEVERE, null, ex);
+        }
+	pw.write(prettyPrinted);
+	pw.close();
     }
     public void saveProjectData(AppDataComponent data, String filePath){
         TAData dataManager = (TAData)data;
+        
+        
     }
     public void saveData(AppDataComponent data, String filePath) throws IOException {
 	// GET THE DATA
@@ -395,19 +637,88 @@ public class csgFiles implements AppFileComponent{
 	JsonArray recitationArray = recitationBuilder.build();
         
         //FOR THE SCHEDULE ITEMS TABLE
-        JsonArrayBuilder scheduleBuilder = Json.createArrayBuilder();
+        JsonArrayBuilder holidayBuilder = Json.createArrayBuilder();
+        JsonArrayBuilder lecturesBuilder = Json.createArrayBuilder();
+        JsonArrayBuilder referencesBuilder = Json.createArrayBuilder();
+        JsonArrayBuilder recitationsBuilder = Json.createArrayBuilder();
+        JsonArrayBuilder hwsBuilder = Json.createArrayBuilder();
+        
+         JsonArray holidayArray = null;
+         JsonArray lectureArray = null;
+         JsonArray referencesArray = null;
+         JsonArray schRecitationArray = null;
+         JsonArray hwsArray = null;
         
 	ObservableList<schedule> schedules = dataManager.getSchedules();
-	for (schedule sh : schedules) {	    
-	    JsonObject scheduleJson = Json.createObjectBuilder()
-                    .add("type", sh.getType())
-                    .add("date",sh.getDate())
-                    .add("title", sh.getTitle())
-                    .add("topic",sh.getTopic()).build();
-                    
-	    scheduleBuilder.add(scheduleJson);
-	}
-	JsonArray scheduleArray = scheduleBuilder.build();
+	for (schedule sh : schedules) {	 
+            if(sh.getType().equals("holidays")){
+                String[] date = sh.getDate().split("-",5);
+                JsonObject holidaysJson = Json.createObjectBuilder()
+                    .add(JSON_MONTH, date[1])
+                    .add(JSON_DAY, date[2])
+                    .add(JSON_TITLE, sh.getTitle())
+                    .add(JSON_LINK, sh.getLink()).build();
+                
+                holidayBuilder.add(holidaysJson);
+            }
+            
+            
+            if(sh.getType().equals("lectures")){
+                String[] date = sh.getDate().split("-",5);
+                JsonObject lecturesJson = Json.createObjectBuilder()
+                    .add(JSON_MONTH, date[1])
+                    .add(JSON_DAY, date[2])
+                    .add(JSON_TITLE, sh.getTitle())
+                    .add(JSON_TOPIC, sh.getTopic())
+                    .add(JSON_LINK, sh.getLink()).build();
+                
+                lecturesBuilder.add(lecturesJson);
+            }
+            
+            
+            if(sh.getType().equals("references")){
+                String[] date = sh.getDate().split("-",5);
+                JsonObject referencesJson = Json.createObjectBuilder()
+                    .add(JSON_MONTH, date[1])
+                    .add(JSON_DAY, date[2])
+                    .add(JSON_TITLE, sh.getTitle())
+                    .add(JSON_TOPIC, sh.getTopic())
+                    .add(JSON_LINK, sh.getLink()).build();
+                
+                referencesBuilder.add(referencesJson);
+            }
+            
+            
+            if(sh.getType().equals("recitations")){
+                String[] date = sh.getDate().split("-",5);
+                JsonObject recitaionsJson = Json.createObjectBuilder()
+                    .add(JSON_MONTH, date[1])
+                    .add(JSON_DAY, date[2])
+                    .add(JSON_TITLE, sh.getTitle())
+                    .add(JSON_TOPIC, sh.getTopic()).build();
+                
+                recitationsBuilder.add(recitationsBuilder);
+            }
+            
+            
+            if(sh.getType().equals("hws")){
+                String[] date = sh.getDate().split("-",5);
+                JsonObject hwsJson = Json.createObjectBuilder()
+                    .add(JSON_MONTH, date[1])
+                    .add(JSON_DAY, date[2])
+                    .add(JSON_TITLE, sh.getTitle())
+                    .add(JSON_TOPIC, sh.getTopic())
+                    .add(JSON_LINK, sh.getLink()).build();
+                
+                hwsBuilder.add(hwsJson);
+            }
+            
+        }
+        holidayArray = holidayBuilder.build();
+        lectureArray = lecturesBuilder.build();
+        referencesArray = referencesBuilder.build();
+        schRecitationArray = recitationsBuilder.build();
+        hwsArray = hwsBuilder.build(); 
         
         //FOR THE TEAM TABLE
         JsonArrayBuilder teamBuilder = Json.createArrayBuilder();
@@ -435,9 +746,9 @@ public class csgFiles implements AppFileComponent{
                     .add(JSON_ASSIGNED_TEAM, st.getTeam())
                     .add(JSON_ROLE,st.getRole()).build();
                     
-	    teamBuilder.add(studentJson);
+	    studentBuilder.add(studentJson);
 	}
-	JsonArray studentArray = teamBuilder.build();
+	JsonArray studentArray = studentBuilder.build();
         
 	// THEN PUT IT ALL TOGETHER IN A JsonObject
 	JsonObject dataManagerJSO = Json.createObjectBuilder()
@@ -456,8 +767,12 @@ public class csgFiles implements AppFileComponent{
                 .add(JSON_UNDERGRAD_TAS, undergradTAsArray)
                 .add(JSON_OFFICE_HOURS, timeSlotsArray)
                 .add(JSON_SITE_PAGE, sitePageArray)
-                .add(JSON_RECITATION, recitationArray)
-                .add(JSON_SCHEDULE, scheduleArray)
+                .add(JSON_REC_RECITATIONS, recitationArray)
+                .add(JSON_HOLIDAYS, holidayArray )
+                .add(JSON_LECTURES, lectureArray)
+                .add(JSON_REFERENCES, referencesArray)
+                .add(JSON_SCH_RECITATIONS, schRecitationArray )
+                .add(JSON_HWS, hwsArray)
                 .add(JSON_TEAM, teamArray)
                 .add(JSON_STUDENT, studentArray)
 		.build();

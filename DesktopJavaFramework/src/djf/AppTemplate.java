@@ -100,7 +100,8 @@ public abstract class AppTemplate extends Application {
             ButtonType english = new ButtonType("English");
             ButtonType french = new ButtonType("French");
             Alert alert = new Alert(Alert.AlertType.NONE, "Please Choose A Language", english, french, ButtonType.CANCEL);
-        alert.showAndWait();
+            alert.setTitle("Choose Language");
+            alert.showAndWait();
         boolean success;
         if (alert.getResult() == english) {
             success = loadProperties(APP_PROPERTIES_FILE_NAME);

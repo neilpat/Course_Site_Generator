@@ -31,6 +31,7 @@ import csg.data.sitePage;
 import csg.data.student;
 import csg.data.team;
 import csg.file.TimeSlot;
+import java.time.LocalDate;
 import javafx.collections.FXCollections;
 
 /**
@@ -45,7 +46,7 @@ public class testSave implements AppFileComponent{
     csgApp app;
     
     // THESE ARE USED FOR IDENTIFYING JSON TYPES
-    static final String JSON_START_HOUR = "startHour";
+   static final String JSON_START_HOUR = "startHour";
     static final String JSON_END_HOUR = "endHour";
     static final String JSON_OFFICE_HOURS = "officeHours";
     static final String JSON_DAY = "day";
@@ -81,24 +82,39 @@ public class testSave implements AppFileComponent{
     static final String JSON_INSTUCTOR = "instructor";
     static final String JSON_DAY_TIME = "day_time";
     static final String JSON_LOCATION = "location";
-    static final String JSON_TA1 = "TA1";
-    static final String JSON_TA2 = "TA2";
+    static final String JSON_TA1 = "ta_1";
+    static final String JSON_TA2 = "ta_2";
     
     static final String JSON_SCHEDULE = "schedules";
     static final String JSON_TYPE = "type";
     static final String JSON_DATE = "date";
     static final String JSON_TITLE = "title";
     static final String JSON_TOPIC = "topic";
+    static final String JSON_START_MONTH = "startingMondayMonth";
+    static final String JSON_START_DAY = "startingMondayDay";
+    static final String JSON_END_MONTH = "endingFridayMonth";
+    static final String JSON_END_DAY = "endingFridayDay";
+    static final String JSON_HOLIDAYS = "holidays";
+    static final String JSON_LECTURES = "lectures";
+    static final String JSON_REFERENCES = "references";
+    static final String JSON_RECITATIONS = "recitations";
+    static final String JSON_REC_RECITATIONS = "rec_recitations";
+    static final String JSON_SCH_RECITATIONS = "sch_recitations";
+    static final String JSON_HWS = "hws";
+    static final String JSON_MONTH = "month";
+    static final String JSON_CRITERIA = "criteria";
+    
     
     static final String JSON_TEAM = "teams";
+    static final String JSON_TEAM_NAME = "name";
     static final String JSON_COLOR = "color";
     static final String JSON_TEXT_COLOR = "text_color";
     static final String JSON_LINK = "link";
     
     static final String JSON_STUDENT = "students";
-    static final String JSON_FIRST_NAME = "first_name";
-    static final String JSON_LAST_NAME = "last_name";
-    static final String JSON_ASSIGNED_TEAM = "assigned_team";
+    static final String JSON_FIRST_NAME = "firstName";
+    static final String JSON_LAST_NAME = "lastName";
+    static final String JSON_ASSIGNED_TEAM = "team";
     static final String JSON_ROLE = "role";
     
     public testSave(csgApp initApp) {
@@ -116,10 +132,10 @@ public class testSave implements AppFileComponent{
 	// LOAD THE START AND END HOURS
 	String startHour = json.getString(JSON_START_HOUR);
         String endHour = json.getString(JSON_END_HOUR);
-        
+//        dataManager.initHours(startHour, endHour);
 
         // NOW RELOAD THE WORKSPACE WITH THE LOADED DATA
-       
+//        app.getWorkspaceComponent().reloadWorkspace(app.getDataComponent());
 
         // ADD THE COURSE NAME AND NUMBER SEMESTER AND YEAR
         
@@ -165,6 +181,7 @@ public class testSave implements AppFileComponent{
             String day = jsonOfficeHours.getString(JSON_DAY);
             String time = jsonOfficeHours.getString(JSON_TIME);
             String name = jsonOfficeHours.getString(JSON_NAME);
+//            dataManager.addOfficeHoursReservation(day, time, name);
         }
         
         // NOW LOAD ALL THE SITE PAGES
@@ -179,9 +196,9 @@ public class testSave implements AppFileComponent{
         }
         
          // NOW LOAD ALL THE RECITATIONS
-        JsonArray jsonRecitationArray = json.getJsonArray(JSON_RECITATION);
-        for (int i = 0; i < jsonRecitationArray.size(); i++) {
-            JsonObject jsonRecitation = jsonRecitationArray.getJsonObject(i);
+        JsonArray jsonRecRecitationArray = json.getJsonArray(JSON_REC_RECITATIONS);
+        for (int i = 0; i < jsonRecRecitationArray.size(); i++) {
+            JsonObject jsonRecitation = jsonRecRecitationArray.getJsonObject(i);
             String section = jsonRecitation.getString(JSON_SECTION);
             String instructor = jsonRecitation.getString(JSON_INSTUCTOR);
             String day_time = jsonRecitation.getString(JSON_DAY_TIME);
@@ -192,14 +209,69 @@ public class testSave implements AppFileComponent{
         }
         
         // NOW LOAD ALL THE SCHEDULES
-        JsonArray jsonScheduleArray = json.getJsonArray(JSON_SCHEDULE);
-        for (int i = 0; i < jsonScheduleArray.size(); i++) {
-            JsonObject jsonSchedule = jsonScheduleArray.getJsonObject(i);
-            String type = jsonSchedule.getString(JSON_TYPE);
-            String date = jsonSchedule.getString(JSON_DATE);
-            String title = jsonSchedule.getString(JSON_TITLE);
-            String topic = jsonSchedule.getString(JSON_TOPIC);
-            dataManager.addSchedule(type, date, title, topic);
+        JsonArray jsonHolidayArray = json.getJsonArray(JSON_HOLIDAYS);
+        for (int i = 0; i < jsonHolidayArray.size(); i++) {
+            JsonObject jsonHoliday = jsonHolidayArray.getJsonObject(i);
+            //String type = jsonHoliday.getString(JSON_TYPE);
+            String month = jsonHoliday.getString(JSON_MONTH);
+            String day = jsonHoliday.getString(JSON_DAY);
+            String title = jsonHoliday.getString(JSON_TITLE);
+            String link = jsonHoliday.getString(JSON_LINK);
+            
+            String date = "2017-"+month+"-"+day;
+            dataManager.addSchedule(JSON_HOLIDAYS, date, title, "", link, "","");
+        }
+        JsonArray jsonLectureArray = json.getJsonArray(JSON_LECTURES);
+        for (int i = 0; i < jsonLectureArray.size(); i++) {
+            JsonObject jsonLecture = jsonLectureArray.getJsonObject(i);
+            //String type = jsonLecture.getString(JSON_TYPE);
+            String month = jsonLecture.getString(JSON_MONTH);
+            String day = jsonLecture.getString(JSON_DAY);
+            String title = jsonLecture.getString(JSON_TITLE);
+            String topic = jsonLecture.getString(JSON_TOPIC);
+            
+            String date = "2017-"+month+"-"+day;
+            dataManager.addSchedule(JSON_HOLIDAYS, date, title, topic, "", "","");
+        }
+        JsonArray jsonReferencesArray = json.getJsonArray(JSON_REFERENCES);
+        for (int i = 0; i < jsonReferencesArray.size(); i++) {
+            JsonObject jsonReferences = jsonReferencesArray.getJsonObject(i);
+            //String type = jsonReferences.getString(JSON_TYPE);
+             String month = jsonReferences.getString(JSON_MONTH);
+            String day = jsonReferences.getString(JSON_DAY);
+            String title = jsonReferences.getString(JSON_TITLE);
+            String link = jsonReferences.getString(JSON_LINK);
+            String topic = jsonReferences.getString(JSON_TOPIC);
+            
+            String date = "2017-"+month+"-"+day;
+            dataManager.addSchedule(JSON_HOLIDAYS, date, title, topic, link, "","");
+        }
+        JsonArray jsonSchRecitationsArray = json.getJsonArray(JSON_SCH_RECITATIONS);
+        for (int i = 0; i < jsonSchRecitationsArray.size(); i++) {
+            JsonObject jsonSchRecitations = jsonSchRecitationsArray.getJsonObject(i);
+            //String type = jsonSchRecitations.getString(JSON_TYPE);
+            String month = jsonSchRecitations.getString(JSON_MONTH);
+            String day = jsonSchRecitations.getString(JSON_DAY);
+            String title = jsonSchRecitations.getString(JSON_TITLE);
+            String topic = jsonSchRecitations.getString(JSON_TOPIC);
+            
+            String date = "2017-"+month+"-"+day;
+            dataManager.addSchedule(JSON_HOLIDAYS, date, title, topic, "", "","");
+        }
+        JsonArray jsonHWsArray = json.getJsonArray(JSON_HWS);
+        for (int i = 0; i < jsonHWsArray.size(); i++) {
+            JsonObject jsonHws = jsonHWsArray.getJsonObject(i);
+            //String type = jsonHws.getString(JSON_TYPE);
+            String month = jsonHws.getString(JSON_MONTH);
+            String day = jsonHws.getString(JSON_DAY);
+            String title = jsonHws.getString(JSON_TITLE);
+            String link = jsonHws.getString(JSON_LINK);
+            String topic = jsonHws.getString(JSON_TOPIC);
+            String time = jsonHws.getString(JSON_TIME);
+            String criteria = jsonHws.getString(JSON_CRITERIA);
+            
+            String date = "2017-"+month+"-"+day;
+            dataManager.addSchedule(JSON_HOLIDAYS, date, title, topic, link, time,criteria);
         }
         
          // NOW LOAD ALL THE TEAMS
@@ -321,15 +393,15 @@ public class testSave implements AppFileComponent{
            
         String date1 = "02/09/2017";
         String date2 = "02/14/2017";
-        schedule Holiday = new schedule("Holiday", date1, "SNOW DAY","");
-        schedule Lecture = new schedule("Lecture", date2, "Lecture 3", "Event Programming");
+        schedule Holiday = new schedule("holiday", date1, "SNOW", "IDK", "WWW","fdf","hjsadh");
+        schedule Lecture = new schedule("hasdasdsa", date2, "SNasdasOW", "IasdDK", "WasdWW","jgsd","abhfh");
         
 	ObservableList<schedule> schedules = FXCollections.observableArrayList();
         schedules.addAll(Holiday,Lecture);
 	for (schedule sh : schedules) {	    
 	    JsonObject scheduleJson = Json.createObjectBuilder()
                     .add("type", sh.getType())
-                    .add("date",sh.getDate())
+                    //.add("date",sh.getDate())
                     .add("title", sh.getTitle())
                     .add("topic",sh.getTopic()).build();
                     

@@ -44,8 +44,16 @@ public class testSaveTest{
     static final String JSON_COURSE_NAME = "course_name";
     static final String JSON_COURSE_NUMBER = "course_number";
     
+    static final String JSON_SEMESTERS = "semesters";
     static final String JSON_SEMESTER = "sem";
     static final String JSON_YEAR = "year";
+    static final String JSON_PAGE_TITLE = "page_title";
+    static final String JSON_INSTRUCTOR_NAME = "instructor_name";
+    static final String JSON_INSTRUCTOR_HOME = "instructor_home";
+    
+    static final String JSON_BANNER_IMAGE_PATH = "banner_image_path";
+    static final String JSON_LEFT_FOOTER_IMAGE_PATH = "left_footer_image_path";
+    static final String JSON_RIGHT_FOOTER_IMAGE_PATH = "right_footer_image_path";
     
     static final String JSON_SITE_PAGE = "site_pages";
     static final String JSON_USE = "site_page_use";
@@ -58,24 +66,39 @@ public class testSaveTest{
     static final String JSON_INSTUCTOR = "instructor";
     static final String JSON_DAY_TIME = "day_time";
     static final String JSON_LOCATION = "location";
-    static final String JSON_TA1 = "TA1";
-    static final String JSON_TA2 = "TA2";
+    static final String JSON_TA1 = "ta_1";
+    static final String JSON_TA2 = "ta_2";
     
     static final String JSON_SCHEDULE = "schedules";
     static final String JSON_TYPE = "type";
-    static final String JSON_DATE = "title";
-    static final String JSON_TITLE = "date";
+    static final String JSON_DATE = "date";
+    static final String JSON_TITLE = "title";
     static final String JSON_TOPIC = "topic";
+    static final String JSON_START_MONTH = "startingMondayMonth";
+    static final String JSON_START_DAY = "startingMondayDay";
+    static final String JSON_END_MONTH = "endingFridayMonth";
+    static final String JSON_END_DAY = "endingFridayDay";
+    static final String JSON_HOLIDAYS = "holidays";
+    static final String JSON_LECTURES = "lectures";
+    static final String JSON_REFERENCES = "references";
+    static final String JSON_RECITATIONS = "recitations";
+    static final String JSON_REC_RECITATIONS = "rec_recitations";
+    static final String JSON_SCH_RECITATIONS = "sch_recitations";
+    static final String JSON_HWS = "hws";
+    static final String JSON_MONTH = "month";
+    static final String JSON_CRITERIA = "criteria";
+    
     
     static final String JSON_TEAM = "teams";
+    static final String JSON_TEAM_NAME = "name";
     static final String JSON_COLOR = "color";
     static final String JSON_TEXT_COLOR = "text_color";
     static final String JSON_LINK = "link";
     
     static final String JSON_STUDENT = "students";
-    static final String JSON_FIRST_NAME = "first_name";
-    static final String JSON_LAST_NAME = "last_name";
-    static final String JSON_ASSIGNED_TEAM = "assigned_team";
+    static final String JSON_FIRST_NAME = "firstName";
+    static final String JSON_LAST_NAME = "lastName";
+    static final String JSON_ASSIGNED_TEAM = "team";
     static final String JSON_ROLE = "role";
     
     public testSaveTest() {
@@ -112,11 +135,11 @@ public class testSaveTest{
         for(int i = 0; i < getArray.size(); i++)
         {
             JsonObject jsonSitePage = getArray.getJsonObject(i);
-            Boolean sitePageUse = jsonSitePage.getBoolean(JSON_USE);
+            //Boolean sitePageUse = jsonSitePage.getBoolean(JSON_USE);
             String nav_bar_title = jsonSitePage.getString(JSON_NAV_BAR_TITLE);
             String file_name = jsonSitePage.getString(JSON_FILE_NAME);
             String script = jsonSitePage.getString(JSON_SCRIPT);
-            assertEquals(sitePageUse, ((TAData)dataManager).getPages().get(i).returnUse().get());
+            //assertEquals(sitePageUse, ((TAData)dataManager).getPages().get(i).returnUse().get());
             assertEquals(nav_bar_title, ((TAData)dataManager).getPages().get(i).getTitle());
             assertEquals(file_name, ((TAData)dataManager).getPages().get(i).getFileName());
             assertEquals(script, ((TAData)dataManager).getPages().get(i).getScript());
@@ -159,7 +182,7 @@ public class testSaveTest{
 	jsonReader.close();
 	is.close();
         
-        JsonArray getArray = json.getJsonArray(JSON_RECITATION);
+        JsonArray getArray = json.getJsonArray(JSON_REC_RECITATIONS);
 
         for(int i = 0; i < getArray.size(); i++)
         {
@@ -181,8 +204,8 @@ public class testSaveTest{
         }
     }
     @Test
-    public void testLoadDataSchedule() throws Exception {
-        System.out.println("loadDataSchedule");
+    public void testLoadDataScheduleHolidays() throws Exception {
+        System.out.println("loadDataScheduleHolidays");
         AppDataComponent dataManager = new TAData(app);
         String filePath = "/Users/Neil/Desktop/CSE_219/HW4/CourseSiteGenerator/work/csgFile.json";
         testSave ts = new testSave(app);
@@ -194,19 +217,141 @@ public class testSaveTest{
 	jsonReader.close();
 	is.close();
         
-        JsonArray getArray = json.getJsonArray(JSON_SCHEDULE);
+        JsonArray getArray = json.getJsonArray(JSON_HOLIDAYS);
 
         for(int i = 0; i < getArray.size(); i++)
         {
            JsonObject jsonSchedule = getArray.getJsonObject(i);
-            String type = jsonSchedule.getString(JSON_TYPE);
-            String date = jsonSchedule.getString(JSON_DATE);
-            String title = jsonSchedule.getString(JSON_TITLE);
-            String topic = jsonSchedule.getString(JSON_TOPIC);
-            assertEquals(type, ((TAData)dataManager).getSchedules().get(i).getType());
-            assertEquals(date, ((TAData)dataManager).getSchedules().get(i).getDate());
-            assertEquals(title, ((TAData)dataManager).getSchedules().get(i).getTitle());
-            assertEquals(topic, ((TAData)dataManager).getSchedules().get(i).getTopic());
+           String month = jsonSchedule.getString(JSON_MONTH);
+           String day = jsonSchedule.getString(JSON_DAY);
+           String title = jsonSchedule.getString(JSON_TITLE);
+           String link = jsonSchedule.getString(JSON_LINK);
+            //assertEquals(month, ((TAData)dataManager).getSchedules().get(i).getDate().);
+            //assertEquals(day, ((TAData)dataManager).getSchedules().get(i).getDate());
+            //assertEquals(title, ((TAData)dataManager).getSchedules().get(i).getTitle());
+            //assertEquals(link, ((TAData)dataManager).getSchedules().get(i).getLink());
+        }
+    }
+    @Test
+    public void testLoadDataScheduleLectures() throws Exception {
+        System.out.println("loadDataScheduleLectures");
+        AppDataComponent dataManager = new TAData(app);
+        String filePath = "/Users/Neil/Desktop/CSE_219/HW4/CourseSiteGenerator/work/csgFile.json";
+        testSave ts = new testSave(app);
+        ts.loadData(dataManager, filePath);
+        
+        InputStream is = new FileInputStream(filePath);
+	JsonReader jsonReader = Json.createReader(is);
+	JsonObject json = jsonReader.readObject();
+	jsonReader.close();
+	is.close();
+        
+        JsonArray getArray = json.getJsonArray(JSON_LECTURES);
+
+        for(int i = 0; i < getArray.size(); i++)
+        {
+           JsonObject jsonSchedule = getArray.getJsonObject(i);
+           String month = jsonSchedule.getString(JSON_MONTH);
+           String day = jsonSchedule.getString(JSON_DAY);
+           String title = jsonSchedule.getString(JSON_TITLE);
+           String topic = jsonSchedule.getString(JSON_TOPIC);
+            //assertEquals(month, ((TAData)dataManager).getSchedules().get(i).getDate().);
+            //assertEquals(day, ((TAData)dataManager).getSchedules().get(i).getDate());
+            //assertEquals(title, ((TAData)dataManager).getSchedules().get(i).getTitle());
+            //assertEquals(topic, ((TAData)dataManager).getSchedules().get(i).getTopic());
+        }
+    }
+    @Test
+    public void testLoadDataScheduleReferences() throws Exception {
+        System.out.println("loadDataScheduleReferences");
+        AppDataComponent dataManager = new TAData(app);
+        String filePath = "/Users/Neil/Desktop/CSE_219/HW4/CourseSiteGenerator/work/csgFile.json";
+        testSave ts = new testSave(app);
+        ts.loadData(dataManager, filePath);
+        
+        InputStream is = new FileInputStream(filePath);
+	JsonReader jsonReader = Json.createReader(is);
+	JsonObject json = jsonReader.readObject();
+	jsonReader.close();
+	is.close();
+        
+        JsonArray getArray = json.getJsonArray(JSON_REFERENCES);
+
+        for(int i = 0; i < getArray.size(); i++)
+        {
+           JsonObject jsonReferences = getArray.getJsonObject(i);
+           String month = jsonReferences.getString(JSON_MONTH);
+           String day = jsonReferences.getString(JSON_DAY);
+           String title = jsonReferences.getString(JSON_TITLE);
+           String topic = jsonReferences.getString(JSON_TOPIC);
+           String link = jsonReferences.getString(JSON_LINK);
+            //assertEquals(month, ((TAData)dataManager).getSchedules().get(i).getDate().);
+            //assertEquals(day, ((TAData)dataManager).getSchedules().get(i).getDate());
+            //assertEquals(title, ((TAData)dataManager).getSchedules().get(i).getTitle());
+            //assertEquals(topic, ((TAData)dataManager).getSchedules().get(i).getTopic());
+            //assertEquals(link, ((TAData)dataManager).getSchedules().get(i).getLink());
+        }
+    }
+     @Test
+    public void testLoadDataScheduleSchRecitations() throws Exception {
+        System.out.println("loadDataScheduleSchRecitations");
+        AppDataComponent dataManager = new TAData(app);
+        String filePath = "/Users/Neil/Desktop/CSE_219/HW4/CourseSiteGenerator/work/csgFile.json";
+        testSave ts = new testSave(app);
+        ts.loadData(dataManager, filePath);
+        
+        InputStream is = new FileInputStream(filePath);
+	JsonReader jsonReader = Json.createReader(is);
+	JsonObject json = jsonReader.readObject();
+	jsonReader.close();
+	is.close();
+        
+        JsonArray getArray = json.getJsonArray(JSON_SCH_RECITATIONS);
+
+        for(int i = 0; i < getArray.size(); i++)
+        {
+           JsonObject jsonRecitation = getArray.getJsonObject(i);
+           String month = jsonRecitation.getString(JSON_MONTH);
+           String day = jsonRecitation.getString(JSON_DAY);
+           String title = jsonRecitation.getString(JSON_TITLE);
+           String topic = jsonRecitation.getString(JSON_TOPIC);
+            //assertEquals(title, ((TAData)dataManager).getSchedules().get(i).getTitle());
+            //assertEquals(topic, ((TAData)dataManager).getSchedules().get(i).getTopic());
+        }
+    }
+     @Test
+    public void testLoadDataScheduleHws() throws Exception {
+        System.out.println("loadDataScheduleHws");
+        AppDataComponent dataManager = new TAData(app);
+        String filePath = "/Users/Neil/Desktop/CSE_219/HW4/CourseSiteGenerator/work/csgFile.json";
+        testSave ts = new testSave(app);
+        ts.loadData(dataManager, filePath);
+        
+        InputStream is = new FileInputStream(filePath);
+	JsonReader jsonReader = Json.createReader(is);
+	JsonObject json = jsonReader.readObject();
+	jsonReader.close();
+	is.close();
+        
+        JsonArray getArray = json.getJsonArray(JSON_HWS);
+
+        for(int i = 0; i < getArray.size(); i++)
+        {
+           JsonObject jsonSchedule = getArray.getJsonObject(i);
+           String month = jsonSchedule.getString(JSON_MONTH);
+           String day = jsonSchedule.getString(JSON_DAY);
+           String title = jsonSchedule.getString(JSON_TITLE);
+           String topic = jsonSchedule.getString(JSON_TOPIC);
+           String link = jsonSchedule.getString(JSON_LINK);
+           String time = jsonSchedule.getString(JSON_TIME);
+           String criteria = jsonSchedule.getString(JSON_CRITERIA);
+            //assertEquals(month, ((TAData)dataManager).getSchedules().get(i).getDate().);
+            //assertEquals(day, ((TAData)dataManager).getSchedules().get(i).getDate());
+            //assertEquals(title, ((TAData)dataManager).getSchedules().get(i).getTitle());
+            //assertEquals(topic, ((TAData)dataManager).getSchedules().get(i).getTopic());
+            //assertEquals(link, ((TAData)dataManager).getSchedules().get(i).getLink());
+            //assertEquals(criteria, ((TAData)dataManager).getSchedules().get(i).getCriteria());
+            //assertEquals(time, ((TAData)dataManager).getSchedules().get(i).getTime());
         }
     }
     @Test
