@@ -18,23 +18,29 @@ import csg.data.TAData;
 import csg.data.TeachingAssistant;
 import csg.data.recitation;
 import csg.data.schedule;
+import csg.data.student;
 import csg.data.team;
-import csg.workspace.CourseSiteWorkspace;
+import csg.transactions.Add_TA_Trans;
+import csg.transactions.Remove_TA_Trans;
+import csg.transactions.Toggle_TAOfficeHours_Trans;
+import csg.transactions.Update_TA_Trans;
 import static djf.settings.AppStartupConstants.PATH_WORK;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ComboBoxBase;
 import javafx.scene.control.DatePicker;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javax.imageio.ImageIO;
+import jtps.jTPS_Transaction;
 
 /**
  * This class provides responses to all workspace interactions, meaning
@@ -113,7 +119,7 @@ public class CourseSiteController {
             // AND SEND THE CARET BACK TO THE NAME TEXT FIELD FOR EASY DATA ENTRY
             nameTextField.requestFocus();
             
-            TeachingAssistant ta = data.getTA(name, email);
+//            TeachingAssistant ta = data.getTA(name, email);
 //            jTPS_Transaction trans = new Add_TA_Trans(ta, data);
 //            workspace.getJTPS().addTransaction(trans);
         }
@@ -188,8 +194,8 @@ public class CourseSiteController {
             }
         }    catch(NullPointerException e){}
 //       
-//        jTPS_Transaction trans = new Remove_TA_Trans(focused, dataComponent, keys, props);
-//        workspace.getJTPS().addTransaction(trans);
+        jTPS_Transaction trans = new Remove_TA_Trans(focused, dataComponent, keys, props);
+        workspace.getJTPS().addTransaction(trans);
         
         dataComponent.deleteTA(focused);
         app.getGUI().updateToolbarControls(false);
@@ -267,8 +273,8 @@ public class CourseSiteController {
            ta.setEmail(email);
            String newName = name;
         
-//           jTPS_Transaction trans = new Update_TA_Trans(app,focused, dataComponent,orgName);
-//           workspace.getJTPS().addTransaction(trans);
+           jTPS_Transaction trans = new Update_TA_Trans(app,focused, dataComponent,orgName);
+           workspace.getJTPS().addTransaction(trans);
            
            app.getGUI().updateToolbarControls(false);
            AppFileController appFileController = app.getGUI().getAppfileController();
@@ -307,6 +313,11 @@ public class CourseSiteController {
         bannerImageView.setImage(image);
         
         String imagePath = selectedFile.getAbsolutePath();
+        
+        app.getGUI().updateToolbarControls(false);
+        AppFileController appFileController = app.getGUI().getAppfileController();
+        appFileController.markFileAsNotSaved();
+        
         return  imagePath;
     }
     public String handleAddLeftFooterImage(String path) throws IOException{
@@ -333,6 +344,11 @@ public class CourseSiteController {
         bannerImageView.setImage(image);
         
         String imagePath = selectedFile.getAbsolutePath();
+        
+        app.getGUI().updateToolbarControls(false);
+        AppFileController appFileController = app.getGUI().getAppfileController();
+        appFileController.markFileAsNotSaved();
+        
         return  imagePath;
         
     }
@@ -360,12 +376,22 @@ public class CourseSiteController {
         bannerImageView.setImage(image);
         
         String imagePath = selectedFile.getAbsolutePath();
+        
+        app.getGUI().updateToolbarControls(false);
+        AppFileController appFileController = app.getGUI().getAppfileController();
+        appFileController.markFileAsNotSaved();
+        
         return  imagePath;
     }
     public File handleExportDirectoryChooser(){
         String exportDirectory;
         DirectoryChooser dc = new DirectoryChooser();
         File file = dc.showDialog(app.getGUI().getWindow());
+        
+        app.getGUI().updateToolbarControls(false);
+        AppFileController appFileController = app.getGUI().getAppfileController();
+        appFileController.markFileAsNotSaved();
+        
         return file;
     }
     
@@ -375,6 +401,10 @@ public class CourseSiteController {
         recitation focused = (recitation) RecitationTable.getFocusModel().getFocusedItem();
         TAData dataComponent = (TAData)app.getDataComponent();
         dataComponent.getRecitaitons().remove(focused);
+        
+        app.getGUI().updateToolbarControls(false);
+        AppFileController appFileController = app.getGUI().getAppfileController();
+        appFileController.markFileAsNotSaved();
     }
     public void handleSelectedRecitation(){
         CourseSiteWorkspace workspace = (CourseSiteWorkspace)app.getWorkspaceComponent();
@@ -423,11 +453,11 @@ public class CourseSiteController {
         String instructor = instructorTextField.getText();
         String day_time = dayTimeTextField.getText();
         String location = locationTextField.getText();
-        String TA1 = (String)workspace.getSupervising_TA_ComboBox1().getValue();
+        String TA1 = ((TeachingAssistant)workspace.getSupervising_TA_ComboBox1().getValue()).getName();
         if(TA1 == null || TA1.equals("")){
             TA1 = "TBA";
         }
-        String TA2 = (String)workspace.getSupervising_TA_ComboBox2().getValue();
+        String TA2 = ((TeachingAssistant)workspace.getSupervising_TA_ComboBox2().getValue()).getName();
         if(TA2 == null  || TA2.equals("")){
             TA2 = "TBA";
         }
@@ -564,6 +594,10 @@ public class CourseSiteController {
         String time = time_textField.getText();
         String title = title_textField.getText();
         String date = plannedDate.getValue().toString();
+        String[] dateArray = date.split("-",5);
+        String year = dateArray[0];
+        String month = dateArray[1];
+        String day = dateArray[2];
         String topic = topic_textField.getText();
         String link = link_textField.getText();
         String criteria = criteria_textField.getText();
@@ -593,7 +627,7 @@ public class CourseSiteController {
         // EVERYTHING IS FINE, ADD A NEW TA
         else {
             // ADD THE NEW TA TO THE DATA
-            data.addSchedule(type, date, title, topic, link, time,criteria);
+            data.addSchedule(type, month, day , title, topic, link, time,criteria);
             
             // CLEAR THE TEXT FIELDS
             type_textField.setValue("");
@@ -627,20 +661,21 @@ public class CourseSiteController {
             String type = sch.getType();
             String title = sch.getTitle();
             String topic = sch.getTopic();
-            //String date = sch.getDate();
+            String date = sch.getDate();
         
             DatePicker plannedDate = workspace.getPlannedDate();
             TextField title_textField = workspace.getTitle_textField();
             TextField topic_textField = workspace.getTopic_textField();
             ComboBox type_TextField = workspace.getType_textField();
             
-            //plannedDate.setValue(LocalDate.parse(date));
+            plannedDate.setValue(LocalDate.parse(date));
             title_textField.setText(title);
             topic_textField.setText(topic);
             type_TextField.setValue(type);
         }
     }
     public void handleUpdateSchedule(){
+        
         CourseSiteWorkspace workspace = (CourseSiteWorkspace)app.getWorkspaceComponent();
         TableView scheduleTable = workspace.getScheduleTable();
         Object selectedItem = scheduleTable.getSelectionModel().getSelectedItem();
@@ -687,10 +722,14 @@ public class CourseSiteController {
         // EVERYTHING IS FINE, Change the TA
         else {
             // ADD THE NEW TA TO THE DATA
-            type_textField.setValue(type);
-            title_textField.setText(title);
-            topic_textField.setText(topic);
-            plannedDate.setValue(LocalDate.parse(date));
+            sch.setType(type);
+            sch.setTime(time);
+            sch.setTitle(title);
+            sch.setTopic(topic);
+            sch.setLink(link);
+            sch.setCriteria(criteria);
+            sch.setMonth(plannedDate.getValue().getMonthValue()+"");
+            sch.setDay(plannedDate.getValue().getDayOfMonth()+"");
         
 //           jTPS_Transaction trans = new Update_TA_Trans(app,focused, dataComponent,orgName);
 //           workspace.getJTPS().addTransaction(trans);
@@ -706,6 +745,10 @@ public class CourseSiteController {
         schedule focused = (schedule) scheduleTable.getFocusModel().getFocusedItem();
         TAData dataComponent = (TAData)app.getDataComponent();
         dataComponent.getSchedules().remove(focused);
+        
+        app.getGUI().updateToolbarControls(false);
+        AppFileController appFileController = app.getGUI().getAppfileController();
+        appFileController.markFileAsNotSaved();
     }
     public void handleSelectedTeam(){
         CourseSiteWorkspace workspace = (CourseSiteWorkspace)app.getWorkspaceComponent();
@@ -718,9 +761,12 @@ public class CourseSiteController {
         if(selectedItem!=null){
             team tm = (team)selectedItem;
             String name = tm.getName();
-            String color = tm.getColor();
+            String red = tm.getRed();
+            String green = tm.getGreen();
+            String blue = tm.getBlue();
             String textColor = tm.getTextColor();
             String link = tm.getLink();
+            //String color = ;
         
             TextField teamName = workspace.getNameTeamField();
             TextField colorField = workspace.getInputColor1Field();
@@ -729,7 +775,7 @@ public class CourseSiteController {
             
             //plannedDate.setValue(LocalDate.parse(date));
             teamName.setText(name);
-            colorField.setText(color);
+            //colorField.setText(color);
             textColorField.setText(textColor);
             linkField.setText(link);
             
@@ -749,27 +795,76 @@ public class CourseSiteController {
             }
         }
     }
+    public void handleClearSchedule(){
+        CourseSiteWorkspace workspace = (CourseSiteWorkspace)app.getWorkspaceComponent();
+         
+        ComboBox type_textField = workspace.getType_textField();
+        TextField time_textField = workspace.getTime_textField();
+        DatePicker plannedDate = workspace.getPlannedDate();
+        TextField title_textField = workspace.getTitle_textField();
+        TextField topic_textField = workspace.getTopic_textField();
+        TextField link_textField = workspace.getLink_textField();
+        TextField criteria_textField = workspace.getCriteria_textField();
+        
+            type_textField.setValue("");
+            time_textField.setText("");
+            title_textField.setText("");
+            topic_textField.setText("");
+            plannedDate.setValue(null);
+            topic_textField.setText("");
+            link_textField.setText("");
+            criteria_textField.setText("");
+    }
     public void handleDeleteTeam(){
         CourseSiteWorkspace workspace = (CourseSiteWorkspace)app.getWorkspaceComponent();
         TableView teamTable = workspace.getTeamTable();
         team focused = (team) teamTable.getFocusModel().getFocusedItem();
         TAData dataComponent = (TAData)app.getDataComponent();
         dataComponent.getTeams().remove(focused);
+        
+        app.getGUI().updateToolbarControls(false);
+        AppFileController appFileController = app.getGUI().getAppfileController();
+        appFileController.markFileAsNotSaved();
     }
     public void handleAddTeam(){
         CourseSiteWorkspace workspace = (CourseSiteWorkspace)app.getWorkspaceComponent();
         
+        TAData data = (TAData)app.getDataComponent();
+        
         TextField teamNameField = workspace.getNameTeamField();
         TextField colorTextField = workspace.getInputColor1Field();
         TextField textColorTextField = workspace.getInputColor2Field();
-        TextField linkTextField = workspace.getLink_textField();
+        TextField linkTextField = workspace.getLinkField();
         
         String teamName = teamNameField.getText();
         String color = colorTextField.getText();
         String textColor = textColorTextField.getText();
         String link = linkTextField.getText();
+        String red = "255";
+        String green= "255";
+        String blue= "255";
+        
+        Pattern colorPattern = Pattern.compile("([0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})");
+        Matcher m = colorPattern.matcher(color);
+        boolean isColor = m.matches();
+        if(isColor){
+            red =  Integer.valueOf(color.substring( 0, 2 ), 16 )+"";
+            green =  Integer.valueOf(color.substring( 2, 4 ), 16 )+"";
+            blue =  Integer.valueOf(color.substring( 4, 6 ), 16 )+"";
+            
+            
+        }
+        else{
+//            Color clr = Color.valueOf(color);
+//            red =  clr.toString().substring(2,5);
+//            green =  clr.toString().substring(5, 8);
+//            blue =  clr.toString().substring(8, 10);
+//            
+//            System.out.println("red: "+ red);
+//            System.out.println("green: "+ green);
+//            System.out.println("blue: "+ blue);
+        }
         // WE'LL NEED TO ASKå THE DATA SOME QUESTIONS TOO
-        TAData data = (TAData)app.getDataComponent();
         
         // WE'LL NEED THIS IN CASE WE NEED TO DISPLAY ANY ERROR MESSAGES
         PropertiesManager props = PropertiesManager.getPropertiesManager();
@@ -794,7 +889,7 @@ public class CourseSiteController {
         // EVERYTHING IS FINE, ADD A NEW TA
         else {
             // ADD THE NEW TA TO THE DATA
-            data.addTeam(teamName, color, textColor, link);
+            data.addTeam(teamName, red, green, blue, textColor, link);
             
             // CLEAR THE TEXT FIELDS
             teamNameField.setText("");
@@ -827,5 +922,173 @@ public class CourseSiteController {
         colorTextField.setText("");
         textColorTextField.setText("");
         linkTextField.setText("");
+    }
+    public void handleAddStudentButton(){
+        CourseSiteWorkspace workspace = (CourseSiteWorkspace)app.getWorkspaceComponent();
+        
+        TextField studentFirstName = workspace.getFirstNameField();
+        TextField studentLastName = workspace.getLastNameField();
+        TextField studentTeamName = workspace.getTeamField();
+        TextField studentRole = workspace.getRoleField();
+        
+        String firstName = studentFirstName.getText();
+        String lastName = studentLastName.getText();
+        String team = studentTeamName.getText();
+        String role = studentRole.getText();
+        
+        TAData data = (TAData)app.getDataComponent();
+        
+        // WE'LL NEED THIS IN CASE WE NEED TO DISPLAY ANY ERROR MESSAGES
+        PropertiesManager props = PropertiesManager.getPropertiesManager();
+        
+        if (firstName.isEmpty() || firstName.startsWith(" ")) {
+	    AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+	    dialog.show(props.getProperty(MISSING_SECTION_TITLE), props.getProperty(MISSING_SECTION_MESSAGE));            
+        }
+        // DID THE USER NEGLECT TO PROVIDE A TA EMAIL?
+        else if (lastName.isEmpty()|| lastName.startsWith(" ")) {
+	    AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+	    dialog.show(props.getProperty(MISSING_INSTRUCTOR_TITLE), props.getProperty(MISSING_INSTRUCTOR_MESSAGE));            
+        }
+        else if (team.isEmpty()|| team.startsWith(" ")) {
+	    AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+	    dialog.show(props.getProperty(MISSING_LOCATION_TITLE), props.getProperty(MISSING_LOCATION_MESSAGE));            
+        }
+        else if (role.isEmpty()|| role.startsWith(" ")) {
+	    AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+	    dialog.show(props.getProperty(MISSING_DAYTIME_TITLE), props.getProperty(MISSING_DAYTIME_MESSAGE));            
+        }
+        // EVERYTHING IS FINE, ADD A NEW TA
+        else {
+            // ADD THE NEW TA TO THE DATA
+           data.addStudent(firstName, lastName, team, role);
+            
+            // CLEAR THE TEXT FIELDS
+            studentFirstName.setText("");
+            studentLastName.setText("");
+            studentTeamName.setText("");
+            studentRole.setText("");
+            
+            // AND SEND THE CARET BACK TO THE NAME TEXT FIELD FOR EASY DATA ENTRY
+            studentFirstName.requestFocus();
+            
+//            TeachingAssistant ta = data.getTA(name, email);
+//            jTPS_Transaction trans = new Add_TA_Trans(ta, data);
+//            workspace.getJTPS().addTransaction(trans);
+        }
+        app.getGUI().updateToolbarControls(false);
+        
+        AppFileController appFileController = app.getGUI().getAppfileController();
+        appFileController.markFileAsNotSaved();
+        appFileController.checkFile();
+        
+        
+    }
+    public void handleUpdateStudentButton(){
+        CourseSiteWorkspace workspace = (CourseSiteWorkspace)app.getWorkspaceComponent();
+        TableView studentTable = workspace.getStudentTable();
+        Object selectedItem = studentTable.getSelectionModel().getSelectedItem();
+        // GET THE TA
+        student stu = (student)selectedItem;
+        
+        TextField studentFirstName = workspace.getFirstNameField();
+        TextField studentLastName = workspace.getLastNameField();
+        TextField studentTeamName = workspace.getTeamField();
+        TextField studentRole = workspace.getRoleField();
+        
+        String firstName = studentFirstName.getText();
+        String lastName = studentLastName.getText();
+        String team = studentTeamName.getText();
+        String role = studentRole.getText();
+        
+        TAData data = (TAData)app.getDataComponent();
+        
+        // WE'LL NEED THIS IN CASE WE NEED TO DISPLAY ANY ERROR MESSAGES
+        PropertiesManager props = PropertiesManager.getPropertiesManager();
+        
+        if (firstName.isEmpty() || firstName.startsWith(" ")) {
+	    AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+	    dialog.show(props.getProperty(MISSING_SECTION_TITLE), props.getProperty(MISSING_SECTION_MESSAGE));            
+        }
+        // DID THE USER NEGLECT TO PROVIDE A TA EMAIL?
+        else if (lastName.isEmpty()|| lastName.startsWith(" ")) {
+	    AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+	    dialog.show(props.getProperty(MISSING_INSTRUCTOR_TITLE), props.getProperty(MISSING_INSTRUCTOR_MESSAGE));            
+        }
+        else if (team.isEmpty()|| team.startsWith(" ")) {
+	    AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+	    dialog.show(props.getProperty(MISSING_LOCATION_TITLE), props.getProperty(MISSING_LOCATION_MESSAGE));            
+        }
+        else if (role.isEmpty()|| role.startsWith(" ")) {
+	    AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+	    dialog.show(props.getProperty(MISSING_DAYTIME_TITLE), props.getProperty(MISSING_DAYTIME_MESSAGE));            
+        }
+        // EVERYTHING IS FINE, ADD A NEW TA
+        else {
+            // ADD THE NEW TA TO THE DATA
+            stu.setFirstName(firstName);
+            stu.setLastName(lastName);
+            stu.setTeam(team);
+            stu.setRole(role);
+            
+            // AND SEND THE CARET BACK TO THE NAME TEXT FIELD FOR EASY DATA ENTRY
+            studentFirstName.requestFocus();
+            
+//            TeachingAssistant ta = data.getTA(name, email);
+//            jTPS_Transaction trans = new Add_TA_Trans(ta, data);
+//            workspace.getJTPS().addTransaction(trans);
+        }
+        app.getGUI().updateToolbarControls(false);
+        
+        AppFileController appFileController = app.getGUI().getAppfileController();
+        appFileController.markFileAsNotSaved();
+        appFileController.checkFile();
+        
+    }
+    public void handleSelectedStudent(){
+        CourseSiteWorkspace workspace = (CourseSiteWorkspace)app.getWorkspaceComponent();
+        TableView studentTable = workspace.getStudentTable();
+        Object selectedItem = studentTable.getSelectionModel().getSelectedItem();
+        // GET THE TA
+        student stu = (student)selectedItem;
+        
+        TextField studentFirstName = workspace.getFirstNameField();
+        TextField studentLastName = workspace.getLastNameField();
+        TextField studentTeamName = workspace.getTeamField();
+        TextField studentRole = workspace.getRoleField();
+        
+        studentFirstName.setText(stu.getFirstName());
+        studentLastName.setText(stu.getLastName());
+        studentTeamName.setText(stu.getTeam());
+        studentRole.setText(stu.getRole());
+        
+    }
+    public void handleDeleteStudentButton(){
+        CourseSiteWorkspace workspace = (CourseSiteWorkspace)app.getWorkspaceComponent();
+        TableView studentTable = workspace.getStudentTable();
+        student focused = (student) studentTable.getFocusModel().getFocusedItem();
+        TAData dataComponent = (TAData)app.getDataComponent();
+        
+//        jTPS_Transaction trans = new Remove_TA_Trans(focused, dataComponent, keys, props);
+//        workspace.getJTPS().addTransaction(trans);
+        
+        dataComponent.removeStudent(focused);
+        app.getGUI().updateToolbarControls(false);
+        
+        AppFileController appFileController = app.getGUI().getAppfileController();
+        appFileController.markFileAsNotSaved();
+    }
+    public void handleClearStudentButton(){
+        CourseSiteWorkspace workspace = (CourseSiteWorkspace)app.getWorkspaceComponent();
+        
+        TextField studentFirstName = workspace.getFirstNameField();
+        TextField studentLastName = workspace.getLastNameField();
+        TextField studentTeamName = workspace.getTeamField();
+        TextField studentRole = workspace.getRoleField();
+        
+        studentFirstName.setText("");
+        studentLastName.setText("");
+        studentTeamName.setText("");
+        studentRole.setText("");
     }
 }

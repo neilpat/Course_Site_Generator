@@ -8,7 +8,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import properties_manager.PropertiesManager;
 import djf.AppTemplate;
-import djf.components.AppWorkspaceComponent;
 import static djf.settings.AppPropertyType.LOAD_ERROR_MESSAGE;
 import static djf.settings.AppPropertyType.LOAD_ERROR_TITLE;
 import static djf.settings.AppPropertyType.LOAD_WORK_TITLE;
@@ -26,16 +25,8 @@ import static djf.settings.AppPropertyType.SAVE_UNSAVED_WORK_MESSAGE;
 import static djf.settings.AppPropertyType.SAVE_UNSAVED_WORK_TITLE;
 import static djf.settings.AppPropertyType.SAVE_WORK_TITLE;
 import static djf.settings.AppStartupConstants.PATH_WORK;
-import javafx.stage.DirectoryChooser;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
-import org.apache.commons.io.FileUtils;
 
 
 /**
@@ -195,12 +186,12 @@ public class AppFileController {
 	    // MAYBE WE ALREADY KNOW THE FILE
 	    if (currentWorkFile != null) {
 		saveWork(currentWorkFile);
-                
 	    }
             else{
                 handleSaveAsRequest();
             }
         } catch (IOException ioe) {
+            ioe.printStackTrace();
 	    AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
 	    dialog.show(props.getProperty(LOAD_ERROR_TITLE), props.getProperty(LOAD_ERROR_MESSAGE));
         }
@@ -216,11 +207,11 @@ public class AppFileController {
 	// SAVE IT TO A FILE
         
 	app.getFileComponent().saveData(app.getDataComponent(), selectedFile.getPath());
-        app.getFileComponent().saveOfficeHours(app.getDataComponent(), "../TAManagerTester/public_html/js/OfficeHoursGridData.json");
-        app.getFileComponent().saveRecitationData(app.getDataComponent(), "../TAManagerTester/public_html/js/RecitationsData.json");
-        app.getFileComponent().saveScheduleData(app.getDataComponent(), "../TAManagerTester/public_html/js/ScheduleData.json");
-        app.getFileComponent().saveTeamsData(app.getDataComponent(), "../TAManagerTester/public_html/js/TeamsAndStudents.json");
-        app.getFileComponent().saveProjectData(app.getDataComponent(), "../TAManagerTester/public_html/js/ProjectData.json");
+        app.getFileComponent().saveOfficeHours(app.getDataComponent(), "../TAManagerTester/public_html/CSE219/js/OfficeHoursGridData.json");
+        app.getFileComponent().saveRecitationData(app.getDataComponent(), "../TAManagerTester/public_html/CSE219/js/RecitationsData.json");
+        app.getFileComponent().saveScheduleData(app.getDataComponent(), "../TAManagerTester/public_html/CSE219/js/ScheduleData.json");
+        app.getFileComponent().saveTeamsData(app.getDataComponent(), "../TAManagerTester/public_html/CSE308/js/TeamsAndStudents.json");
+        app.getFileComponent().saveProjectData(app.getDataComponent(), "../TAManagerTester/public_html/CSE308/js/ProjectData.json");
 	
 	// MARK IT AS SAVED
 	currentWorkFile = selectedFile;
@@ -262,74 +253,17 @@ public class AppFileController {
         }
     }
     public void handleExportRequest() throws IOException{
-     PropertiesManager props = PropertiesManager.getPropertiesManager();
-      
-	    DirectoryChooser fc = new DirectoryChooser();
-		fc.setInitialDirectory(new File(PATH_WORK));
-		fc.setTitle("EXPORT");
-		File selectedFile = fc.showDialog(app.getGUI().getWindow());
-                AppWorkspaceComponent workspace = app.getWorkspaceComponent();
-                File fileName = new File("../TAManagerTester/public_html/CSE219"); 
-                copy(fileName.getAbsolutePath(), selectedFile.getAbsolutePath());
-                File newDestination1 = new File(selectedFile.getAbsolutePath()+"/js/OfficeHoursGridData.json");
-                File newDestination2 = new File(selectedFile.getAbsolutePath()+"/js/TAsData.json");
-                File newDestination3 = new File(selectedFile.getAbsolutePath()+"/js/RecitationsData.json");
-                File newDestination4 = new File(selectedFile.getAbsolutePath()+"/js/ScheduleData.json");
-                File newDestination5 = new File(selectedFile.getAbsolutePath()+"/js/TeamsAndStudents.json");
-                File newDestination6 = new File(selectedFile.getAbsolutePath()+"/js/Projects.json");
-                Files.copy(currentWorkFile.toPath(), newDestination1.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                Files.copy(currentWorkFile.toPath(), newDestination2.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                Files.copy(currentWorkFile.toPath(), newDestination3.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                Files.copy(currentWorkFile.toPath(), newDestination4.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                Files.copy(currentWorkFile.toPath(), newDestination5.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                Files.copy(currentWorkFile.toPath(), newDestination6.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                File fileName2 = new File("../TAManagerTester/public_html/CSE308"); 
-                copy(fileName2.getAbsolutePath(), selectedFile.getAbsolutePath());
-                File newDestination7 = new File(selectedFile.getAbsolutePath()+"/js/OfficeHoursGridData.json");
-                File newDestination8 = new File(selectedFile.getAbsolutePath()+"/js/TAsData.json");
-                File newDestination9 = new File(selectedFile.getAbsolutePath()+"/js/RecitationsData.json");
-                File newDestination10 = new File(selectedFile.getAbsolutePath()+"/js/ScheduleData.json");
-                File newDestination11 = new File(selectedFile.getAbsolutePath()+"/js/TeamsAndStudents.json");
-                File newDestination12 = new File(selectedFile.getAbsolutePath()+"/js/Projects.json");
-                Files.copy(currentWorkFile.toPath(), newDestination7.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                Files.copy(currentWorkFile.toPath(), newDestination8.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                Files.copy(currentWorkFile.toPath(), newDestination9.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                Files.copy(currentWorkFile.toPath(), newDestination10.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                Files.copy(currentWorkFile.toPath(), newDestination11.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                Files.copy(currentWorkFile.toPath(), newDestination12.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+        if(currentWorkFile!=null){
+             app.getFileComponent().exportData(app.getDataComponent(), currentWorkFile.getAbsolutePath());
+        }
+        else{
+              handleSaveRequest();
+              handleExportRequest();
+//            AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+//            dialog.show("ERROR", "PLEASE SAVE FIRST");
+        }
+       
     }
-     public void copy(String oldPath, String newPath) { 
-        try { 
-            (new File(newPath)).mkdirs();
-            File old =new File(oldPath); 
-            String[] file = old.list(); 
-            File targget = null; 
-            for (int i = 0; i < file.length; i++) { 
-                if(oldPath.endsWith(File.separator))
-                    targget = new File(oldPath+file[i]); 
-                else
-                    targget = new File(oldPath+File.separator+file[i]); 
-                if(targget.isFile()){ 
-                    FileInputStream input = new FileInputStream(targget); 
-                    FileOutputStream output = new FileOutputStream(newPath + "/" + (targget.getName()).toString()); 
-                    byte[] b = new byte[1024 * 5]; 
-                    int templength; 
-                    while ( (templength = input.read(b)) != -1)
-                        output.write(b, 0, templength); 
-                    output.flush(); 
-                    output.close(); 
-                    input.close(); 
-                } 
-                if(targget.isDirectory())
-                    copy(oldPath+"/"+file[i],newPath+"/"+file[i]); 
-            } 
-        } 
-        catch (Exception e) {  
-            e.printStackTrace(); 
-        } 
-    }
-    
 
     /**
      * This helper method verifies that the user really wants to save their
@@ -460,7 +394,7 @@ public class AppFileController {
                 app.getDataComponent().resetData();
                 
                 // LOAD THE FILE INTO THE DATA
-                
+                app.getFileComponent().loadData(app.getDataComponent(), selectedFile.getAbsolutePath());
                 currentWorkFile = selectedFile;
                 
 		// MAKE SURE THE WORKSPACE IS ACTIVATED

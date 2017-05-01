@@ -1,110 +1,187 @@
 
 {
+    "startHour":"8",
+    "endHour":"21",
     "course_name":"CSE",
     "course_number":"320",
-    "sem":"FALL",
+    "sem":"SPRING",
     "year":"2017",
-    "page_title":"Cse 320",
-    "instructor_name":"J Wong",
-    "instructor_home":"www.JWong-ma.com",
-    "banner_image_path":"/Users/Neil/Desktop/images/CSLogo.png",
-    "left_footer_image_path":"/Users/Neil/Desktop/images/SBUDarkRedShieldLogo.png",
-    "right_footer_image_path":"/Users/Neil/Desktop/images/SBUWhiteShieldLogo.jpg",
-    "startHour":"9",
-    "endHour":"20",
+    "page_title":"Electrical Engineering II",
+    "instructor_name":"Richard Mckenn",
+    "instructor_home":"www.cs3.sunysb.edu/~richard",
+    "banner_image_path":"/Users/Neil/Desktop/CSE_219/HW5/TAManagerTester/public_html/CSE219/images/SBUDarkRedShieldLogo.png",
+    "left_footer_image_path":"/Users/Neil/Desktop/CSE_219/HW5/CourseSiteGenerator/images/SBUDarkRedShieldLogo.png",
+    "right_footer_image_path":"/Users/Neil/Desktop/CSE_219/HW5/CourseSiteGenerator/images/SBUDarkRedShieldLogo.png",
     "undergrad_tas":[
         {
-            "name":"Aarin Chase",
+            "undergraduate":true,
+            "name":"Aarin Chases",
             "email":"aarin.chase@stonybrook.edu"
         },
         {
+            "undergraduate":true,
             "name":"Abu Saeid",
             "email":"asm.abdulkader@stonybrook.edu"
         },
         {
+            "undergraduate":true,
             "name":"Ali Afzal",
             "email":"ali.afzal@stonybrook.edu"
         },
         {
+            "undergraduate":true,
             "name":"Anthony Roy",
             "email":"anthony.roy@stonybrook.edu"
         },
         {
+            "undergraduate":true,
             "name":"Bryan Robicheau",
             "email":"bryan.robicheau@stonybrook.edu"
         },
         {
+            "undergraduate":true,
             "name":"Calvin Cheng",
             "email":"calvin.cheng@stonybrook.edu"
         },
         {
+            "undergraduate":true,
             "name":"Chaeyoung Lee",
             "email":"chaeyoung.lee@stonybrook.edu"
         },
         {
+            "undergraduate":true,
             "name":"Hsiang-Ju Lai",
             "email":"hsiang-ju.lai@stonybrook.edu"
         },
         {
+            "undergraduate":true,
             "name":"Jacob Evans",
             "email":"jacob.evans@stonybrook.edu"
         },
         {
+            "undergraduate":true,
             "name":"James Hoffman",
             "email":"james.a.hoffman@stonybrook.edu"
         },
         {
+            "undergraduate":true,
             "name":"Jamie Kunzmann",
             "email":"jamie.kunzmann@stonybrook.edu"
         },
         {
+            "undergraduate":true,
             "name":"Jenny Li",
             "email":"jenny.li@stonybrook.edu"
         },
         {
+            "undergraduate":true,
             "name":"Jerrel Sogoni",
             "email":"jerrel.sogoni@stonybrook.edu"
         },
         {
+            "undergraduate":true,
             "name":"Michael Mathew",
             "email":"michael.mathew@stonybrook.edu"
         },
         {
+            "undergraduate":true,
             "name":"Michael Tencza",
             "email":"michael.tencza@stonybrook.edu"
         },
         {
+            "undergraduate":true,
             "name":"Milto Ndrenika",
             "email":"milto.ndrenika@stonybrook.edu"
         },
         {
+            "undergraduate":true,
             "name":"Muhammad R Islam",
             "email":"muhammad.r.islam@stonybrook.edu"
         },
         {
+            "undergraduate":true,
             "name":"Robert Trujillo",
             "email":"robert.trujillo@stonybrook.edu"
         },
         {
+            "undergraduate":true,
             "name":"Serge Crane",
             "email":"serge.crane@stonybrook.edu"
         },
         {
+            "undergraduate":true,
             "name":"Wonje Kang",
             "email":"wonje.kang@stonybrook.edu"
         },
         {
+            "undergraduate":true,
             "name":"Wonyong Jeong",
             "email":"wonyon.jeong@stonybrook.edu"
         },
         {
+            "undergraduate":true,
             "name":"Yu Zhao",
             "email":"yu.zhao@stonybrook.edu"
+        },
+        {
+            "undergraduate":true,
+            "name":"Niral Patel",
+            "email":"niral.patel@stonybrook.edu"
         }
     ],
     "officeHours":[
         {
             "day":"MONDAY",
+            "time":"8_00am",
+            "name":"Niral Patel"
+        },
+        {
+            "day":"TUESDAY",
+            "time":"8_00am",
+            "name":"Niral Patel"
+        },
+        {
+            "day":"WEDNESDAY",
+            "time":"8_00am",
+            "name":"Niral Patel"
+        },
+        {
+            "day":"THURSDAY",
+            "time":"8_00am",
+            "name":"Niral Patel"
+        },
+        {
+            "day":"FRIDAY",
+            "time":"8_00am",
+            "name":"Niral Patel"
+        },
+        {
+            "day":"MONDAY",
+            "time":"9_30am",
+            "name":"Niral Patel"
+        },
+        {
+            "day":"TUESDAY",
+            "time":"9_30am",
+            "name":"Niral Patel"
+        },
+        {
+            "day":"WEDNESDAY",
+            "time":"9_30am",
+            "name":"Niral Patel"
+        },
+        {
+            "day":"THURSDAY",
+            "time":"9_30am",
+            "name":"Niral Patel"
+        },
+        {
+            "day":"FRIDAY",
+            "time":"9_30am",
+            "name":"Niral Patel"
+        },
+        {
+            "day":"MONDAY",
             "time":"10_00am",
             "name":"Wonje Kang"
         },
@@ -671,7 +748,7 @@
         {
             "day":"WEDNESDAY",
             "time":"6_00pm",
-            "name":"Aarin Chase"
+            "name":"Aarin Chases"
         },
         {
             "day":"THURSDAY",
@@ -681,7 +758,7 @@
         {
             "day":"FRIDAY",
             "time":"6_00pm",
-            "name":"Aarin Chase"
+            "name":"Aarin Chases"
         },
         {
             "day":"TUESDAY",
@@ -691,7 +768,7 @@
         {
             "day":"WEDNESDAY",
             "time":"6_30pm",
-            "name":"Aarin Chase"
+            "name":"Aarin Chases"
         },
         {
             "day":"THURSDAY",
@@ -701,7 +778,7 @@
         {
             "day":"FRIDAY",
             "time":"6_30pm",
-            "name":"Aarin Chase"
+            "name":"Aarin Chases"
         },
         {
             "day":"MONDAY",
@@ -721,12 +798,12 @@
         {
             "day":"WEDNESDAY",
             "time":"7_00pm",
-            "name":"Aarin Chase"
+            "name":"Aarin Chases"
         },
         {
             "day":"FRIDAY",
             "time":"7_00pm",
-            "name":"Aarin Chase"
+            "name":"Aarin Chases"
         },
         {
             "day":"MONDAY",
@@ -746,47 +823,31 @@
         {
             "day":"WEDNESDAY",
             "time":"7_30pm",
-            "name":"Aarin Chase"
+            "name":"Aarin Chases"
         },
         {
             "day":"FRIDAY",
             "time":"7_30pm",
-            "name":"Aarin Chase"
+            "name":"Aarin Chases"
         }
     ],
     "site_pages":[
-        {
-            "site_page_use":true,
-            "nav_bar_title":"Home",
-            "file_name":"index.html",
-            "script":"HomeBuilder.js"
-        },
-        {
-            "site_page_use":true,
-            "nav_bar_title":"Syllabus",
-            "file_name":"syllabus.html",
-            "script":"SyllabusBuilder.js"
-        },
-        {
-            "site_page_use":true,
-            "nav_bar_title":"Schedule",
-            "file_name":"schedule.html",
-            "script":"scheduleBuilder.js"
-        },
-        {
-            "site_page_use":true,
-            "nav_bar_title":"HWs",
-            "file_name":"hws.html",
-            "script":"HWsBuilder.js"
-        },
-        {
-            "site_page_use":true,
-            "nav_bar_title":"Projects",
-            "file_name":"projects.html",
-            "script":"ProjectsBuilder.js"
-        }
     ],
+    "startingYear":"2017",
+    "startingMondayMonth":"01",
+    "startingMondayDay":"02",
+    "endingYear":"2020",
+    "endingFridayMonth":"06",
+    "endingFridayDay":"30",
     "rec_recitations":[
+        {
+            "section":"R01",
+            "instructor":"McKenna",
+            "day_time":"Mon 10:00am-2:00pm",
+            "location":"North Reading Room",
+            "ta_1":"Niral Patel",
+            "ta_2":"Wonje Kang"
+        },
         {
             "section":"R02",
             "instructor":"McKenna",
@@ -820,153 +881,1509 @@
             "ta_2":"Sam Miranda"
         }
     ],
-    "startingMondayMonth":  "1",
-    "startingMondayDay":    "23",
-    "endingFridayMonth":    "5",
-    "endingFridayDay":      "19",
-    "holidays": [
-        { "month": "2",     "day": "9",     "title": "SNOW DAY<br /><img src='./images/SnowDay.gif' />", "link": "http://funnybizblog.com/funny-stuff/calvin-hobbes-snowman-cartoons" },
-        { "month": "3",   "day": "13",     "title": "SPRING BREAK<br /><br /><br />",                 "link": "http://www.dol.gov/laborday/history.htm" }, 
-        { "month": "3",   "day": "14",     "title": "SPRING BREAK<br /><br /><br />",               "link": "http://www.stonybrook.edu/registrar/calendar-academic.shtml" }, 
-        { "month": "3",  "day": "15",    "title": "SPRING BREAK<br /><br /><br />",                "link": "http://www.travelchannel.com/interests/holidays/articles/thanksgiving-travel-tips" }, 
-        { "month": "3",  "day": "16",    "title": "SPRING BREAK<br /><br /><br />",              "link": "https://www.youtube.com/watch?v=wKGX8EbYarU" },
-        { "month": "3",  "day": "17",    "title": "SPRING BREAK<br /><br /><br />",              "link": "http://blackfridaydeathcount.com" },
-        { "month": "5",  "day": "8",    "title": "READING DAY<br /><br /><br />",               "link": "http://www.stonybrook.edu/commcms/registrar/calendars/academic_calendars.html" },
-        { "month": "5",  "day": "9",    "title": "<br /><br /><br /><br />",                          "link": "" },
-        { "month": "5",  "day": "10",    "title": "<br /><br /><br /><br />",                          "link": "" },
-        { "month": "5",  "day": "11",    "title": "<br /><br /><br /><br />",                          "link": "" },
-        { "month": "5",  "day": "12",    "title": "<br /><br /><br /><br />",                          "link": "" },
-        { "month": "5",  "day": "15",    "title": "<br /><br /><br /><br />",                          "link": "" },
-        { "month": "5",  "day": "16",    "title": "<br /><br /><br /><br />",                          "link": "" },
-        { "month": "5",  "day": "17",    "title": "<br /><br /><br /><br />",                          "link": "" }
+    "holidays":[
+        {
+            "month":"02",
+            "day":"09",
+            "title":"SNOW DAY",
+            "link":"http://funnybizblog.com/funny-stuff/calvin-hobbes-snowman-cartoons"
+        },
+        {
+            "month":"03",
+            "day":"13",
+            "title":"SPRING BREAK",
+            "link":"http://www.dol.gov/laborday/history.htm"
+        },
+        {
+            "month":"03",
+            "day":"14",
+            "title":"SPRING BREAK",
+            "link":"http://www.stonybrook.edu/registrar/calendar-academic.shtml"
+        },
+        {
+            "month":"03",
+            "day":"15",
+            "title":"SPRING BREAK",
+            "link":"http://www.travelchannel.com/interests/holidays/articles/thanksgiving-travel-tips"
+        },
+        {
+            "month":"03",
+            "day":"16",
+            "title":"SPRING BREAK",
+            "link":"https://www.youtube.com/watch?v=wKGX8EbYarU"
+        },
+        {
+            "month":"03",
+            "day":"17",
+            "title":"SPRING BREAK",
+            "link":"http://blackfridaydeathcount.com"
+        },
+        {
+            "month":"05",
+            "day":"08",
+            "title":"READING DAY",
+            "link":"http://www.stonybrook.edu/commcms/registrar/calendars/academic_calendars.html"
+        },
+        {
+            "month":"05",
+            "day":"09",
+            "title":"",
+            "link":""
+        },
+        {
+            "month":"05",
+            "day":"10",
+            "title":"",
+            "link":""
+        },
+        {
+            "month":"05",
+            "day":"11",
+            "title":"",
+            "link":""
+        },
+        {
+            "month":"05",
+            "day":"12",
+            "title":"",
+            "link":""
+        },
+        {
+            "month":"05",
+            "day":"15",
+            "title":"",
+            "link":""
+        },
+        {
+            "month":"05",
+            "day":"16",
+            "title":"",
+            "link":""
+        },
+        {
+            "month":"05",
+            "day":"17",
+            "title":"",
+            "link":""
+        },
+        {
+            "month":"02",
+            "day":"09",
+            "title":"SNOW DAY",
+            "link":"http://funnybizblog.com/funny-stuff/calvin-hobbes-snowman-cartoons"
+        },
+        {
+            "month":"03",
+            "day":"13",
+            "title":"SPRING BREAK",
+            "link":"http://www.dol.gov/laborday/history.htm"
+        },
+        {
+            "month":"03",
+            "day":"14",
+            "title":"SPRING BREAK",
+            "link":"http://www.stonybrook.edu/registrar/calendar-academic.shtml"
+        },
+        {
+            "month":"03",
+            "day":"15",
+            "title":"SPRING BREAK",
+            "link":"http://www.travelchannel.com/interests/holidays/articles/thanksgiving-travel-tips"
+        },
+        {
+            "month":"03",
+            "day":"16",
+            "title":"SPRING BREAK",
+            "link":"https://www.youtube.com/watch?v=wKGX8EbYarU"
+        },
+        {
+            "month":"03",
+            "day":"17",
+            "title":"SPRING BREAK",
+            "link":"http://blackfridaydeathcount.com"
+        },
+        {
+            "month":"05",
+            "day":"08",
+            "title":"READING DAY",
+            "link":"http://www.stonybrook.edu/commcms/registrar/calendars/academic_calendars.html"
+        },
+        {
+            "month":"05",
+            "day":"09",
+            "title":"",
+            "link":""
+        },
+        {
+            "month":"05",
+            "day":"10",
+            "title":"",
+            "link":""
+        },
+        {
+            "month":"05",
+            "day":"11",
+            "title":"",
+            "link":""
+        },
+        {
+            "month":"05",
+            "day":"12",
+            "title":"",
+            "link":""
+        },
+        {
+            "month":"05",
+            "day":"15",
+            "title":"",
+            "link":""
+        },
+        {
+            "month":"05",
+            "day":"16",
+            "title":"",
+            "link":""
+        },
+        {
+            "month":"05",
+            "day":"17",
+            "title":"",
+            "link":""
+        },
+        {
+            "month":"02",
+            "day":"09",
+            "title":"SNOW DAY",
+            "link":"http://funnybizblog.com/funny-stuff/calvin-hobbes-snowman-cartoons"
+        },
+        {
+            "month":"03",
+            "day":"13",
+            "title":"SPRING BREAK",
+            "link":"http://www.dol.gov/laborday/history.htm"
+        },
+        {
+            "month":"03",
+            "day":"14",
+            "title":"SPRING BREAK",
+            "link":"http://www.stonybrook.edu/registrar/calendar-academic.shtml"
+        },
+        {
+            "month":"03",
+            "day":"15",
+            "title":"SPRING BREAK",
+            "link":"http://www.travelchannel.com/interests/holidays/articles/thanksgiving-travel-tips"
+        },
+        {
+            "month":"03",
+            "day":"16",
+            "title":"SPRING BREAK",
+            "link":"https://www.youtube.com/watch?v=wKGX8EbYarU"
+        },
+        {
+            "month":"03",
+            "day":"17",
+            "title":"SPRING BREAK",
+            "link":"http://blackfridaydeathcount.com"
+        },
+        {
+            "month":"05",
+            "day":"08",
+            "title":"READING DAY",
+            "link":"http://www.stonybrook.edu/commcms/registrar/calendars/academic_calendars.html"
+        },
+        {
+            "month":"05",
+            "day":"09",
+            "title":"",
+            "link":""
+        },
+        {
+            "month":"05",
+            "day":"10",
+            "title":"",
+            "link":""
+        },
+        {
+            "month":"05",
+            "day":"11",
+            "title":"",
+            "link":""
+        },
+        {
+            "month":"05",
+            "day":"12",
+            "title":"",
+            "link":""
+        },
+        {
+            "month":"05",
+            "day":"15",
+            "title":"",
+            "link":""
+        },
+        {
+            "month":"05",
+            "day":"16",
+            "title":"",
+            "link":""
+        },
+        {
+            "month":"05",
+            "day":"17",
+            "title":"",
+            "link":""
+        }
     ],
     "lectures":[
-        { "month": "1",     "day": "24",    "title": "Lecture 1",       "topic": "Software<br />Development<br />Lifecycle<br /><br /><br />",      "link": "https://blackboard.stonybrook.edu/bbcswebdav/pid-4007199-dt-content-rid-26212680_1/xid-26212680_1"},
-        { "month": "1",     "day": "26",    "title": "Lecture 2",       "topic": "Graphical<br />User<br />Interfaces<br /><br /><br />",           "link": "https://blackboard.stonybrook.edu/bbcswebdav/pid-4011100-dt-content-rid-26218131_1/xid-26218131_1" },
-        { "month": "1",     "day": "31",    "title": "Lecture 3",       "topic": "Graphical<br />User<br />Interfaces<br />(continued)<br /><br /><br />",                        "link": "none" },
-        { "month": "2",     "day": "2",     "title": "Lecture 4",       "topic": "Event<br />Programming<br /><br /><br /><br />",       "link": "https://blackboard.stonybrook.edu/bbcswebdav/pid-4019968-dt-content-rid-26262250_1/xid-26262250_1" },
-        { "month": "2",     "day": "7",     "title": "Lecture 5",       "topic": "Event<br />Programming<br />(continued)<br /><br />", "link":"none" },
-        { "month": "2",     "day": "14",    "title": "Lecture 7",       "topic": "Graphics<br />&amp; GUIs<br /><br /><br /><br />",                      "link": "https://blackboard.stonybrook.edu/bbcswebdav/pid-4023764-dt-content-rid-26296682_1/xid-26296682_1" },
-        { "month": "2",     "day": "16",    "title": "Lecture 8",       "topic": "Web Technologies<br />(<a href='https://prezi.com/u4mjgyps1oaz/html-5/'>HTML5</a> &amp; <a href='https://prezi.com/huucwnpr9gft/css-css3/'>CSS3</a>)<br /><br /><br /><br />",                    "link": "none" },
-        { "month": "2",     "day": "21",    "title": "Lecture 9",       "topic": "Threads<br />&amp; Timers<br /><br /><br />",                                         "link": "https://blackboard.stonybrook.edu/bbcswebdav/pid-4033521-dt-content-rid-26438875_1/xid-26438875_1" },
-        { "month": "2",     "day": "23",    "title": "Lecture 10",      "topic": "Threads<br />&amp; Timers<br />(continued)<br /><br />",                        "link": "none" },
-        { "month": "2",    "day": "28",     "title": "Lecture 11",      "topic": "Multithreading<br />Issues<br /><br /><br /><br />", "link": "https://blackboard.stonybrook.edu/bbcswebdav/pid-4037102-dt-content-rid-26509423_1/xid-26509423_1" },
-        { "month": "3",    "day": "2",      "title": "Lecture 12",      "topic": "OO Design<br />using UML<br /><br /><br /><br />",                      "link": "https://blackboard.stonybrook.edu/bbcswebdav/pid-4037108-dt-content-rid-26509428_1/xid-26509428_1" },
-        { "month": "3",    "day": "7",      "title": "Lecture 13",      "topic": "OOP++<br /><br /><br /><br /><br />",           "link": "https://blackboard.stonybrook.edu/bbcswebdav/pid-4037103-dt-content-rid-26509424_1/xid-26509424_1" },
-        { "month": "3",    "day": "9",      "title": "Lecture 14",      "topic": "OOP++<br />(continued)<br /><br />",           "link": "none" },
-        { "month": "3",    "day": "21",     "title": "Lecture 15",    "topic": "Midterm Review<br /><br />",                               "link": "none" },
-        { "month": "3",    "day": "23",     "title": "MIDTERM EXAM",      "topic": "(Lectures 1-14)<br />(<a href='https://blackboard.stonybrook.edu/bbcswebdav/pid-4047954-dt-content-rid-26744603_1/xid-26744603_1'>Sample Midterm</a>)<br />(<a href='https://blackboard.stonybrook.edu/bbcswebdav/pid-4047955-dt-content-rid-26744607_1/xid-26744607_1'>Solutions</a>)", "link": "none" },
-        { "month": "3",    "day": "28",     "title": "Lecture 17",      "topic": "Properties of<br />High Quality<br />Software<br /><br />",                  "link": "https://blackboard.stonybrook.edu/bbcswebdav/pid-4037109-dt-content-rid-26509429_1/xid-26509429_1" },
-        { "month": "3",    "day": "30",     "title": "Lecture 18",      "topic": "Design<br />Review<br /><br /><br /><br />",                "link": "https://blackboard.stonybrook.edu/bbcswebdav/pid-4054382-dt-content-rid-26858605_1/xid-26858605_1" },
-        { "month": "4",    "day": "4",      "title": "Lecture 19",      "topic": "Test-Driven<br />Development<br /><br /><br />",                                             "link": "https://blackboard.stonybrook.edu/bbcswebdav/pid-4057588-dt-content-rid-26923999_1/xid-26923999_1" },
-        { "month": "4",    "day": "6",      "title": "Lecture 20",      "topic": "Test-Driven<br />Development<br />(continued)<br /><br /><br /><br /><br />",                                             "link": "none" },
-        { "month": "4",    "day": "11",     "title": "Lecture 21",      "topic": "Designing<br />with Exceptions<br /><br /><br /><br />",                                             "link": "https://blackboard.stonybrook.edu/bbcswebdav/pid-4061967-dt-content-rid-26973630_1/xid-26973630_1" },
-        { "month": "4",    "day": "13",     "title": "Lecture 22",      "topic": "Designing<br />with Exceptions<br />(continued)<br /><br /><br /><br /><br />",                           "link": "none" },
-        { "month": "4",    "day": "18",     "title": "Lecture 23",      "topic": "Code<br />Profiling<br /><br /><br /><br />",          "link": "https://blackboard.stonybrook.edu/bbcswebdav/pid-4070577-dt-content-rid-27048612_1/xid-27048612_1" },
-        { "month": "4",    "day": "20",     "title": "Lecture 24",   "topic": "Code<br />Profiling<br />(continued)<br /><br /><br /><br /><br />",                                           "link": "none" },
-        { "month": "4",    "day": "25",     "title": "Lecture 25",  "topic": "Creational<br />Design Patterns<br /><br /><br /><br />",             "link": "https://blackboard.stonybrook.edu/bbcswebdav/pid-4073990-dt-content-rid-27109024_1/xid-27109024_1" },
-        { "month": "4",    "day": "27",     "title": "Lecture 26",      "topic": "Structural<br />Design Patterns<br /><br /><br /><br /><br />",               "link": "https://blackboard.stonybrook.edu/bbcswebdav/pid-4075164-dt-content-rid-27136751_1/xid-27136751_1" },
-        { "month": "5",    "day": "2",      "title": "Lecture 27",      "topic": "Behavioral<br />Design Patterns<br /><br /><br /><br />",               "link": "https://blackboard.stonybrook.edu/bbcswebdav/pid-4075165-dt-content-rid-27136753_1/xid-27136753_1" },
-        { "month": "5",    "day": "4",      "title": "Lecture 28",      "topic": "Final Exam<br />Review<br /><br /><br />",                     "link": "none" }
+        {
+            "month":"01",
+            "day":"24",
+            "title":"Lecture 1",
+            "topic":"Software Development Lifecycle   ",
+            "link":""
+        },
+        {
+            "month":"01",
+            "day":"26",
+            "title":"Lecture 2",
+            "topic":"Graphical User Interfaces   ",
+            "link":""
+        },
+        {
+            "month":"01",
+            "day":"31",
+            "title":"Lecture 3",
+            "topic":"Graphical User Interfaces (continued)   ",
+            "link":""
+        },
+        {
+            "month":"02",
+            "day":"02",
+            "title":"Lecture 4",
+            "topic":"Event Programming    ",
+            "link":""
+        },
+        {
+            "month":"02",
+            "day":"07",
+            "title":"Lecture 5",
+            "topic":"Event Programming (continued)  ",
+            "link":""
+        },
+        {
+            "month":"02",
+            "day":"14",
+            "title":"Lecture 7",
+            "topic":"Graphics &amp; GUIs    ",
+            "link":""
+        },
+        {
+            "month":"02",
+            "day":"16",
+            "title":"Lecture 8",
+            "topic":"Web Technologies ( HTML5  &amp;  CSS3 )    ",
+            "link":""
+        },
+        {
+            "month":"02",
+            "day":"21",
+            "title":"Lecture 9",
+            "topic":"Threads &amp; Timers   ",
+            "link":""
+        },
+        {
+            "month":"02",
+            "day":"23",
+            "title":"Lecture 10",
+            "topic":"Threads &amp; Timers (continued)  ",
+            "link":""
+        },
+        {
+            "month":"02",
+            "day":"28",
+            "title":"Lecture 11",
+            "topic":"Multithreading Issues    ",
+            "link":""
+        },
+        {
+            "month":"03",
+            "day":"02",
+            "title":"Lecture 12",
+            "topic":"OO Design using UML    ",
+            "link":""
+        },
+        {
+            "month":"03",
+            "day":"07",
+            "title":"Lecture 13",
+            "topic":"OOP++     ",
+            "link":""
+        },
+        {
+            "month":"03",
+            "day":"09",
+            "title":"Lecture 14",
+            "topic":"OOP++ (continued)  ",
+            "link":""
+        },
+        {
+            "month":"03",
+            "day":"21",
+            "title":"Lecture 15",
+            "topic":"Midterm Review  ",
+            "link":""
+        },
+        {
+            "month":"03",
+            "day":"23",
+            "title":"MIDTERM EXAM",
+            "topic":"(Lectures 1-14) ( Sample Midterm ) ( Solutions )",
+            "link":""
+        },
+        {
+            "month":"03",
+            "day":"28",
+            "title":"Lecture 17",
+            "topic":"Properties of High Quality Software  ",
+            "link":""
+        },
+        {
+            "month":"03",
+            "day":"30",
+            "title":"Lecture 18",
+            "topic":"Design Review    ",
+            "link":""
+        },
+        {
+            "month":"04",
+            "day":"04",
+            "title":"Lecture 19",
+            "topic":"Test-Driven Development   ",
+            "link":""
+        },
+        {
+            "month":"04",
+            "day":"06",
+            "title":"Lecture 20",
+            "topic":"Test-Driven Development (continued)     ",
+            "link":""
+        },
+        {
+            "month":"04",
+            "day":"11",
+            "title":"Lecture 21",
+            "topic":"Designing with Exceptions    ",
+            "link":""
+        },
+        {
+            "month":"04",
+            "day":"13",
+            "title":"Lecture 22",
+            "topic":"Designing with Exceptions (continued)     ",
+            "link":""
+        },
+        {
+            "month":"04",
+            "day":"18",
+            "title":"Lecture 23",
+            "topic":"Code Profiling    ",
+            "link":""
+        },
+        {
+            "month":"04",
+            "day":"20",
+            "title":"Lecture 24",
+            "topic":"Code Profiling (continued)     ",
+            "link":""
+        },
+        {
+            "month":"04",
+            "day":"25",
+            "title":"Lecture 25",
+            "topic":"Creational Design Patterns    ",
+            "link":""
+        },
+        {
+            "month":"04",
+            "day":"27",
+            "title":"Lecture 26",
+            "topic":"Structural Design Patterns     ",
+            "link":""
+        },
+        {
+            "month":"05",
+            "day":"02",
+            "title":"Lecture 27",
+            "topic":"Behavioral Design Patterns    ",
+            "link":""
+        },
+        {
+            "month":"05",
+            "day":"04",
+            "title":"Lecture 28",
+            "topic":"Final Exam Review   ",
+            "link":""
+        },
+        {
+            "month":"01",
+            "day":"24",
+            "title":"Lecture 1",
+            "topic":"Software Development Lifecycle   ",
+            "link":""
+        },
+        {
+            "month":"01",
+            "day":"26",
+            "title":"Lecture 2",
+            "topic":"Graphical User Interfaces   ",
+            "link":""
+        },
+        {
+            "month":"01",
+            "day":"31",
+            "title":"Lecture 3",
+            "topic":"Graphical User Interfaces (continued)   ",
+            "link":""
+        },
+        {
+            "month":"02",
+            "day":"02",
+            "title":"Lecture 4",
+            "topic":"Event Programming    ",
+            "link":""
+        },
+        {
+            "month":"02",
+            "day":"07",
+            "title":"Lecture 5",
+            "topic":"Event Programming (continued)  ",
+            "link":""
+        },
+        {
+            "month":"02",
+            "day":"14",
+            "title":"Lecture 7",
+            "topic":"Graphics &amp; GUIs    ",
+            "link":""
+        },
+        {
+            "month":"02",
+            "day":"16",
+            "title":"Lecture 8",
+            "topic":"Web Technologies ( HTML5  &amp;  CSS3 )    ",
+            "link":""
+        },
+        {
+            "month":"02",
+            "day":"21",
+            "title":"Lecture 9",
+            "topic":"Threads &amp; Timers   ",
+            "link":""
+        },
+        {
+            "month":"02",
+            "day":"23",
+            "title":"Lecture 10",
+            "topic":"Threads &amp; Timers (continued)  ",
+            "link":""
+        },
+        {
+            "month":"02",
+            "day":"28",
+            "title":"Lecture 11",
+            "topic":"Multithreading Issues    ",
+            "link":""
+        },
+        {
+            "month":"03",
+            "day":"02",
+            "title":"Lecture 12",
+            "topic":"OO Design using UML    ",
+            "link":""
+        },
+        {
+            "month":"03",
+            "day":"07",
+            "title":"Lecture 13",
+            "topic":"OOP++     ",
+            "link":""
+        },
+        {
+            "month":"03",
+            "day":"09",
+            "title":"Lecture 14",
+            "topic":"OOP++ (continued)  ",
+            "link":""
+        },
+        {
+            "month":"03",
+            "day":"21",
+            "title":"Lecture 15",
+            "topic":"Midterm Review  ",
+            "link":""
+        },
+        {
+            "month":"03",
+            "day":"23",
+            "title":"MIDTERM EXAM",
+            "topic":"(Lectures 1-14) ( Sample Midterm ) ( Solutions )",
+            "link":""
+        },
+        {
+            "month":"03",
+            "day":"28",
+            "title":"Lecture 17",
+            "topic":"Properties of High Quality Software  ",
+            "link":""
+        },
+        {
+            "month":"03",
+            "day":"30",
+            "title":"Lecture 18",
+            "topic":"Design Review    ",
+            "link":""
+        },
+        {
+            "month":"04",
+            "day":"04",
+            "title":"Lecture 19",
+            "topic":"Test-Driven Development   ",
+            "link":""
+        },
+        {
+            "month":"04",
+            "day":"06",
+            "title":"Lecture 20",
+            "topic":"Test-Driven Development (continued)     ",
+            "link":""
+        },
+        {
+            "month":"04",
+            "day":"11",
+            "title":"Lecture 21",
+            "topic":"Designing with Exceptions    ",
+            "link":""
+        },
+        {
+            "month":"04",
+            "day":"13",
+            "title":"Lecture 22",
+            "topic":"Designing with Exceptions (continued)     ",
+            "link":""
+        },
+        {
+            "month":"04",
+            "day":"18",
+            "title":"Lecture 23",
+            "topic":"Code Profiling    ",
+            "link":""
+        },
+        {
+            "month":"04",
+            "day":"20",
+            "title":"Lecture 24",
+            "topic":"Code Profiling (continued)     ",
+            "link":""
+        },
+        {
+            "month":"04",
+            "day":"25",
+            "title":"Lecture 25",
+            "topic":"Creational Design Patterns    ",
+            "link":""
+        },
+        {
+            "month":"04",
+            "day":"27",
+            "title":"Lecture 26",
+            "topic":"Structural Design Patterns     ",
+            "link":""
+        },
+        {
+            "month":"05",
+            "day":"02",
+            "title":"Lecture 27",
+            "topic":"Behavioral Design Patterns    ",
+            "link":""
+        },
+        {
+            "month":"05",
+            "day":"04",
+            "title":"Lecture 28",
+            "topic":"Final Exam Review   ",
+            "link":""
+        },
+        {
+            "month":"01",
+            "day":"24",
+            "title":"Lecture 1",
+            "topic":"Software Development Lifecycle   ",
+            "link":""
+        },
+        {
+            "month":"01",
+            "day":"26",
+            "title":"Lecture 2",
+            "topic":"Graphical User Interfaces   ",
+            "link":""
+        },
+        {
+            "month":"01",
+            "day":"31",
+            "title":"Lecture 3",
+            "topic":"Graphical User Interfaces (continued)   ",
+            "link":""
+        },
+        {
+            "month":"02",
+            "day":"02",
+            "title":"Lecture 4",
+            "topic":"Event Programming    ",
+            "link":""
+        },
+        {
+            "month":"02",
+            "day":"07",
+            "title":"Lecture 5",
+            "topic":"Event Programming (continued)  ",
+            "link":""
+        },
+        {
+            "month":"02",
+            "day":"14",
+            "title":"Lecture 7",
+            "topic":"Graphics &amp; GUIs    ",
+            "link":""
+        },
+        {
+            "month":"02",
+            "day":"16",
+            "title":"Lecture 8",
+            "topic":"Web Technologies ( HTML5  &amp;  CSS3 )    ",
+            "link":""
+        },
+        {
+            "month":"02",
+            "day":"21",
+            "title":"Lecture 9",
+            "topic":"Threads &amp; Timers   ",
+            "link":""
+        },
+        {
+            "month":"02",
+            "day":"23",
+            "title":"Lecture 10",
+            "topic":"Threads &amp; Timers (continued)  ",
+            "link":""
+        },
+        {
+            "month":"02",
+            "day":"28",
+            "title":"Lecture 11",
+            "topic":"Multithreading Issues    ",
+            "link":""
+        },
+        {
+            "month":"03",
+            "day":"02",
+            "title":"Lecture 12",
+            "topic":"OO Design using UML    ",
+            "link":""
+        },
+        {
+            "month":"03",
+            "day":"07",
+            "title":"Lecture 13",
+            "topic":"OOP++     ",
+            "link":""
+        },
+        {
+            "month":"03",
+            "day":"09",
+            "title":"Lecture 14",
+            "topic":"OOP++ (continued)  ",
+            "link":""
+        },
+        {
+            "month":"03",
+            "day":"21",
+            "title":"Lecture 15",
+            "topic":"Midterm Review  ",
+            "link":""
+        },
+        {
+            "month":"03",
+            "day":"23",
+            "title":"MIDTERM EXAM",
+            "topic":"(Lectures 1-14) ( Sample Midterm ) ( Solutions )",
+            "link":""
+        },
+        {
+            "month":"03",
+            "day":"28",
+            "title":"Lecture 17",
+            "topic":"Properties of High Quality Software  ",
+            "link":""
+        },
+        {
+            "month":"03",
+            "day":"30",
+            "title":"Lecture 18",
+            "topic":"Design Review    ",
+            "link":""
+        },
+        {
+            "month":"04",
+            "day":"04",
+            "title":"Lecture 19",
+            "topic":"Test-Driven Development   ",
+            "link":""
+        },
+        {
+            "month":"04",
+            "day":"06",
+            "title":"Lecture 20",
+            "topic":"Test-Driven Development (continued)     ",
+            "link":""
+        },
+        {
+            "month":"04",
+            "day":"11",
+            "title":"Lecture 21",
+            "topic":"Designing with Exceptions    ",
+            "link":""
+        },
+        {
+            "month":"04",
+            "day":"13",
+            "title":"Lecture 22",
+            "topic":"Designing with Exceptions (continued)     ",
+            "link":""
+        },
+        {
+            "month":"04",
+            "day":"18",
+            "title":"Lecture 23",
+            "topic":"Code Profiling    ",
+            "link":""
+        },
+        {
+            "month":"04",
+            "day":"20",
+            "title":"Lecture 24",
+            "topic":"Code Profiling (continued)     ",
+            "link":""
+        },
+        {
+            "month":"04",
+            "day":"25",
+            "title":"Lecture 25",
+            "topic":"Creational Design Patterns    ",
+            "link":""
+        },
+        {
+            "month":"04",
+            "day":"27",
+            "title":"Lecture 26",
+            "topic":"Structural Design Patterns     ",
+            "link":""
+        },
+        {
+            "month":"05",
+            "day":"02",
+            "title":"Lecture 27",
+            "topic":"Behavioral Design Patterns    ",
+            "link":""
+        },
+        {
+            "month":"05",
+            "day":"04",
+            "title":"Lecture 28",
+            "topic":"Final Exam Review   ",
+            "link":""
+        }
     ],
-    "references": [
-        { "month": "2",     "day": "14",    "title": "Reference",   "topic": "JavaFX Examples", "link": "https://blackboard.stonybrook.edu/bbcswebdav/pid-3870769-dt-content-rid-24893045_1/xid-24893045_1" },
-        { "month": "2",     "day": "16",    "title": "Reference",   "topic": "HTML5", "link": "http://www.w3schools.com/html/html5_intro.asp" },
-        { "month": "2",     "day": "16",    "title": "Reference",   "topic": "CSS3", "link": "http://www.w3schools.com/css3/default.asp" },
-        { "month": "2",     "day": "16",    "title": "Reference",   "topic": "JavaScript", "link": "http://www.w3schools.com/js/default.asp" },
-        { "month": "2",     "day": "16",    "title": "Reference",   "topic": "The DOM", "link": "http://www.w3schools.com/htmldom/default.asp" },
-        { "month": "2",     "day": "16",    "title": "Reference",   "topic": "jQuery", "link": "http://www.w3schools.com/jquery/default.asp" },
-        { "month": "2",     "day": "23",    "title": "Reference",   "topic": "jTPS Framework", "link": "./hw/jTPS.zip" },
-        { "month": "3",     "day": "22",    "title": "Midterm Review", "topic": "7pm-9pm<br />New Computer Science 120", "link": "none" },
-        { "month": "11",    "day": "21",    "title": "Video",       "topic": "-Factory", "link": "https://blackboard.stonybrook.edu/bbcswebdav/pid-3910788-dt-content-rid-25675399_1/xid-25675399_1"},
-        { "month": "11",    "day": "21",    "title": "Video",       "topic": "-Singleton", "link": "https://blackboard.stonybrook.edu/bbcswebdav/pid-3910789-dt-content-rid-25675702_1/xid-25675702_1" },
-        { "month": "11",    "day": "21",    "title": "Video",       "topic": "-Builder", "link": "https://blackboard.stonybrook.edu/bbcswebdav/pid-3910790-dt-content-rid-25675703_1/xid-25675703_1" },
-        { "month": "11",    "day": "21",    "title": "Video",       "topic": "-Prototype", "link": "https://blackboard.stonybrook.edu/bbcswebdav/pid-3910791-dt-content-rid-25675704_1/xid-25675704_1" }
+    "references":[
+        {
+            "month":"03",
+            "day":"none",
+            "title":"Midterm Review",
+            "topic":"7pm-9pm New Computer Science 120",
+            "link":"none"
+        },
+        {
+            "month":"11",
+            "day":"https://blackboard.stonybrook.edu/bbcswebdav/pid-3910788-dt-content-rid-25675399_1/xid-25675399_1",
+            "title":"Video",
+            "topic":"-Factory",
+            "link":"https://blackboard.stonybrook.edu/bbcswebdav/pid-3910788-dt-content-rid-25675399_1/xid-25675399_1"
+        },
+        {
+            "month":"03",
+            "day":"none",
+            "title":"Midterm Review",
+            "topic":"7pm-9pm New Computer Science 120",
+            "link":"none"
+        },
+        {
+            "month":"03",
+            "day":"none",
+            "title":"Midterm Review",
+            "topic":"7pm-9pm New Computer Science 120",
+            "link":"none"
+        }
     ],
     "sch_recitations":[
-        { "month": "1",     "day": "30",    "title": "Recitation 1",    "topic": "NetBeans &amp;<br />Version Control<br /><br />"  },
-        { "month": "1",     "day": "31",    "title": "Recitation 1",    "topic": "NetBeans &amp;<br />Version Control<br /><br />" },
-        { "month": "2",     "day": "1",    "title": "Recitation 1",    "topic": "NetBeans &amp;<br />Version Control<br /><br />" },
-        { "month": "2",     "day": "6",    "title": "Recitation 2",    "topic": "Debugging<br /><br />" },
-        { "month": "2",     "day": "7",    "title": "Recitation 2",    "topic": "Debugging<br /><br />" },
-        { "month": "2",     "day": "8",    "title": "Recitation 2",    "topic": "Debugging<br /><br />" },
-        { "month": "2",     "day": "13",    "title": "Recitation 3",    "topic": "HTML/CSS<br /><br />" },
-        { "month": "2",     "day": "14",    "title": "Recitation 3",    "topic": "HTML/CSS<br /><br />" },
-        { "month": "2",     "day": "15",    "title": "Recitation 3",    "topic": "HTML/CSS<br /><br />" },
-        { "month": "2",    "day": "20",     "title": "Recitation 4",    "topic": "Canvas<br /><br />" },
-        { "month": "2",    "day": "21",     "title": "Recitation 4",    "topic": "Canvas<br /><br />" },
-        { "month": "2",    "day": "22",     "title": "Recitation 4",    "topic": "Canvas<br /><br />" },
-        { "month": "2",    "day": "27",    "title": "Recitation 5",    "topic": "Multithreading<br /><br />" },
-        { "month": "2",    "day": "28",    "title": "Recitation 5",    "topic": "Multithreading<br /><br />" },
-        { "month": "3",    "day": "1",    "title": "Recitation 5",    "topic": "Multithreading<br /><br />" },
-        { "month": "3",    "day": "6",    "title": "Recitation 6",    "topic": "UML<br /><br />" },
-        { "month": "3",    "day": "7",    "title": "Recitation 6",    "topic": "UML<br /><br />" },
-        { "month": "3",    "day": "8",    "title": "Recitation 6",    "topic": "UML<br /><br />" },
-        { "month": "3",    "day": "20",    "title": "NO RECITATION",   "topic": "<br /><br />" },
-        { "month": "3",    "day": "21",    "title": "NO RECITATION",   "topic": "<br /><br />" },
-        { "month": "3",    "day": "22",    "title": "NO RECITATION",   "topic": "<br /><br />" },
-        { "month": "3",    "day": "27",    "title": "Recitation 7",    "topic": "Language<br />Independence<br /><br />" },
-        { "month": "3",    "day": "28",    "title": "Recitation 7",    "topic": "Language<br />Independence<br /><br />" },
-        { "month": "3",    "day": "29",    "title": "Recitation 7",    "topic": "Language<br />Independence<br /><br />" },
-        { "month": "4",    "day": "3",    "title": "Recitation 8",    "topic": "Mockups<br /><br />" },
-        { "month": "4",    "day": "4",     "title": "Recitation 8",    "topic": "Mockups<br /><br />" },
-        { "month": "4",    "day": "5",     "title": "Recitation 8",    "topic": "Mockups<br /><br />" },
-        { "month": "4",    "day": "10",     "title": "Recitation 9",    "topic": "Unit Testing<br /><br />" },
-        { "month": "4",    "day": "11",    "title": "Recitation 9",   "topic": "Unit Testing<br /><br />" },
-        { "month": "4",    "day": "12",    "title": "Recitation 9",   "topic": "Unit Testing<br /><br />" },
-        { "month": "4",    "day": "17",    "title": "Recitation 10",   "topic": "Sparky/Javadoc<br /><br />" },
-        { "month": "4",    "day": "18",    "title": "Recitation 10",   "topic": "Sparky/Javadoc<br /><br />" },
-        { "month": "4",    "day": "19",    "title": "Recitation 10",   "topic": "Sparky/Javadoc<br /><br />" },
-        { "month": "4",    "day": "24",    "title": "Recitation 11",   "topic": "Profiling<br /><br />" },
-        { "month": "4",    "day": "25",    "title": "Recitation 11",   "topic": "Profiling<br /><br />" },
-        { "month": "4",    "day": "26",    "title": "Recitation 11",   "topic": "Profiling<br /><br />" }
     ],
-    "hws": [
-        { "month": "2", "day": "22",    "title": "HW 1",    "topic": "due @ 11:59pm<br />(<a href='./hw/HW1_Solution.zip'>Solution</a>)<br />(GUIs)<br />",               "link": "./hw/HW1.html",     "time": "11:59pm",  "criteria": "https://docs.google.com/spreadsheets/d/1hDY9OR4Nu5p2XLd3mkTB93y78Bnk3LInO0Ydkrz8gZg"  },
-        { "month": "3", "day": "13",    "title": "HW 2",    "topic": "due @ 11:59pm<br />(<a href='./hw/HW2_ExampleSolution1.zip'>Solution #1</a>)<br />(<a href='./hw/HW2_ExampleSolution2.zip'>Solution #2</a>)<br />(<a href='./hw/HW2_ExampleSolution3.zip'>Solution #3</a>)<br />(TPS)<br />",            "link": "./hw/HW2.html",     "time": "11:59pm",  "criteria": "https://docs.google.com/spreadsheets/d/14FTSpiPpIMfhesFq4o3-vENvrX2D0NoaqFEaXa37WmE"  },
-        { "month": "3", "day": "31",    "title": "HW 3",    "topic": "due @ 11:59pm<br />(UML)",            "link": "./hw/HW3.html",     "time": "11:59pm",  "criteria": "https://docs.google.com/spreadsheets/d/191YCoIl5dfRgE_R7uHcYsHl0g5sp6--0xDVmav8svcE"  },
-        { "month": "4", "day": "13",    "title": "HW 4",    "topic": "due @ 11:59pm<br />(UI Layout)",      "link": "./hw/HW4.html",     "time": "11:59pm",  "criteria": "https://docs.google.com/spreadsheets/d/1nznBvuw7oNWf0aOb8ywmFlqYXYL5Kw7eALihp6Zhlzc"  },
-        { "month": "4", "day": "24",    "title": "HW 5",    "topic": "due @ 11:59pm<br />(File Management)",      "link": "./hw/HW5.html",     "time": "11:59pm",  "criteria": "https://docs.google.com/spreadsheets/d/1-sVfemVCuW_CIgiOAxCrfVi19_0O-5RNq8Bt2CVl_L4"  },
-        { "month": "5", "day": "8",     "title": "HW 6",    "topic": "due @ 12:01am<br />(Completed App)",  "link": "./hw/HW6.html",     "time": "12:01am",  "criteria": "none" }
+    "hws":[
+        {
+            "month":"03",
+            "day":"31",
+            "title":"HW 3",
+            "topic":"due @ 11:59pm (UML)",
+            "link":"./hw/HW3.html",
+            "time":"11:59pm",
+            "criteria":"https://docs.google.com/spreadsheets/d/191YCoIl5dfRgE_R7uHcYsHl0g5sp6--0xDVmav8svcE"
+        },
+        {
+            "month":"07",
+            "day":"27",
+            "title":"Summer Assignment",
+            "topic":"Read About CSE 320",
+            "link":"www.cse320.edu",
+            "time":"12:01am",
+            "criteria":"NA"
+        },
+        {
+            "month":"03",
+            "day":"31",
+            "title":"HW 3",
+            "topic":"due @ 11:59pm (UML)",
+            "link":"./hw/HW3.html",
+            "time":"11:59pm",
+            "criteria":"https://docs.google.com/spreadsheets/d/191YCoIl5dfRgE_R7uHcYsHl0g5sp6--0xDVmav8svcE"
+        },
+        {
+            "month":"03",
+            "day":"31",
+            "title":"HW 3",
+            "topic":"due @ 11:59pm (UML)",
+            "link":"./hw/HW3.html",
+            "time":"11:59pm",
+            "criteria":"https://docs.google.com/spreadsheets/d/191YCoIl5dfRgE_R7uHcYsHl0g5sp6--0xDVmav8svcE"
+        }
     ],
     "teams":[
         {
-            "name":"Atomic Comics",
-            "color":"blue",
-            "text_color":"yellow",
-            "link":"hello.org"
+            "name":"Aqua",
+            "red":"0",
+            "green":"255",
+            "blue":"255",
+            "text_color":"black",
+            "link":""
         },
         {
-            "name":"C4 Comics",
-            "color":"yellow",
-            "text_color":"blue",
-            "link":"byebye.org"
+            "name":"Aquamarine",
+            "red":"127",
+            "green":"255",
+            "blue":"212",
+            "text_color":"black",
+            "link":""
+        },
+        {
+            "name":"Battery Charge Blue",
+            "red":"103",
+            "green":"200",
+            "blue":"255",
+            "text_color":"black",
+            "link":""
+        },
+        {
+            "name":"Black",
+            "red":"0",
+            "green":"0",
+            "blue":"0",
+            "text_color":"white",
+            "link":""
+        },
+        {
+            "name":"Blurple",
+            "red":"65",
+            "green":"0",
+            "blue":"255",
+            "text_color":"white",
+            "link":""
+        },
+        {
+            "name":"Burple",
+            "red":"104",
+            "green":"50",
+            "blue":"227",
+            "text_color":"white",
+            "link":""
+        },
+        {
+            "name":"Dark Blue",
+            "red":"0",
+            "green":"0",
+            "blue":"139",
+            "text_color":"white",
+            "link":""
+        },
+        {
+            "name":"Dolphin Blue",
+            "red":"104",
+            "green":"230",
+            "blue":"221",
+            "text_color":"black",
+            "link":""
+        },
+        {
+            "name":"Hot Pink",
+            "red":"255",
+            "green":"105",
+            "blue":"180",
+            "text_color":"black",
+            "link":""
+        },
+        {
+            "name":"Lavender",
+            "red":"230",
+            "green":"230",
+            "blue":"250",
+            "text_color":"black",
+            "link":""
+        },
+        {
+            "name":"Maroon",
+            "red":"128",
+            "green":"0",
+            "blue":"0",
+            "text_color":"white",
+            "link":""
+        },
+        {
+            "name":"Mustard Yellow",
+            "red":"245",
+            "green":"208",
+            "blue":"76",
+            "text_color":"black",
+            "link":""
+        },
+        {
+            "name":"Old Paper",
+            "red":"248",
+            "green":"236",
+            "blue":"194",
+            "text_color":"black",
+            "link":""
+        },
+        {
+            "name":"Orange Peel",
+            "red":"255",
+            "green":"159",
+            "blue":"0",
+            "text_color":"black",
+            "link":""
+        },
+        {
+            "name":"PervÃªnche",
+            "red":"9",
+            "green":"84",
+            "blue":"190",
+            "text_color":"white",
+            "link":""
+        },
+        {
+            "name":"Red Robin",
+            "red":"127",
+            "green":"64",
+            "blue":"64",
+            "text_color":"white",
+            "link":""
+        },
+        {
+            "name":"Space Cadet",
+            "red":"29",
+            "green":"41",
+            "blue":"81",
+            "text_color":"white",
+            "link":""
+        },
+        {
+            "name":"Teal",
+            "red":"0",
+            "green":"128",
+            "blue":"128",
+            "text_color":"black",
+            "link":""
+        },
+        {
+            "name":"White",
+            "red":"255",
+            "green":"255",
+            "blue":"255",
+            "text_color":"black",
+            "link":""
         }
     ],
     "students":[
         {
+            "firstName":"Aaron",
+            "lastName":"Lee",
+            "team":"White",
+            "role":"Lead Programmer"
+        },
+        {
+            "firstName":"Andrea",
+            "lastName":"Cerini",
+            "team":"Space Cadet",
+            "role":"Lead Designer"
+        },
+        {
+            "firstName":"Angela",
+            "lastName":"Liao",
+            "team":"Space Cadet",
+            "role":"Project Manager"
+        },
+        {
+            "firstName":"Awaes",
+            "lastName":"Choudhary",
+            "team":"Maroon",
+            "role":"Lead Programmer"
+        },
+        {
+            "firstName":"Bladimil",
+            "lastName":"Nunez",
+            "team":"Black",
+            "role":"Data Designer"
+        },
+        {
+            "firstName":"Brandon",
+            "lastName":"Cuadrado",
+            "team":"Maroon",
+            "role":"Lead Designer"
+        },
+        {
+            "firstName":"Calvin",
+            "lastName":"Kwok",
+            "team":"Red Robin",
+            "role":"Project Manager"
+        },
+        {
+            "firstName":"Celeste",
+            "lastName":"Ma",
+            "team":"Space Cadet",
+            "role":"Lead Programmer"
+        },
+        {
+            "firstName":"Chaeyoung",
+            "lastName":"Lee",
+            "team":"Black",
+            "role":"Project Manager"
+        },
+        {
+            "firstName":"Chris",
+            "lastName":"Fenton",
+            "team":"Battery Charge Blue",
+            "role":"Lead Designer"
+        },
+        {
+            "firstName":"Chuntak",
+            "lastName":"Kong",
+            "team":"Red Robin",
+            "role":"Data Designer"
+        },
+        {
+            "firstName":"Colin",
+            "lastName":"Monteil Anatra",
+            "team":"Mustard Yellow",
+            "role":"Project Manager"
+        },
+        {
+            "firstName":"Dan",
+            "lastName":"Scanteianu",
+            "team":"Mustard Yellow",
+            "role":"Data Designer"
+        },
+        {
+            "firstName":"David",
+            "lastName":"Lin",
+            "team":"White",
+            "role":"Data Designer"
+        },
+        {
+            "firstName":"Devon",
+            "lastName":"Maguire",
+            "team":"Dolphin Blue",
+            "role":"Project Manager"
+        },
+        {
+            "firstName":"Edgar",
+            "lastName":"Samudio",
+            "team":"PervÃªnche",
+            "role":"Lead Programmer"
+        },
+        {
+            "firstName":"Elvis",
+            "lastName":"Fernandez",
+            "team":"Black",
+            "role":"Lead Designer"
+        },
+        {
+            "firstName":"Eric",
+            "lastName":"Li",
+            "team":"Teal",
+            "role":"Lead Designer"
+        },
+        {
+            "firstName":"Freddy",
+            "lastName":"Estevez",
+            "team":"Dolphin Blue",
+            "role":"Data Designer"
+        },
+        {
+            "firstName":"Gangdi",
+            "lastName":"Huang",
+            "team":"Dark Blue",
+            "role":"Lead Programmer"
+        },
+        {
+            "firstName":"Gauravdeep",
+            "lastName":"Randhawa",
+            "team":"Lavender",
+            "role":"Lead Designer"
+        },
+        {
+            "firstName":"Henry",
+            "lastName":"Chin",
+            "team":"Dolphin Blue",
+            "role":"Lead Designer"
+        },
+        {
+            "firstName":"Hongyang",
+            "lastName":"Zheng",
+            "team":"Orange Peel",
+            "role":"Data Designer"
+        },
+        {
+            "firstName":"James",
+            "lastName":"DeCarlo",
+            "team":"Aqua",
+            "role":"Lead Programmer"
+        },
+        {
             "firstName":"Jane",
-            "lastName":"Jade",
-            "team":"Atomic",
-            "role":"Lead"
+            "lastName":"Thomas",
+            "team":"Maroon",
+            "role":"Data Designer"
         },
         {
-            "firstName":"Neil",
-            "lastName":"Smith",
-            "team":"C4 Atomic",
-            "role":"Developer"
+            "firstName":"Jeonghoon",
+            "lastName":"Kim",
+            "team":"Black",
+            "role":"Lead Programmer"
         },
         {
-            "firstName":"Jason",
-            "lastName":"Ronald",
-            "team":"Rocket Dev",
-            "role":"Designer"
+            "firstName":"Jiaqi",
+            "lastName":"Zhang",
+            "team":"Dark Blue",
+            "role":"Data Designer"
         },
         {
-            "firstName":"Taylor",
-            "lastName":"Kass",
-            "team":"Fun2Code",
-            "role":"Developer"
+            "firstName":"Jie",
+            "lastName":"Liang",
+            "team":"Old Paper",
+            "role":"Lead Programmer"
+        },
+        {
+            "firstName":"Jimmy",
+            "lastName":"Ji",
+            "team":"Battery Charge Blue",
+            "role":"Lead Programmer"
+        },
+        {
+            "firstName":"Jonathan",
+            "lastName":"Leifer",
+            "team":"Lavender",
+            "role":"Lead Programmer"
+        },
+        {
+            "firstName":"Jose",
+            "lastName":"Rodriguez",
+            "team":"Aqua",
+            "role":"Lead Designer"
+        },
+        {
+            "firstName":"Kamin",
+            "lastName":"Punjarojanakul",
+            "team":"White",
+            "role":"Project Manager"
+        },
+        {
+            "firstName":"Karl",
+            "lastName":"Jean Brice",
+            "team":"Teal",
+            "role":"Project Manager"
+        },
+        {
+            "firstName":"Kenny",
+            "lastName":"Chen",
+            "team":"Burple",
+            "role":"Lead Programmer"
+        },
+        {
+            "firstName":"Kevin",
+            "lastName":"Li",
+            "team":"Blurple",
+            "role":"Lead Programmer"
+        },
+        {
+            "firstName":"Kieran",
+            "lastName":"Harrigan",
+            "team":"Hot Pink",
+            "role":"Lead Programmer"
+        },
+        {
+            "firstName":"Konstantinos",
+            "lastName":"Pagonis",
+            "team":"Lavender",
+            "role":"Project Manager"
+        },
+        {
+            "firstName":"Kwun",
+            "lastName":"Chan",
+            "team":"Battery Charge Blue",
+            "role":"Data Designer"
+        },
+        {
+            "firstName":"Luming",
+            "lastName":"Wu",
+            "team":"Orange Peel",
+            "role":"Lead Programmer"
+        },
+        {
+            "firstName":"Marlene",
+            "lastName":"Shankar",
+            "team":"Space Cadet",
+            "role":"Data Designer"
+        },
+        {
+            "firstName":"Maryia",
+            "lastName":"Maskaliova",
+            "team":"Aquamarine",
+            "role":"Lead Programmer"
+        },
+        {
+            "firstName":"Matthew",
+            "lastName":"Monsour",
+            "team":"Aquamarine",
+            "role":"Data Designer"
+        },
+        {
+            "firstName":"Matthew",
+            "lastName":"Del Signore",
+            "team":"Dolphin Blue",
+            "role":"Lead Programmer"
+        },
+        {
+            "firstName":"Matthew",
+            "lastName":"Wong",
+            "team":"Hot Pink",
+            "role":"Data Designer"
+        },
+        {
+            "firstName":"Michael",
+            "lastName":"Dadurian",
+            "team":"Burple",
+            "role":"Project Manager"
+        },
+        {
+            "firstName":"Mingchen",
+            "lastName":"Zhang",
+            "team":"Old Paper",
+            "role":"Project Manager"
+        },
+        {
+            "firstName":"Mingtong",
+            "lastName":"Wu",
+            "team":"Old Paper",
+            "role":"Lead Designer"
+        },
+        {
+            "firstName":"Nauman",
+            "lastName":"Shahzad",
+            "team":"PervÃªnche",
+            "role":"Lead Designer"
+        },
+        {
+            "firstName":"Nelson",
+            "lastName":"Tsui",
+            "team":"Burple",
+            "role":"Data Designer"
+        },
+        {
+            "firstName":"Nicholas",
+            "lastName":"Cataldo",
+            "team":"PervÃªnche",
+            "role":"Data Designer"
+        },
+        {
+            "firstName":"Peter",
+            "lastName":"Geiss",
+            "team":"Mustard Yellow",
+            "role":"Lead Programmer"
+        },
+        {
+            "firstName":"Peter",
+            "lastName":"Jasko",
+            "team":"Mustard Yellow",
+            "role":"Lead Designer"
+        },
+        {
+            "firstName":"Rahul",
+            "lastName":"Verma",
+            "team":"Aqua",
+            "role":"Data Designer"
+        },
+        {
+            "firstName":"Raymond",
+            "lastName":"Xue",
+            "team":"Teal",
+            "role":"Lead Programmer"
+        },
+        {
+            "firstName":"Refath",
+            "lastName":"Hossan",
+            "team":"Burple",
+            "role":"Lead Designer"
+        },
+        {
+            "firstName":"Robert",
+            "lastName":"Trujillo",
+            "team":"Red Robin",
+            "role":"Lead Programmer"
+        },
+        {
+            "firstName":"Roman",
+            "lastName":"Scher",
+            "team":"PervÃªnche",
+            "role":"Project Manager"
+        },
+        {
+            "firstName":"Ryan",
+            "lastName":"Goepfert",
+            "team":"Battery Charge Blue",
+            "role":"Project Manager"
+        },
+        {
+            "firstName":"Shanshan",
+            "lastName":"Chen",
+            "team":"Dark Blue",
+            "role":"Lead Designer"
+        },
+        {
+            "firstName":"Stanley",
+            "lastName":"Chen",
+            "team":"Blurple",
+            "role":"Project Manager"
+        },
+        {
+            "firstName":"Susan",
+            "lastName":"Lin",
+            "team":"Red Robin",
+            "role":"Lead Designer"
+        },
+        {
+            "firstName":"Thomas",
+            "lastName":"Karnati",
+            "team":"Aquamarine",
+            "role":"Project Manager"
+        },
+        {
+            "firstName":"Tiffany",
+            "lastName":"Ramroop",
+            "team":"Maroon",
+            "role":"Project Manager"
+        },
+        {
+            "firstName":"Tyler",
+            "lastName":"Thompson",
+            "team":"Hot Pink",
+            "role":"Project Manager"
+        },
+        {
+            "firstName":"Varun",
+            "lastName":"Shivakumar",
+            "team":"Blurple",
+            "role":"Data Designer"
+        },
+        {
+            "firstName":"Wei Bin",
+            "lastName":"Wang",
+            "team":"Aquamarine",
+            "role":"Lead Designer"
+        },
+        {
+            "firstName":"Wilson",
+            "lastName":"Tang",
+            "team":"White",
+            "role":"Lead Designer"
+        },
+        {
+            "firstName":"Xiangbin",
+            "lastName":"Zeng",
+            "team":"Teal",
+            "role":"Data Designer"
+        },
+        {
+            "firstName":"Xing",
+            "lastName":"Han",
+            "team":"Old Paper",
+            "role":"Data Designer"
+        },
+        {
+            "firstName":"Xinwen",
+            "lastName":"Wang",
+            "team":"Orange Peel",
+            "role":"Project Manager"
+        },
+        {
+            "firstName":"Yanda",
+            "lastName":"Wu",
+            "team":"Dark Blue",
+            "role":"Project Manager"
+        },
+        {
+            "firstName":"Yida",
+            "lastName":"Yuan",
+            "team":"Orange Peel",
+            "role":"Lead Designer"
+        },
+        {
+            "firstName":"Yifang",
+            "lastName":"Cao",
+            "team":"Lavender",
+            "role":"Data Designer"
+        },
+        {
+            "firstName":"Yongcong",
+            "lastName":"Lei",
+            "team":"Blurple",
+            "role":"Lead Designer"
+        },
+        {
+            "firstName":"Zach",
+            "lastName":"Lerman",
+            "team":"Aqua",
+            "role":"Project Manager"
+        },
+        {
+            "firstName":"Zhe",
+            "lastName":"Lin",
+            "team":"Hot Pink",
+            "role":"Lead Designer"
         }
     ]
 }

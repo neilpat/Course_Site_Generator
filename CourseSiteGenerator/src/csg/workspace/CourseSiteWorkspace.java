@@ -40,12 +40,11 @@ import csg.data.semesters;
 import csg.data.sitePage;
 import csg.data.student;
 import csg.data.team;
-import djf.controller.AppFileController;
 import java.io.File;
 import java.io.IOException;
-import java.math.BigInteger;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.time.LocalDate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.scene.control.DatePicker;
@@ -234,7 +233,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     
     TableView<schedule> scheduleTable;
     TableColumn<schedule, String> type;
-    TableColumn<schedule, BigInteger> date;
+    TableColumn<schedule, String> date;
     TableColumn<schedule, String> title;
     TableColumn<schedule, String> topic;
     
@@ -250,9 +249,9 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     TableColumn<student, String> team;
     TableColumn<student, String> role;
     
-    DatePicker startDate;
-    DatePicker endDate;
-    DatePicker plannedDate;   
+    DatePicker startDate = new DatePicker();
+    DatePicker endDate = new DatePicker();
+    DatePicker plannedDate = new DatePicker();   
        
     //FOR THE SITE TABLE
     ObservableList<sitePage> sitePages;
@@ -328,8 +327,23 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     TextField inputColor2Field;
     Circle color1;
     Circle color2;
-    private Button updateLinkButton;
+    Button updateLinkButton;
+    TextField linkField;
+    Button clearStudentButton;
+    Button updateStudentButton;
+    TextField firstNameField;
+    TextField lastNameField;
+    TextField teamField;
+    TextField roleField;
     
+    
+    int sizeOfHB = 8;
+    int NoInHB = 4;
+    int halfByte = 0x0F;
+    char[] hexDigits = { 
+        '0', '1', '2', '3', '4', '5', '6', '7', 
+        '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
+    };
     
     
     
@@ -976,17 +990,20 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         officeHoursGridTACellLabels.clear();
         
         
+        sub_name.setValue("");
+        Number.setValue("");
+        Semester.setValue("");
+        Year.setValue("");
+        instructorNameField.setText("");
+        instructorHomeField.setText("");
+        titleField.setText("");
+        
     }
     
     @Override
     public void reloadWorkspace(AppDataComponent dataComponent) {
         TAData taData = (TAData)dataComponent;
         reloadOfficeHoursGrid(taData);
-        try {
-            reloadCourseData(taData);
-        } catch (IOException ex) {
-            Logger.getLogger(CourseSiteWorkspace.class.getName()).log(Level.SEVERE, null, ex);
-        }
         
     }
     
@@ -1039,8 +1056,12 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         Semester= new ComboBox();
         Year= new ComboBox();
         for(int i=0; i<courses.size();i++){
-            sub_name.getItems().add(courses.get(i).getName());
-            Number.getItems().add(courses.get(i).getNumber());
+            if(!sub_name.getItems().contains(courses.get(i).getName())){
+                 sub_name.getItems().add(courses.get(i).getName());
+            }
+              if(!Number.getItems().contains(courses.get(i).getNumber())){
+                  Number.getItems().add(courses.get(i).getNumber());
+            }
         }
         for(int i=0;i < sems.size();i++){
             Semester.getItems().add(sems.get(i).getSemester());
@@ -1098,8 +1119,6 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         
         titleField.setOnKeyTyped(e->{
             data.setPageTitle(titleField.getText());
-            AppFileController controller = app.getGUI().getAppfileController();
-            controller.markFileAsNotSaved();
         });
         instructorNameField.setOnKeyTyped(e->{
              data.setInstructorName(instructorNameField.getText());
@@ -1107,7 +1126,6 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         instructorHomeField.setOnKeyTyped(e->{
             data.setInsturctorHome(instructorHomeField.getText());
         });
-        
         
         GridPane DirectoryBox = new GridPane();
         ColumnConstraints widthA = new ColumnConstraints(130);
@@ -1131,9 +1149,6 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         courseInfoBox.getChildren().add(courseInfo2);
         courseInfoBox.getChildren().add(DirectoryBox);
         
-        //courseInfoBox.setStyle("-fx-background-color: #DCDCDC;");   //GRAY COLOR
-        //end of course details Hbox
-        
         //begin of site Template HBox
         VBox finalSiteTemplateBox = new VBox();
         siteTemplate = new HBox();
@@ -1154,11 +1169,16 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         finalSiteTemplateBox.setSpacing(10);
         
           sitePages = FXCollections.observableArrayList();
-        
+          sitePage Home = new sitePage(true, "Home", "index.html", "HomeBuilder.js");
+          sitePage Syllabus = new sitePage(true, "Syllabus", "syllabus.html", "SyllabusBuilder.js");
+          sitePage Schedule = new sitePage(true, "Schedule", "schedule.html", "ScheduleBuilder.js");
+          sitePage HWs = new sitePage(true, "HWs", "hws.html", "HWsBuilder.js");
+          sitePage Projects = new sitePage(false, "Projects", "projects.html", "ProjectsBuilder.js");
+          
+        sitePages.addAll(Home,Syllabus,Schedule,HWs,Projects);
         
         siteTable = new TableView<sitePage>();
         siteTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        sitePages = data.getPages();
         siteTable.setItems(sitePages);
         
         use = new TableColumn(props.getProperty(csgProp.USE_LABEL));
@@ -1238,7 +1258,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
                 leftFooterFilePath = controller.handleAddLeftFooterImage("");
                 data.setLeftFootImageFilePath(leftFooterFilePath);
             } catch (IOException ex) {
-                Logger.getLogger(CourseSiteWorkspace.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("Image Faild To Load");
             }
         });
         changeRightFooterButton.setOnAction(e->{
@@ -1246,10 +1266,9 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
                 rightFooterFilePath = controller.handleAddRightFooterImage("");
                 data.setRightFooterImageFilePath(rightFooterFilePath);
             } catch (IOException ex) {
-                Logger.getLogger(CourseSiteWorkspace.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("Image Faild to Load");
             }
         });
-        
         
         logoImagePane.add(bannerImage, 0, 0);
         logoImagePane.add(bannerImageView, 1, 0);
@@ -1271,7 +1290,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         stylesheets.add("eagle.css");
         styleSheetComboBox.getItems().addAll(stylesheets);
         styleSheetComboBox.setPrefWidth(200);
-        styleSheetComboBox.setPromptText(stylesheets.get(0).toString());
+        styleSheetComboBox.setPromptText(stylesheets.get(0));
         
         styleSheetLabel = new Label(props.getProperty(csgProp.STYLE_SHEET_LABEL.toString()));
         styleSheetBox.getChildren().add(styleSheetLabel);
@@ -1293,29 +1312,8 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         finalCourseDetailsBox.setPadding(new Insets(10, 300, 10, 300));
         finalCourseDetailsBox.setContent(course_details_box);
         
-        reloadCourseData(data);
         
         return finalCourseDetailsBox;
-    }
-    public void reloadCourseData(TAData data) throws IOException{
-        try{
-            sub_name.setPromptText(data.getCourseName());
-            Number.setPromptText(data.getCourseNumber());
-            Semester.setPromptText(data.getSemester());
-            Year.setPromptText(data.getYear());
-            
-            titleField.setText(data.getPageTitle());
-            instructorHomeField.setText(data.getInsturctorHome());
-            instructorNameField.setText(data.getInstructorName());
-            
-            controller.handleAddBannerImage(data.getBannerImageFilePath());
-            controller.handleAddLeftFooterImage(data.getLeftFootImageFilePath());
-            controller.handleAddRightFooterImage(data.getRightFooterImageFilePath());
-            
-        }catch(NullPointerException e){
-            System.out.println("Missing data");
-        }
-        
     }
     public ScrollPane getFinalCourseDetailsBox() {
         return finalCourseDetailsBox;
@@ -1459,7 +1457,6 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         recitationTable.getColumns().add(Table_TA2);
         recitationTable.setMaxHeight(400);
         
-        
         add_edit_box = new VBox();
         add_edit_label = new Label(props.getProperty(csgProp.ADD_EDIT_LABEL.toString()));
         section_label = new Label(props.getProperty(csgProp.SECTION_LABEL.toString()));
@@ -1573,11 +1570,13 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
             add_edit_input.add(addRecitationButton, 0, 6);
             clearRecitationButton.setDisable(true);
         });
-        
+        reloadRecitationData(data);
         return recitation_details_box;
        
     }
-
+    public void reloadRecitationData(TAData data){
+        
+    }
     public ComboBox getSupervising_TA_ComboBox2() {
         return supervising_TA_ComboBox2;
     }
@@ -1692,25 +1691,21 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
                 startDateLabel.setText( props.getProperty(csgProp.STARTDATE_LABEL.toString())
                         +startDate.getValue().getDayOfWeek().toString());
             }
-            String date = startDate.getValue().toString();
-            String[] dateArray = date.split("-", 5);
+            String begDate = startDate.getValue().toString();
+            String[] dateArray = begDate.split("-", 5);
             data.setStartDay(dateArray[2]);
             data.setStartMonth(dateArray[1]);
-            
-            
         });
         endDate.setOnAction(e->{
             if(endDate.getValue() != null){
                 endDateLabel.setText( props.getProperty(csgProp.ENDDATE_LABEL.toString())
                         +endDate.getValue().getDayOfWeek().toString());
             }
-            String date = endDate.getValue().toString();
-            String[] dateArray = date.split("-", 5);
+            String lastDate = endDate.getValue().toString();
+            String[] dateArray = lastDate.split("-", 5);
             data.setEndDay(dateArray[2]);
             data.setEndMonth(dateArray[1]);
         });
-        
-        
         
         schedules = FXCollections.observableArrayList();
         schedules = data.getSchedules();
@@ -1724,7 +1719,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         type.prefWidthProperty().bind(scheduleTable.widthProperty().multiply(0.2));
         date = new TableColumn(props.getProperty(csgProp.DATE_LABEL));
         date.setCellValueFactory(
-                new PropertyValueFactory<schedule, BigInteger>("date")
+                new PropertyValueFactory<schedule, String>("date")
         );
         date.prefWidthProperty().bind(scheduleTable.widthProperty().multiply(0.2));
         title = new TableColumn(props.getProperty(csgProp.TITLE_LABEL));
@@ -1774,6 +1769,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         clearScheduleButton.setDisable(true);
         updateScheduleButton = new Button(props.getProperty(csgProp.UPDATE_BUTTON_TEXT.toString()));
         updateScheduleButton.setPrefWidth(130);
+        clearScheduleButton = new Button(props.getProperty(csgProp.CLEAR_BUTTON_TEXT.toString()));
         
         final_scheduleItemsBox = new VBox();
         GridPane add_edit_input_schedule = new GridPane();
@@ -1816,9 +1812,8 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         time_textField.setOnKeyPressed(e->{
             data.setTime_textField(time_textField.getText());
         });
-        plannedDate.setOnAction(e->{
+        plannedDate.setOnInputMethodTextChanged(e->{
             data.setPlannedDate(plannedDate.getValue().toString());
-            System.out.println(data.getPlannedDate());
         });
         title_textField.setOnKeyPressed(e->{
             data.setTitle_textField(title_textField.getText());
@@ -1851,8 +1846,9 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         minimize_schedulesButton.setOnAction(e->{
             controller.handleDeleteSchedule();
         });
-        
-        
+        clearScheduleButton.setOnAction(e->{
+            controller.handleClearSchedule();
+        });
         scheduleItemsLabel = new Label(props.getProperty(csgProp.SCHEDULE_ITEMS_LABEL.toString()));
         scheduleItemsHeaderBox.getChildren().add(scheduleItemsLabel);
         scheduleItemsHeaderBox.getChildren().add(minimize_schedulesButton);
@@ -1955,8 +1951,6 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
                 new PropertyValueFactory<team, String>("color")
         );
         color.prefWidthProperty().bind(teamTable.widthProperty().multiply(0.2));
-        
-        color.prefWidthProperty().bind(teamTable.widthProperty().multiply(0.2));
         textColor = new TableColumn(props.getProperty(csgProp.TEXT_COLOR_TEXT));
         textColor.setCellValueFactory(
                 new PropertyValueFactory<team, String>("textColor")
@@ -2023,6 +2017,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
                             color1.setStyle("-fx-fill: "+inputColor1Field.getText().toString());
                             inputColor1Field.setOpacity(0.2);
                             inputColor1Field.setStyle("-fx-control-inner-background: white");
+                            
                         }catch(Exception g){
                             g.printStackTrace();
                         }
@@ -2046,7 +2041,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
                     linkBox.getColumnConstraints().add(width);
                     linkBox.getRowConstraints().add(hight);
                     projectLinkLabel = new Label("Link");
-                    TextField linkField = new TextField();
+                    linkField = new TextField();
                     addLinkButton = new Button("Add Team");
                     updateLinkButton = new Button("Update Team");
                     clearLinkButton = new Button(props.getProperty(csgProp.CLEAR_BUTTON_TEXT.toString()));
@@ -2071,6 +2066,9 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
             color2Pane.setOnMouseClicked(e->{
                 data.setColor((String)inputColor2Field.getText());
             });
+            linkField.setOnAction(e->{
+                data.setLink_textField((String)linkField.getText());
+            });
             
             teamTable.setOnMouseClicked(e->{
                 controller.handleSelectedTeam();
@@ -2086,6 +2084,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
             
             addLinkButton.setOnAction(e->{
                 controller.handleAddTeam();
+                teamTable.refresh();
             });
             clearLinkButton.setOnAction(e->{
                 controller.handleClearTeam();
@@ -2095,9 +2094,6 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
                 clearLinkButton.setDisable(true);
             });
             
-            
-            
-        
         teamsBox.getChildren().add(addEditTeamBox);
         ////////////////////////////////////////////////////////////
         studentsBox = new VBox();
@@ -2161,13 +2157,14 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
             teamLabel = new Label(props.getProperty(csgProp.TEAM_NAME_LABEL));
             roleLabel = new Label(props.getProperty(csgProp.ROLE_LABEL));
             
-            TextField firstNameField = new TextField();
-            TextField lastNameField = new TextField();
-            TextField teamField = new TextField();
-            TextField roleField = new TextField();
+            firstNameField = new TextField();
+            lastNameField = new TextField();
+            teamField = new TextField();
+            roleField = new TextField();
             
             addStudentButton = new Button(props.getProperty(csgProp.ADD_BUTTON_TEXT));
-            clearStudeButton = new Button(props.getProperty(csgProp.CLEAR_BUTTON_TEXT));
+            clearStudentButton = new Button(props.getProperty(csgProp.CLEAR_BUTTON_TEXT));
+            updateStudentButton = new Button(props.getProperty(csgProp.UPDATE_BUTTON_TEXT));
             
             addEditStudentBox.add(addEditStudentLabel, 0, 0);
             addEditStudentBox.add(firstNameLabel, 0, 1);
@@ -2179,10 +2176,43 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
             addEditStudentBox.add(roleLabel, 0, 4);
             addEditStudentBox.add(roleField, 1, 4);
             addEditStudentBox.add(addStudentButton, 0, 5);
-            addEditStudentBox.add(clearStudeButton, 1, 5);
+            addEditStudentBox.add(clearStudentButton, 1, 5);
             addEditStudentBox.setPadding(new Insets(25, 5, 5, 5));
         
         studentsBox.getChildren().add(addEditStudentBox);
+        
+        firstNameField.setOnAction(e->{
+            data.setStudentFirstName(firstNameField.getText());
+        });
+        lastNameField.setOnAction(e->{
+            data.setStudentLastName(lastNameField.getText());
+        });
+        teamField.setOnAction(e->{
+            data.setStudentTeamName(teamField.getText());
+        });
+        roleField.setOnAction(e->{
+            data.setStudentTeamName(roleField.getText());
+        });
+        
+        addStudentButton.setOnAction(e->{
+            controller.handleAddStudentButton();
+        });
+        clearStudentButton.setOnAction(e->{
+            addEditStudentBox.getChildren().remove(updateStudentButton);
+            addEditStudentBox.add(addStudentButton, 0, 5);
+            controller.handleClearStudentButton();
+            
+        });
+        updateStudentButton.setOnAction(e->{
+            controller.handleUpdateStudentButton();
+        });
+        studentTable.setOnMouseClicked(e->{
+            if(!(((student)studentTable.getSelectionModel().getSelectedItem()).getFirstName()==null)){
+                addEditStudentBox.getChildren().remove(addStudentButton);
+                addEditStudentBox.add(updateStudentButton, 0, 5);
+                controller.handleSelectedStudent();
+            }
+        });
         
         projectDetailsBox.getChildren().add(projectHeaderBox);
         projectDetailsBox.getChildren().add(teamsBox);
@@ -2195,6 +2225,30 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         finalprojectDetailsBox.setStyle("-fx-background-color: #FDCE99");
         
         return finalprojectDetailsBox;
+    }
+
+    public TextField getLastNameField() {
+        return lastNameField;
+    }
+
+    public TextField getTeamField() {
+        return teamField;
+    }
+
+    public TextField getRoleField() {
+        return roleField;
+    }
+
+    public TextField getFirstNameField() {
+        return firstNameField;
+    }
+
+    public void setLink(TableColumn<team, String> link) {
+        this.link = link;
+    }
+
+    public TextField getLinkField() {
+        return linkField;
     }
 
     public Circle getColor1() {
@@ -2521,7 +2575,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         return type;
     }
 
-    public TableColumn<schedule, BigInteger> getDate() {
+    public TableColumn<schedule, String> getDate() {
         return date;
     }
 
@@ -2648,4 +2702,75 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     public Label getTextColorLabel() {
         return textColorLabel;
     }
+
+    public void setSub_name(String sub_name) {
+        this.sub_name.setValue(sub_name);
+    }
+
+    public void setNumber(String Number) {
+        this.Number.setValue(Number);
+    }
+
+    public void setInstructorNameField(String instructorNameField) {
+        this.instructorNameField.setText(instructorNameField);
+    }
+
+    public void setInstructorHomeField(String instructorHomeField) {
+        this.instructorHomeField.setText(instructorHomeField);
+    }
+
+    public void setSemester(String Semester) {
+        this.Semester.setValue(Semester);
+    }
+
+    public void setYear(String Year) {
+        this.Year.setValue(Year);
+    }
+
+    public void setTitleField(String titleField) {
+        this.titleField.setText(titleField);
+    }
+
+    public void setBannerFilePath(String bannerFilePath) {
+        this.bannerFilePath = bannerFilePath;
+    }
+
+    public void setLeftFooterFilePath(String leftFooterFilePath) {
+        this.leftFooterFilePath = leftFooterFilePath;
+    }
+
+    public void setRightFooterFilePath(String rightFooterFilePath) {
+        this.rightFooterFilePath = rightFooterFilePath;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate.setValue(LocalDate.parse(startDate));
+    }
+
+    public void setEndDate(String endDate) {
+       this.endDate.setValue(LocalDate.parse(endDate));
+    }
+    public String decToHex(int dec) {
+        StringBuilder hexBuilder = new StringBuilder(sizeOfHB);
+        hexBuilder.setLength(sizeOfHB);
+        for (int i = sizeOfHB - 1; i >= 0; --i)
+        {
+            int j = dec & halfByte;
+            hexBuilder.setCharAt(i, hexDigits[j]);
+            dec >>= NoInHB;
+        }
+        return hexBuilder.toString(); 
+    } 
+    public int hexTodecimal(String s) {
+        String digits = "0123456789ABCDEF";
+        s = s.toUpperCase();
+        int val = 0;
+        for (int i = 0; i < s.length(); i++) {
+             char c = s.charAt(i);
+             int d = digits.indexOf(c);
+             val = 16*val + d;
+        }
+        return val;
+    }
 }
+

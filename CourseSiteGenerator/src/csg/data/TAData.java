@@ -38,6 +38,7 @@ public class TAData implements AppDataComponent {
     ObservableList<schedule> schedules;
     ObservableList<team> teams;
     ObservableList<student> students;
+    ObservableList<projects> projects;
 
     // THIS WILL STORE ALL THE OFFICE HOURS GRID DATA, WHICH YOU
     // SHOULD NOTE ARE StringProperty OBJECTS THAT ARE CONNECTED
@@ -61,19 +62,25 @@ public class TAData implements AppDataComponent {
     // DEFAULT VALUES FOR START AND END HOURS IN MILITARY HOURS
     public static final int MIN_START_HOUR = 0;
     public static final int MAX_END_HOUR = 23;
+    public static final int MIN_START_YEAR = 2017;
+    public static final int MIN_START_MONTH = 01;
+    public static final int MIN_START_DAY = 01;
+    public static final int MIN_END_YEAR = 2020;
+    public static final int MIN_END_MONTH = 12;
+    public static final int MIN_END_DAY = 26;
     
-    public String courseName;
-    public String courseNumber;
-    public String semester;
-    public String year;
+    public String courseName = "";
+    public String courseNumber = "";
+    public String semester = "";
+    public String year = "";
     
-    public String pageTitle;
-    public String instructorName;
-    public String insturctorHome;
+    public String pageTitle = "";
+    public String instructorName = "";
+    public String insturctorHome = "";
     
-    public String bannerImageFilePath;
-    public String leftFootImageFilePath;
-    public String rightFooterImageFilePath;
+    public String bannerImageFilePath ;
+    public String leftFootImageFilePath ;
+    public String rightFooterImageFilePath ;
     
     public String exportDirectoryPath;
     
@@ -89,16 +96,17 @@ public class TAData implements AppDataComponent {
     public String color;
     public String textColor;
     
-    public String startMonth;
-    public String startDay;
-    public String endMonth;
-    public String endDay;
+    public String startYear = MIN_START_YEAR+"";
+    public String startMonth = MIN_START_MONTH+"";
+    public String startDay = MIN_START_DAY+"";;
+    public String endYear = MIN_END_YEAR+"";;
+    public String endMonth = MIN_END_MONTH+"";;
+    public String endDay = MIN_END_DAY+"";;
     
-    
-    
-    
-    
-
+    public String studentFirstName;
+    public String studentLastName;
+    public String studentTeamName;
+    public String studentRole;
     /**
      * This constructor will setup the required data structures for
      * use, but will have to wait on the office hours grid, since
@@ -119,6 +127,7 @@ public class TAData implements AppDataComponent {
         schedules = FXCollections.observableArrayList();
         teams = FXCollections.observableArrayList();
         students = FXCollections.observableArrayList();
+        projects = FXCollections.observableArrayList();
         // THESE ARE THE DEFAULT OFFICE HOURS
         startHour = MIN_START_HOUR;
         endHour = MAX_END_HOUR;
@@ -143,6 +152,12 @@ public class TAData implements AppDataComponent {
     public void resetData() {
         startHour = MIN_START_HOUR;
         endHour = MAX_END_HOUR;
+        startYear = MIN_START_YEAR+"";
+        startMonth = MIN_START_MONTH+"";
+        startDay =MIN_START_DAY+"";
+        endYear = MIN_END_YEAR+"";
+        endMonth = MIN_END_MONTH+"";
+        endDay = MIN_END_DAY+"";
         teachingAssistants.clear();
         officeHours.clear();
         courses.clear();
@@ -158,6 +173,26 @@ public class TAData implements AppDataComponent {
         gridHeaders = new ArrayList();
         gridHeaders.addAll(timeHeaders);
         gridHeaders.addAll(dowHeaders);
+    }
+
+    public ObservableList<projects> getProjects() {
+        return projects;
+    }
+
+    public void setStartYear(String startYear) {
+        this.startYear = startYear;
+    }
+
+    public void setEndYear(String endYear) {
+        this.endYear = endYear;
+    }
+
+    public String getStartYear() {
+        return startYear;
+    }
+
+    public String getEndYear() {
+        return endYear;
     }
 
     public String getStartMonth() {
@@ -534,6 +569,12 @@ public class TAData implements AppDataComponent {
         
     }
     
+    /**
+     *
+     * @param day
+     * @param time
+     * @param taName
+     */
     public void addOfficeHoursReservation(String day, String time, String taName) {
         String cellKey = getCellKey(day, time);
         toggleTAOfficeHours(cellKey, taName);
@@ -543,6 +584,7 @@ public class TAData implements AppDataComponent {
      * This function toggles the taName in the cell represented
      * by cellKey. Toggle means if it's there it removes it, if
      * it's not there it adds it.
+     * @param cellKey
      */
     public void toggleTAOfficeHours(String cellKey, String taName) {
         
@@ -728,20 +770,20 @@ public class TAData implements AppDataComponent {
         return recitaitons;
     }
     
-    public void addSchedule(String type, String date, String title, String topic, String link, String time,String criteria){
-        schedule sch = new schedule(type, date, title, topic, link, time,criteria);
+    public void addSchedule(String type, String month, String day, String title, String topic, String link, String time,String criteria){
+        schedule sch = new schedule(type, month,day, title, topic, link, time,criteria);
         
         // ADD THE COURSE
-       if(!containsSchedule(date)){
+       if(!containsSchedule(month, day)){
             schedules.add(sch);
         }
 
         // SORT THE TAS
         //Collections.sort(schedules);
     }
-    public boolean containsSchedule(String date) {
+    public boolean containsSchedule(String month, String day) {
         for (schedule sch: schedules) {
-            if (sch.getDate().equals(date)) {
+            if (sch.getMonth().equals(month) && sch.getDay().equals(day)) {
                 return true;
             }
         }
@@ -752,8 +794,8 @@ public class TAData implements AppDataComponent {
         return schedules;
     }
     
-    public void addTeam(String name, String color, String textColor, String link){
-        team tm = new team(name, color, textColor, link);
+    public void addTeam(String name, String red, String green, String blue, String textColor, String link){
+        team tm = new team(name, red, green, blue, textColor, link);
         
         // ADD THE COURSE
        if(!containsTeam(name)){
@@ -797,5 +839,23 @@ public class TAData implements AppDataComponent {
 
     public ObservableList<student> getStudents() {
         return students;
+    }
+    public void removeStudent(student stu){
+        students.remove(stu);
+    }
+    public void setStudentFirstName(String studentFirstName) {
+        this.studentFirstName = studentFirstName;
+    }
+
+    public void setStudentLastName(String studentLastName) {
+        this.studentLastName = studentLastName;
+    }
+
+    public void setStudentTeamName(String studentTeamName) {
+        this.studentTeamName = studentTeamName;
+    }
+
+    public void setStudentRole(String studentRole) {
+        this.studentRole = studentRole;
     }
 }
