@@ -5,30 +5,30 @@
  */
 package csg.transactions;
 
+
 import jtps.jTPS_Transaction;
 import csg.data.TAData;
-import csg.data.TeachingAssistant;
-
+import csg.data.recitation;
 
 /**
  *
  * @author Neil
  */
-public class Add_TA_Trans implements jTPS_Transaction{
-    TeachingAssistant ta;
+public class Add_Rec_Trans implements jTPS_Transaction{
+    recitation rec;
     TAData data;
-    public Add_TA_Trans(TeachingAssistant ta, TAData data){
-        this.ta = ta;
+    public Add_Rec_Trans(recitation rec, TAData data){
+        this.rec = rec;
         this.data = data;
     }
     @Override
     public void doTransaction() {
-        data.addTA(Boolean.TRUE,ta.getName(), ta.getEmail());
-        ta = data.getTA(ta.getName(), ta.getEmail());
+        data.addRecitation(rec.getSection(), rec.getInstructor(), rec.getDay_time(),
+                rec.getLocation(), rec.getTA1(), rec.getTA2());
+        rec = data.getRecitation(rec.getSection());
     }
     @Override
     public void undoTransaction() {
-        data.deleteTA(ta);
+        data.deleteRecitation(rec);
     }
-    
 }

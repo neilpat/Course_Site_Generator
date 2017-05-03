@@ -20,6 +20,8 @@ import csg.data.recitation;
 import csg.data.schedule;
 import csg.data.student;
 import csg.data.team;
+import csg.transactions.Add_Rec_Trans;
+import csg.transactions.Add_Schedule_Trans;
 import csg.transactions.Add_TA_Trans;
 import csg.transactions.Remove_TA_Trans;
 import csg.transactions.Toggle_TAOfficeHours_Trans;
@@ -29,13 +31,11 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -111,7 +111,6 @@ public class CourseSiteController {
             // ADD THE NEW TA TO THE DATA
             data.addTA(true,name,email);
             
-            
             // CLEAR THE TEXT FIELDS
             nameTextField.setText("");
             emailTextField.setText("");
@@ -119,9 +118,9 @@ public class CourseSiteController {
             // AND SEND THE CARET BACK TO THE NAME TEXT FIELD FOR EASY DATA ENTRY
             nameTextField.requestFocus();
             
-//            TeachingAssistant ta = data.getTA(name, email);
-//            jTPS_Transaction trans = new Add_TA_Trans(ta, data);
-//            workspace.getJTPS().addTransaction(trans);
+            TeachingAssistant ta = data.getTA(name, email);
+            jTPS_Transaction trans = new Add_TA_Trans(ta, data);
+            workspace.getJTPS().addTransaction(trans);
         }
         app.getGUI().updateToolbarControls(false);
         
@@ -154,17 +153,10 @@ public class CourseSiteController {
        
         // set the name and email fields with the selected TA
         
-        TextField nameTextField = workspace.getNameTextField();
-        TextField emailTextField = workspace.getEmailTextField();
-        
-        
         // AND TOGGLE THE OFFICE HOURS IN THE CLICKED CELL
         
-        data.toggleTAOfficeHours(cellKey, taName);
-        
-       
-//        jTPS_Transaction trans = new Toggle_TAOfficeHours_Trans(cellKey,taName, data);
-//        workspace.getJTPS().addTransaction(trans);
+        jTPS_Transaction trans = new Toggle_TAOfficeHours_Trans(cellKey,taName, data);
+        workspace.getJTPS().addTransaction(trans);
         
         app.getGUI().updateToolbarControls(false);
         AppFileController appFileController = app.getGUI().getAppfileController();
@@ -198,6 +190,7 @@ public class CourseSiteController {
         workspace.getJTPS().addTransaction(trans);
         
         dataComponent.deleteTA(focused);
+        handleClear();
         app.getGUI().updateToolbarControls(false);
         
         AppFileController appFileController = app.getGUI().getAppfileController();
@@ -500,9 +493,9 @@ public class CourseSiteController {
             // AND SEND THE CARET BACK TO THE NAME TEXT FIELD FOR EASY DATA ENTRY
             sectionTextField.requestFocus();
             
-//            TeachingAssistant ta = data.getTA(name, email);
-//            jTPS_Transaction trans = new Add_TA_Trans(ta, data);
-//            workspace.getJTPS().addTransaction(trans);
+            recitation rec = data.getRecitation(section);
+            jTPS_Transaction trans = new Add_Rec_Trans(rec, data);
+            workspace.getJTPS().addTransaction(trans);
         }
         app.getGUI().updateToolbarControls(false);
         
@@ -638,9 +631,9 @@ public class CourseSiteController {
             // AND SEND THE CARET BACK TO THE NAME TEXT FIELD FOR EASY DATA ENTRY
             title_textField.requestFocus();
             
-//            TeachingAssistant ta = data.getTA(name, email);
-//            jTPS_Transaction trans = new Add_TA_Trans(ta, data);
-//            workspace.getJTPS().addTransaction(trans);
+            schedule sch = data.getSchedule(type, date, title);
+            jTPS_Transaction trans = new Add_Schedule_Trans(sch, data);
+            workspace.getJTPS().addTransaction(trans);
         }
         app.getGUI().updateToolbarControls(false);
         
@@ -745,6 +738,7 @@ public class CourseSiteController {
         schedule focused = (schedule) scheduleTable.getFocusModel().getFocusedItem();
         TAData dataComponent = (TAData)app.getDataComponent();
         dataComponent.getSchedules().remove(focused);
+        handleClearSchedule();
         
         app.getGUI().updateToolbarControls(false);
         AppFileController appFileController = app.getGUI().getAppfileController();
@@ -766,7 +760,7 @@ public class CourseSiteController {
             String blue = tm.getBlue();
             String textColor = tm.getTextColor();
             String link = tm.getLink();
-            //String color = ;
+            String color = tm.getColor();
         
             TextField teamName = workspace.getNameTeamField();
             TextField colorField = workspace.getInputColor1Field();
@@ -775,7 +769,7 @@ public class CourseSiteController {
             
             //plannedDate.setValue(LocalDate.parse(date));
             teamName.setText(name);
-            //colorField.setText(color);
+            colorField.setText(color);
             textColorField.setText(textColor);
             linkField.setText(link);
             
@@ -821,6 +815,7 @@ public class CourseSiteController {
         team focused = (team) teamTable.getFocusModel().getFocusedItem();
         TAData dataComponent = (TAData)app.getDataComponent();
         dataComponent.getTeams().remove(focused);
+        handleClearTeam();
         
         app.getGUI().updateToolbarControls(false);
         AppFileController appFileController = app.getGUI().getAppfileController();
@@ -1068,6 +1063,7 @@ public class CourseSiteController {
         TableView studentTable = workspace.getStudentTable();
         student focused = (student) studentTable.getFocusModel().getFocusedItem();
         TAData dataComponent = (TAData)app.getDataComponent();
+        handleClearStudentButton();
         
 //        jTPS_Transaction trans = new Remove_TA_Trans(focused, dataComponent, keys, props);
 //        workspace.getJTPS().addTransaction(trans);
@@ -1091,4 +1087,8 @@ public class CourseSiteController {
         studentTeamName.setText("");
         studentRole.setText("");
     }
+//    public void handleTabChanged(){
+//        jTPS_Transaction trans = new Tab_Changed_Trans(rec, data);
+//        workspace.getJTPS().addTransaction(trans);
+//    }
 }

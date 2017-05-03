@@ -26,22 +26,19 @@ import javax.json.stream.JsonGenerator;
 import csg.csgApp;
 import csg.data.TAData;
 import csg.data.TeachingAssistant;
-import csg.data.projects;
 import csg.data.recitation;
 import csg.data.schedule;
 import csg.data.sitePage;
 import csg.data.student;
 import csg.data.team;
+import static csg.data.team.getColorName;
+import csg.workspace.CourseSiteController;
 import csg.workspace.CourseSiteWorkspace;
 import static djf.settings.AppStartupConstants.PATH_WORK;
 import djf.ui.AppMessageDialogSingleton;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.math.BigDecimal;
-import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import javafx.stage.DirectoryChooser;
-import javax.imageio.ImageIO;
 import org.apache.commons.io.FileUtils;
 import properties_manager.PropertiesManager;
 
@@ -175,6 +172,7 @@ public class csgFiles implements AppFileComponent{
         
 	TAData dataManager = (TAData)data;
         CourseSiteWorkspace workspace = (CourseSiteWorkspace)app.getWorkspaceComponent();
+        CourseSiteController controller = new CourseSiteController(app);
 
 	// LOAD THE JSON FILE WITH ALL THE DATA
 	JsonObject json = loadJSONFile(filePath);
@@ -183,6 +181,32 @@ public class csgFiles implements AppFileComponent{
 	String startHour = json.getString(JSON_START_HOUR);
         String endHour = json.getString(JSON_END_HOUR);
         dataManager.initHours(startHour, endHour);
+        
+        String begTime;
+        String endTime;
+        String ampm = "am";
+        
+        begTime = startHour;
+        if(Integer.parseInt(begTime)>11){
+            ampm = "pm";
+            begTime = (Integer.parseInt(begTime)-12)+"";
+            workspace.getBeg_hours().setValue(begTime+":"+"00"+ampm);
+        }
+        else{
+            ampm = "am";
+            workspace.getBeg_hours().setValue(begTime+":"+"00"+ampm);
+        }
+        endTime = endHour;
+        if(Integer.parseInt(endTime)>11){
+            ampm = "pm";
+            endTime = (Integer.parseInt(endTime)-12)+"";
+            workspace.getEnd_hours().setValue(endTime+":"+"00"+ampm);
+        }
+        else{
+            ampm = "am";
+            workspace.getEnd_hours().setValue(endTime+":"+"00"+ampm);
+        }
+        
 
         // NOW RELOAD THE WORKSPACE WITH THE LOADED DATA
 //        app.getWorkspaceComponent().reloadWorkspace(app.getDataComponent());
@@ -219,9 +243,9 @@ public class csgFiles implements AppFileComponent{
         workspace.setInstructorNameField(instructorHome);
         
         // ADD THE PATH TO THE IMAGES
-        String bannerImagePath = json.getString(JSON_BANNER_IMAGE_PATH);
-        String leftFooterImagePath = json.getString(JSON_LEFT_FOOTER_IMAGE_PATH);
-        String rightFooterImagePath = json.getString(JSON_RIGHT_FOOTER_IMAGE_PATH);
+        String bannerImagePath = json.getString("ORIGINAL_BANNER_PATH");
+        String leftFooterImagePath = json.getString("ORIGINAL_LEFT_PATH");
+        String rightFooterImagePath = json.getString("ORIGINAL_RIGHT_PATH");
         
         dataManager.setBannerImageFilePath(bannerImagePath);
         dataManager.setLeftFootImageFilePath(leftFooterImagePath);
@@ -230,6 +254,10 @@ public class csgFiles implements AppFileComponent{
         workspace.setBannerFilePath(bannerImagePath);
         workspace.setLeftFooterFilePath(leftFooterImagePath);
         workspace.setRightFooterFilePath(rightFooterImagePath);
+        
+//        controller.handleAddBannerImage(bannerImagePath);
+//        controller.handleAddLeftFooterImage(leftFooterImagePath);
+//        controller.handleAddRightFooterImage(rightFooterImagePath);
         
         // NOW LOAD ALL THE UNDERGRAD TAs
         JsonArray jsonTAArray = json.getJsonArray(JSON_UNDERGRAD_TAS);
@@ -355,8 +383,14 @@ public class csgFiles implements AppFileComponent{
             String green = jsonTeam.getString(JSON_COLOR_GREEN);
             String blue = jsonTeam.getString(JSON_COLOR_BLUE);
             String textColor = jsonTeam.getString(JSON_TEXT_COLOR);
-            //String link = jsonTeam.getString(JSON_LINK);
-            dataManager.addTeam(name,red,green,blue,textColor,"");
+            String link = jsonTeam.getString(JSON_LINK);
+            dataManager.addTeam(name,red,green,blue,textColor,link);
+            
+            Color clr = Color.rgb(Integer.parseInt(red), Integer.parseInt(green), Integer.parseInt(blue));
+            String color = dataManager.getColorName(clr);
+            
+            dataManager.setColor(color);
+            
         }
         
         // NOW LOAD ALL THE STUDENTS
@@ -841,6 +875,9 @@ public class csgFiles implements AppFileComponent{
                         .substring(dataManager.getRightFooterImageFilePath().lastIndexOf("/")+1, dataManager.getRightFooterImageFilePath().length());
         
         String imageExtension = "./images/";
+        String orgBanner = dataManager.getBannerImageFilePath();
+        String leftFooter = dataManager.getLeftFootImageFilePath();
+        String rightFooter = dataManager.getRightFooterImageFilePath();
         dataManager.setBannerImageFilePath(imageExtension+BannerImageName);
         dataManager.setLeftFootImageFilePath(imageExtension+LeftFooterImageName);
         dataManager.setRightFooterImageFilePath(imageExtension+RightFootImageName);
@@ -859,6 +896,9 @@ public class csgFiles implements AppFileComponent{
                 .add(JSON_BANNER_IMAGE_PATH, dataManager.getBannerImageFilePath())
                 .add(JSON_LEFT_FOOTER_IMAGE_PATH, dataManager.getLeftFootImageFilePath())
                 .add(JSON_RIGHT_FOOTER_IMAGE_PATH, dataManager.getRightFooterImageFilePath())
+                .add("ORIGINAL_BANNER_PATH", orgBanner)
+                .add("ORIGINAL_LEFT_PATH", leftFooter)
+                .add("ORIGINAL_RIGHT_PATH", rightFooter)
                 .add(JSON_UNDERGRAD_TAS, undergradTAsArray)
                 .add(JSON_OFFICE_HOURS, timeSlotsArray)
                 .add(JSON_SITE_PAGE, sitePageArray)
@@ -933,17 +973,17 @@ public class csgFiles implements AppFileComponent{
                 File fileName = new File("../TAManagerTester/public_html"); 
                 File imagesFolder219 = new File("../TAManagerTester/public_html/CSE219/images/");
                 File imagesFolder308 = new File("../TAManagerTester/public_html/CSE308/images/");
-                File imageFile1 = new File(bannerImagePath);
-                File imageFile2 = new File(leftFooterImagePath);
-                File imageFile3 = new File(rightFooterImagePath);
+//                File imageFile1 = new File(bannerImagePath);
+//                File imageFile2 = new File(leftFooterImagePath);
+//                File imageFile3 = new File(rightFooterImagePath);
                 
                 
-                FileUtils.copyFileToDirectory(imageFile1, imagesFolder219);
-                FileUtils.copyFileToDirectory(imageFile1, imagesFolder308);
-                FileUtils.copyFileToDirectory(imageFile2, imagesFolder219);
-                FileUtils.copyFileToDirectory(imageFile2, imagesFolder308);
-                FileUtils.copyFileToDirectory(imageFile3, imagesFolder219);
-                FileUtils.copyFileToDirectory(imageFile3, imagesFolder308);
+//                FileUtils.copyFileToDirectory(imageFile1, imagesFolder219);
+//                FileUtils.copyFileToDirectory(imageFile1, imagesFolder308);
+//                FileUtils.copyFileToDirectory(imageFile2, imagesFolder219);
+//                FileUtils.copyFileToDirectory(imageFile2, imagesFolder308);
+//                FileUtils.copyFileToDirectory(imageFile3, imagesFolder219);
+//                FileUtils.copyFileToDirectory(imageFile3, imagesFolder308);
                 
                 copy(fileName.getAbsolutePath(), selectedFile.getAbsolutePath());
                 

@@ -15,6 +15,8 @@ import csg.csgProp;
 import csg.transactions.Add_TA_Trans;
 import csg.transactions.OfficeHours_Grid_Trans;
 import csg.workspace.CourseSiteWorkspace;
+import java.lang.reflect.Field;
+import javafx.scene.paint.Color;
 
 /**
  * This is the data component for TAManagerApp. It has all the data needed
@@ -107,6 +109,8 @@ public class TAData implements AppDataComponent {
     public String studentLastName;
     public String studentTeamName;
     public String studentRole;
+    
+    private int count = 0;
     /**
      * This constructor will setup the required data structures for
      * use, but will have to wait on the office hours grid, since
@@ -158,12 +162,15 @@ public class TAData implements AppDataComponent {
         endYear = MIN_END_YEAR+"";
         endMonth = MIN_END_MONTH+"";
         endDay = MIN_END_DAY+"";
+        
         teachingAssistants.clear();
         officeHours.clear();
         courses.clear();
         pages.clear();
         recitaitons.clear();
+        schedules.clear();
         students.clear();
+        teams.clear();
     }
     public  void buildGridHeaders(){
           //THESE ARE THE LANGUAGE-DEPENDENT OFFICE HOURS GRID HEADERS
@@ -434,8 +441,6 @@ public class TAData implements AppDataComponent {
         return officeHours;
     }
     
-    
-    
     public int getNumRows() {
         return ((endHour - startHour) * 2) + 1;
     }
@@ -505,6 +510,10 @@ public class TAData implements AppDataComponent {
     private void initOfficeHours(int initStartHour, int initEndHour) {
         // NOTE THAT THESE VALUES MUST BE PRE-VERIFIED
         CourseSiteWorkspace workspaceComponent = (CourseSiteWorkspace)app.getWorkspaceComponent();
+        count++;            //the first 3 grid changes need to be ignored
+        
+        int orgStart = startHour;
+        int orgEnd = endHour;
         
         startHour = initStartHour;
         endHour = initEndHour;
@@ -515,13 +524,12 @@ public class TAData implements AppDataComponent {
         // WE'LL BUILD THE USER INTERFACE COMPONENT FOR THE
         // OFFICE HOURS GRID AND FEED THEM TO OUR DATA
         // STRUCTURE AS WE GO
-        jTPS_Transaction trans = new OfficeHours_Grid_Trans(workspaceComponent, this);
-        workspaceComponent.getJTPS().addTransaction(trans);
-        
+        if((orgStart != 0 || orgEnd != 23) && count>3){
+            jTPS_Transaction trans = new OfficeHours_Grid_Trans(workspaceComponent, this);
+            workspaceComponent.getJTPS().addTransaction(trans);
+        }
         workspaceComponent = (CourseSiteWorkspace)app.getWorkspaceComponent();
-        workspaceComponent.reloadOfficeHoursGrid(this);
-        
-        
+        workspaceComponent.reloadOfficeHoursGrid(this); 
         
     }
     
@@ -683,8 +691,6 @@ public class TAData implements AppDataComponent {
         if (!containsSemester(initName, initYear)) {
             semesters.add(sem);
         }
-
-        
     }
     public boolean containsSemester(String testName, String testYear) {
         for (semesters sem : semesters) {
@@ -756,6 +762,9 @@ public class TAData implements AppDataComponent {
 
         // SORT THE TAS
         //Collections.sort(pages);
+    }
+    public void deleteRecitation(recitation rec){
+        recitaitons.remove(rec);
     }
     public boolean containsRecitation(String testName) {
         for (recitation rec: recitaitons) {
@@ -858,4 +867,37 @@ public class TAData implements AppDataComponent {
     public void setStudentRole(String studentRole) {
         this.studentRole = studentRole;
     }
+    public String getColorName(Color c) {
+    for (Field f : Color.class.getFields()) {
+        try {
+            if (f.getType() == Color.class && f.get(null).equals(c)) {
+                return f.getName().toLowerCase();
+            }
+        } catch (java.lang.IllegalAccessException e) {
+            // it should never get to here
+        } 
+    }
+    return "white";
+    }
+    
+    public recitation getRecitation(String section){
+        for (recitation rec : recitaitons) {
+            if (rec.getSection().equals(section)) {
+                return rec;
+            }
+        }
+        return null;
+    }
+    public schedule getSchedule(String type, String date, String title){
+        for (schedule sch: schedules) {
+            if (sch.getType().equals(type) && sch.getDate().equals(date) && sch.getTitle().equals(title)) {
+                return sch;
+            }
+        }
+        return null;
+    }
+    public void deleteSchedule(schedule sch){
+        schedules.remove(sch);
+    }
+    
 }

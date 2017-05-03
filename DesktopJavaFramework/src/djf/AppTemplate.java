@@ -102,7 +102,7 @@ public abstract class AppTemplate extends Application {
             Alert alert = new Alert(Alert.AlertType.NONE, "Please Choose A Language", english, french, ButtonType.CANCEL);
             alert.setTitle("Choose Language");
             alert.showAndWait();
-        boolean success;
+        boolean success = false;
         if (alert.getResult() == english) {
             success = loadProperties(APP_PROPERTIES_FILE_NAME);
         }    
@@ -110,7 +110,7 @@ public abstract class AppTemplate extends Application {
             success = loadProperties("app_properties_french.xml");
         }
         else{
-            success = loadProperties(APP_PROPERTIES_FILE_NAME);
+            System.exit(0);
         }
         // SET THE WINDOW TITLE
 	    

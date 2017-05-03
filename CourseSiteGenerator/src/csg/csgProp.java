@@ -118,6 +118,8 @@ public enum csgProp {
     COLOR_COLUMN_TEXT,
     TEXT_COLOR_TEXT,
     
+    ADD_STUDENT_BUTTON,
+    
     START_TIME_LABEL,
     END_TIME_LABEL,
     SUBMIT_BUTTON_LABEL,

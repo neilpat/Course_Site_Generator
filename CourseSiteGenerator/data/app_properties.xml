@@ -172,6 +172,8 @@
         <property name = "TEXT_COLOR_TEXT"             value="Color"></property>
         <property name = "COLOR_COLUMN_TEXT"           value="Text Color"></property>
         <property name = "MINIMIZE_BUTTON"             value="-"></property>
+        
+        <property name = "ADD_STUDENT_BUTTON"          value="Add Student"></property>
     </property_list>
     <property_options_list>
         <property_options name="OFFICE_HOURS_TABLE_HEADERS">

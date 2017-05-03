@@ -5,7 +5,6 @@
  */
 package csg.transactions;
 
-import javafx.beans.property.StringProperty;
 import jtps.jTPS_Transaction;
 import csg.data.TAData;
 
