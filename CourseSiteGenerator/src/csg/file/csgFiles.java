@@ -31,7 +31,6 @@ import csg.data.schedule;
 import csg.data.sitePage;
 import csg.data.student;
 import csg.data.team;
-import static csg.data.team.getColorName;
 import csg.workspace.CourseSiteController;
 import csg.workspace.CourseSiteWorkspace;
 import static djf.settings.AppStartupConstants.PATH_WORK;
@@ -39,7 +38,6 @@ import djf.ui.AppMessageDialogSingleton;
 import java.io.File;
 import javafx.scene.paint.Color;
 import javafx.stage.DirectoryChooser;
-import org.apache.commons.io.FileUtils;
 import properties_manager.PropertiesManager;
 
 /**
@@ -240,7 +238,8 @@ public class csgFiles implements AppFileComponent{
         
         workspace.setTitleField(pageTitle);
         workspace.setInstructorNameField(instructorName);
-        workspace.setInstructorNameField(instructorHome);
+        workspace.setInstructorHomeField(instructorHome);
+        
         
         // ADD THE PATH TO THE IMAGES
         String bannerImagePath = json.getString("ORIGINAL_BANNER_PATH");
@@ -251,13 +250,14 @@ public class csgFiles implements AppFileComponent{
         dataManager.setLeftFootImageFilePath(leftFooterImagePath);
         dataManager.setRightFooterImageFilePath(rightFooterImagePath);
         
+        
         workspace.setBannerFilePath(bannerImagePath);
         workspace.setLeftFooterFilePath(leftFooterImagePath);
         workspace.setRightFooterFilePath(rightFooterImagePath);
         
-//        controller.handleAddBannerImage(bannerImagePath);
-//        controller.handleAddLeftFooterImage(leftFooterImagePath);
-//        controller.handleAddRightFooterImage(rightFooterImagePath);
+        controller.handleAddBannerImage(bannerImagePath);
+        controller.handleAddLeftFooterImage(leftFooterImagePath);
+        controller.handleAddRightFooterImage(rightFooterImagePath);
         
         // NOW LOAD ALL THE UNDERGRAD TAs
         JsonArray jsonTAArray = json.getJsonArray(JSON_UNDERGRAD_TAS);
@@ -318,6 +318,7 @@ public class csgFiles implements AppFileComponent{
             String TA2 = jsonRecitation.getString(JSON_TA2);
             dataManager.addRecitation(section, instructor, day_time, location, TA1, TA2);
         }
+        workspace.reloadRecitationTeachingAssistant();
         
         // NOW LOAD ALL THE HOLIDAY SCHEDULE
         JsonArray jsonHolidayArray = json.getJsonArray(JSON_HOLIDAYS);
@@ -359,7 +360,7 @@ public class csgFiles implements AppFileComponent{
             String title = jsonSchRecitations.getString(JSON_TITLE);
             String topic = jsonSchRecitations.getString(JSON_TOPIC);
             
-            dataManager.addSchedule(JSON_SCH_RECITATIONS, month, day , title, topic, "", "","");
+            dataManager.addSchedule(JSON_RECITATION, month, day , title, topic, "", "","");
         }
         JsonArray jsonHWsArray = json.getJsonArray(JSON_HWS);
         for (int i = 0; i < jsonHWsArray.size(); i++) {
@@ -405,6 +406,8 @@ public class csgFiles implements AppFileComponent{
         }
         
         currentWorkFile = filePath;
+        
+         app.getWorkspaceComponent().reloadWorkspace(app.getDataComponent());
     }
     // HELPER METHOD FOR LOADING DATA FROM A JSON FORMAT
     private JsonObject loadJSONFile(String jsonFilePath) throws IOException {
@@ -448,7 +451,6 @@ public class csgFiles implements AppFileComponent{
                 .add(JSON_END_HOUR, dataManager.getEndHour())
 		.add(JSON_UNDERGRAD_TAS, undergradTAsArray)
                 .add(JSON_OFFICE_HOURS, timeSlotsArray).build();
-        System.out.println(dataManagerJSO.get(JSON_UNDERGRADUTE));
                 
         Map<String, Object> properties = new HashMap<>(1);
 	properties.put(JsonGenerator.PRETTY_PRINTING, true);

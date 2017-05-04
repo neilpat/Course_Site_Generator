@@ -731,6 +731,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         });
         emailTextField.setOnAction(e -> {
             controller.handleAddTA();
+            controller.handleClear();
         });
         addButton.setOnAction(e -> {
             if(((Button)addBox.getChildren().get(2)).getText()
@@ -1465,11 +1466,6 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         recitationHeaderBox.getChildren().add(recitation_mainLabel);
         recitationHeaderBox.getChildren().add(minimize_reciationsButton);
         
-        minimize_reciationsButton.setOnAction(e->{
-            controller.handleDelteRecitationKey();
-        });
-        
-        
         TAData data = (TAData) app.getDataComponent();
         
         recitations = FXCollections.observableArrayList();
@@ -1521,15 +1517,26 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         supervising_TA_label2 = new Label(props.getProperty(csgProp.SUPERVISING_TA_LABEL.toString()));
         
         //ASSIGNED TAS SHOULD NOT APPEAR IN SELECTION AGAIN
-        
+        ObservableList<String> availableTAs = FXCollections.observableArrayList();
+        for(int i=0;i<data.getTeachingAssistants().size();i++){
+            availableTAs.add(data.getTeachingAssistants().get(i).getName());
+        }
+        for(int i=0;i<data.getRecitaitons().size();i++){
+            if(availableTAs.contains(data.getRecitaitons().get(i).getTA1())){
+                availableTAs.remove(data.getRecitaitons().get(i).getTA1());
+            }
+            if(availableTAs.contains(data.getRecitaitons().get(i).getTA2())){
+                availableTAs.remove(data.getRecitaitons().get(i).getTA2());
+            }
+        }
         section_textField = new TextField();
         instructor_textField = new TextField();
         day_time_textField = new TextField();
         location_textField = new TextField();
         supervising_TA_ComboBox1 = new ComboBox();
-        supervising_TA_ComboBox1.setItems(data.getTeachingAssistants());
+        supervising_TA_ComboBox1.setItems(availableTAs);
         supervising_TA_ComboBox2 = new ComboBox();
-        supervising_TA_ComboBox2.setItems(data.getTeachingAssistants());
+        supervising_TA_ComboBox2.setItems(availableTAs);
          
         addRecitationButton = new Button(props.getProperty(csgProp.ADD_RECITATION_BUTTON.toString()));
         addRecitationButton.setPrefWidth(130);
@@ -1587,16 +1594,21 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         recitationTable.setOnMouseClicked(e->{
             controller.handleSelectedRecitation();
             add_edit_input.getChildren().remove(addRecitationButton);
+            add_edit_input.getChildren().remove(updateRecitationButton);
             add_edit_input.add(updateRecitationButton, 0, 6);
             clearRecitationButton.setDisable(false);
             recitationTable.refresh();
         });
         recitationTable.setOnKeyReleased(e -> {
             if(e.getCode() == KeyCode.DELETE){
-                controller.handleDelteRecitationKey();
+                controller.handleDeleteRecitationKey();
+                controller.handleClearRecitation();
             }
         });
-        
+        minimize_reciationsButton.setOnAction(e->{
+            controller.handleDeleteRecitationKey();
+                controller.handleClearRecitation();
+        });
         section_textField.setOnAction(e->{
             controller.handleAddRecitaiton();
             clearRecitationButton.setDisable(false);
@@ -1616,6 +1628,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         
         addRecitationButton.setOnAction(e->{
             controller.handleAddRecitaiton();
+            controller.handleClearRecitation();
             clearRecitationButton.setDisable(true);
             recitationTable.refresh();
         });
@@ -1631,8 +1644,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
             add_edit_input.add(addRecitationButton, 0, 6);
             clearRecitationButton.setDisable(true);
         });
-        
-        app.getGUI().getPrimaryScene().setOnKeyPressed(e ->{
+        app.getGUI().getAppPane().setOnKeyReleased(e->{
             if(e.isControlDown()){
                 if(e.getCode() == KeyCode.Z){
                     jtps.undoTransaction();
@@ -1642,9 +1654,37 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
                 }
             }
         });
+//        app.getGUI().getPrimaryScene().setOnKeyPressed(e ->{
+//            if(e.isControlDown()){
+//                if(e.getCode() == KeyCode.Z){
+//                    jtps.undoTransaction();
+//                }
+//                if(e.getCode() == KeyCode.Y){
+//                    jtps.doTransaction();
+//                }
+//            }
+//        });
         
         return recitation_details_box;
        
+    }
+    public void reloadRecitationTeachingAssistant(){
+        TAData data = (TAData) app.getDataComponent();
+        
+        ObservableList<String> availableTAs = FXCollections.observableArrayList();
+        for(int i=0;i<data.getTeachingAssistants().size();i++){
+            availableTAs.add(data.getTeachingAssistants().get(i).getName());
+        }
+        for(int i=0;i<data.getRecitaitons().size();i++){
+            if(availableTAs.contains(data.getRecitaitons().get(i).getTA1())){
+                availableTAs.remove(data.getRecitaitons().get(i).getTA1());
+            }
+            if(availableTAs.contains(data.getRecitaitons().get(i).getTA2())){
+                availableTAs.remove(data.getRecitaitons().get(i).getTA2());
+            }
+        }
+        supervising_TA_ComboBox1.setItems(availableTAs);
+        supervising_TA_ComboBox2.setItems(availableTAs);
     }
     public void reloadRecitationData(TAData data){
         
@@ -1766,6 +1806,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
                 String[] dateArray = begDate.split("-", 5);
                 data.setStartDay(dateArray[2]);
                 data.setStartMonth(dateArray[1]);
+                data.setStartYear(dateArray[0]);
             }
             
         });
@@ -1777,6 +1818,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
                 String[] dateArray = lastDate.split("-", 5);
                 data.setEndDay(dateArray[2]);
                 data.setEndMonth(dateArray[1]);
+                data.setEndYear(dateArray[0]);
             }
             
         });
@@ -1836,7 +1878,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         link_textField = new TextField();
         criteria_textField = new TextField();
         
-        addScheduleButton = new Button(props.getProperty(csgProp.ADD_BUTTON_TEXT.toString()));
+        addScheduleButton = new Button(props.getProperty(csgProp.ADD_SCHEDULE_BUTTON.toString()));
         addScheduleButton.setPrefWidth(130);
         clearScheduleButton = new Button(props.getProperty(csgProp.CLEAR_BUTTON_TEXT.toString()));
         clearScheduleButton.setPrefWidth(130);
@@ -1903,6 +1945,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         });
         addScheduleButton.setOnAction(e->{
             controller.handleAddSchedule();
+            controller.handleClearSchedule();
             scheduleTable.refresh();
         });
         updateScheduleButton.setOnAction(e->{
@@ -1920,10 +1963,18 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         scheduleTable.setOnKeyReleased(e -> {
             if(e.getCode() == KeyCode.DELETE){
                 controller.handleDeleteSchedule();
+                controller.handleClearSchedule();
+                add_edit_input_schedule.getChildren().remove(addScheduleButton);
+                add_edit_input_schedule.getChildren().remove(updateScheduleButton);
+                add_edit_input_schedule.add(addScheduleButton, 0, 8);
             }
         });
         minimize_schedulesButton.setOnAction(e->{
             controller.handleDeleteSchedule();
+            controller.handleClearSchedule();
+            add_edit_input_schedule.getChildren().remove(addScheduleButton);
+            add_edit_input_schedule.getChildren().remove(updateScheduleButton);
+            add_edit_input_schedule.add(addScheduleButton, 0, 8);
         });
         clearScheduleButton.setOnAction(e->{
             add_edit_input_schedule.getChildren().remove(addScheduleButton);
@@ -2174,6 +2225,11 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
             
             teamsMinimizeButton.setOnAction(e->{
                 controller.handleDeleteTeam();
+                linkBox.getChildren().remove(addLinkButton);
+                linkBox.getChildren().remove(updateLinkButton);
+                linkBox.add(addLinkButton, 0, 1);
+                controller.handleClearTeam();
+                
                 teamTable.refresh();
             });
             
@@ -2311,6 +2367,10 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         });
         minimizeStudentButton.setOnAction(e->{
             controller.handleDeleteStudentButton();
+            controller.handleClearStudentButton();
+            addEditStudentBox.getChildren().remove(addStudentButton);
+            addEditStudentBox.getChildren().remove(updateStudentButton);
+            addEditStudentBox.add(updateStudentButton, 0, 5);
             studentTable.refresh();
         });
         projectDetailsBox.getChildren().add(projectHeaderBox);
@@ -2479,6 +2539,14 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
 
     public TextField getInstructor_textField() {
         return instructor_textField;
+    }
+
+    public TextField getInstructorNameField() {
+        return instructorNameField;
+    }
+
+    public TextField getInstructorHomeField() {
+        return instructorHomeField;
     }
 
     public TextField getDay_time_textField() {
@@ -2854,11 +2922,23 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     }
 
     public void setStartDate(String startDate) {
-        this.startDate.setValue(LocalDate.parse(startDate));
+        PropertiesManager props = PropertiesManager.getPropertiesManager();
+        LocalDate date = LocalDate.parse(startDate);
+        this.startDate.setValue(date);
+        if(startDate != null){
+                startDateLabel.setText( props.getProperty(csgProp.STARTDATE_LABEL.toString())
+                        +date.getDayOfWeek().toString());
+       }
     }
 
     public void setEndDate(String endDate) {
+       PropertiesManager props = PropertiesManager.getPropertiesManager();
+        LocalDate date = LocalDate.parse(endDate);
        this.endDate.setValue(LocalDate.parse(endDate));
+       if(endDate != null){
+                endDateLabel.setText( props.getProperty(csgProp.ENDDATE_LABEL.toString())
+                        +date.getDayOfWeek().toString());
+        }
     }
     public String decToHex(int dec) {
         StringBuilder hexBuilder = new StringBuilder(sizeOfHB);

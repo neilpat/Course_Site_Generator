@@ -155,6 +155,9 @@
         <property name = "ENDDATE_LABEL"                value="End  "></property>
         <property name = "SCHEDULE_ITEMS_LABEL"         value="Schedule Items"></property>
         <property name = "CALENDARBOUNDARIES_LABEL"     value="Calendar Boundaries"></property>
+        <property name = "ADD_SCHEDULE_BUTTON"          value="Add Schedule"></property>
+        
+        
       
         <!--PROJECT DETAILS STUFF -->
         <property name = "PROJECT_DETAILS_TAB"         value="Project Details"></property>

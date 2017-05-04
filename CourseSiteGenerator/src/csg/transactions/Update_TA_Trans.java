@@ -5,20 +5,10 @@
  */
 package csg.transactions;
 
-import djf.ui.AppMessageDialogSingleton;
-import java.util.HashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import jtps.jTPS_Transaction;
-import properties_manager.PropertiesManager;
 import csg.csgApp;
-import static csg.csgProp.MISSING_TA_EMAIL_MESSAGE;
-import static csg.csgProp.MISSING_TA_EMAIL_TITLE;
-import static csg.csgProp.MISSING_TA_NAME_MESSAGE;
-import static csg.csgProp.MISSING_TA_NAME_TITLE;
 import csg.data.TAData;
 import csg.data.TeachingAssistant;
 import csg.workspace.CourseSiteWorkspace;

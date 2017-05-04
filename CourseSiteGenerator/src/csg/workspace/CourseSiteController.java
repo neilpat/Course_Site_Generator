@@ -23,9 +23,13 @@ import csg.data.team;
 import csg.transactions.Add_Rec_Trans;
 import csg.transactions.Add_Schedule_Trans;
 import csg.transactions.Add_TA_Trans;
+import csg.transactions.Remove_Rec_Trans;
+import csg.transactions.Remove_Schedule_Trans;
 import csg.transactions.Remove_TA_Trans;
+import csg.transactions.Remove_Team_Trans;
 import csg.transactions.Toggle_TAOfficeHours_Trans;
 import csg.transactions.Update_TA_Trans;
+import csg.transactions.Update_rec_Trans;
 import static djf.settings.AppStartupConstants.PATH_WORK;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -40,6 +44,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javax.imageio.ImageIO;
+import static jdk.nashorn.internal.objects.NativeObject.keys;
 import jtps.jTPS_Transaction;
 
 /**
@@ -388,16 +393,20 @@ public class CourseSiteController {
         return file;
     }
     
-    public void handleDelteRecitationKey(){
+    public void handleDeleteRecitationKey(){
         CourseSiteWorkspace workspace = (CourseSiteWorkspace)app.getWorkspaceComponent();
         TableView RecitationTable = workspace.getRecitationTable();
         recitation focused = (recitation) RecitationTable.getFocusModel().getFocusedItem();
         TAData dataComponent = (TAData)app.getDataComponent();
         dataComponent.getRecitaitons().remove(focused);
         
+        jTPS_Transaction trans = new Remove_Rec_Trans(focused, dataComponent);
+        workspace.getJTPS().addTransaction(trans);
+        
         app.getGUI().updateToolbarControls(false);
         AppFileController appFileController = app.getGUI().getAppfileController();
         appFileController.markFileAsNotSaved();
+        
     }
     public void handleSelectedRecitation(){
         CourseSiteWorkspace workspace = (CourseSiteWorkspace)app.getWorkspaceComponent();
@@ -422,15 +431,21 @@ public class CourseSiteController {
             TextField instructorTextField = workspace.getInstructor_textField();
             TextField locationTextField = workspace.getLocation_textField();
             TextField dayTimeTextField = workspace.getDay_time_textField();
-            //TextField TA1TextField = workspace.get();
-            //TextField TA2TextField = workspace.getInstructor_textField();
+            ComboBox TA1ComboBox = workspace.getSupervising_TA_ComboBox1();
+            ComboBox TA2ComboBox = workspace.getSupervising_TA_ComboBox2();
             
             sectionTextField.setText(section);
             instructorTextField.setText(instructor);
             dayTimeTextField.setText(day_time);
             locationTextField.setText(location);
-            //TA1TextField.setText(instructor);
-            //TA2TextField.setText(instructor);
+            TA1ComboBox.setValue(TA1);
+            TA2ComboBox.setValue(TA2);
+            
+            workspace.reloadRecitationTeachingAssistant();
+            workspace.getSupervising_TA_ComboBox1().getItems().add(TA1);
+            workspace.getSupervising_TA_ComboBox1().getItems().add(TA2);
+            workspace.getSupervising_TA_ComboBox2().getItems().add(TA1);
+            workspace.getSupervising_TA_ComboBox2().getItems().add(TA2);
         }
     }
     public void handleAddRecitaiton(){
@@ -441,20 +456,23 @@ public class CourseSiteController {
         TextField locationTextField = workspace.getLocation_textField();
         TextField dayTimeTextField = workspace.getDay_time_textField();
         
-        
         String section = sectionTextField.getText();
         String instructor = instructorTextField.getText();
         String day_time = dayTimeTextField.getText();
         String location = locationTextField.getText();
-        String TA1 = ((TeachingAssistant)workspace.getSupervising_TA_ComboBox1().getValue()).getName();
-        if(TA1 == null || TA1.equals("")){
-            TA1 = "TBA";
+        
+        
+        String TA1 = "TBA";
+        if(workspace.getSupervising_TA_ComboBox1().getSelectionModel().getSelectedIndex()>=0){
+            TeachingAssistant ActualTA1 = ((TeachingAssistant)workspace.getSupervising_TA_ComboBox1().getValue());
+            TA1 = ActualTA1.getName();
         }
-        String TA2 = ((TeachingAssistant)workspace.getSupervising_TA_ComboBox2().getValue()).getName();
-        if(TA2 == null  || TA2.equals("")){
-            TA2 = "TBA";
+        String TA2 = "TBA";
+        if(workspace.getSupervising_TA_ComboBox2().getSelectionModel().getSelectedIndex()>=0){
+            TeachingAssistant ActualTA2 = ((TeachingAssistant)workspace.getSupervising_TA_ComboBox2().getValue());
+            TA2 = ActualTA2.getName();
         }
-        // WE'LL NEED TO ASKå THE DATA SOME QUESTIONS TOO
+        // WE'LL NEED TO ASK THE DATA SOME QUESTIONS TOO
         TAData data = (TAData)app.getDataComponent();
         
         // WE'LL NEED THIS IN CASE WE NEED TO DISPLAY ANY ERROR MESSAGES
@@ -482,14 +500,6 @@ public class CourseSiteController {
             // ADD THE NEW TA TO THE DATA
             data.addRecitation(section, instructor, day_time, location, TA1, TA2);
             
-            // CLEAR THE TEXT FIELDS
-            sectionTextField.setText("");
-            instructorTextField.setText("");
-            locationTextField.setText("");
-            dayTimeTextField.setText("");
-            workspace.getSupervising_TA_ComboBox1().setValue(null);
-            workspace.getSupervising_TA_ComboBox2().setValue(null);
-            
             // AND SEND THE CARET BACK TO THE NAME TEXT FIELD FOR EASY DATA ENTRY
             sectionTextField.requestFocus();
             
@@ -515,10 +525,20 @@ public class CourseSiteController {
         TextField instructorTextField = workspace.getInstructor_textField();
         TextField locationTextField = workspace.getLocation_textField();
         TextField dayTimeTextField = workspace.getDay_time_textField();
+        ComboBox TA1ComboxBox = workspace.getSupervising_TA_ComboBox1();
+        ComboBox TA2ComboxBox = workspace.getSupervising_TA_ComboBox2();
         String section = sectionTextField.getText();
         String instructor = instructorTextField.getText();
         String day_time = dayTimeTextField.getText();
         String location = locationTextField.getText();
+        String TA1 = "TBA";
+        String TA2 = "TBA";
+        if(TA1ComboxBox.getSelectionModel().getSelectedIndex()>=0){
+             TA1 = (String)TA1ComboxBox.getValue();
+        }
+        if (TA2ComboxBox.getSelectionModel().getSelectedIndex()>=0) {
+            TA2 = (String)TA2ComboxBox.getValue();
+        }
         
         // WE'LL NEED TO ASK THE DATA SOME QUESTIONS TOO
         TAData data = (TAData)app.getDataComponent();
@@ -550,12 +570,13 @@ public class CourseSiteController {
            rec.setDay_time(day_time);
            rec.setLocation(location);
         
-//           jTPS_Transaction trans = new Update_TA_Trans(app,focused, dataComponent,orgName);
-//           workspace.getJTPS().addTransaction(trans);
+           jTPS_Transaction trans = new Update_rec_Trans(app,rec, data,section, instructor, TA1, TA2);
+           workspace.getJTPS().addTransaction(trans);
            
            app.getGUI().updateToolbarControls(false);
            AppFileController appFileController = app.getGUI().getAppfileController();
            appFileController.markFileAsNotSaved();
+           
         }     
     }
     public void handleClearRecitation(){
@@ -565,11 +586,16 @@ public class CourseSiteController {
         TextField instructorTextField = workspace.getInstructor_textField();
         TextField locationTextField = workspace.getLocation_textField();
         TextField dayTimeTextField = workspace.getDay_time_textField();
+        ComboBox TA1ComboBox = workspace.getSupervising_TA_ComboBox1();
+        ComboBox TA2ComboBox = workspace.getSupervising_TA_ComboBox2();
         
         sectionTextField.setText("");
         instructorTextField.setText("");
         locationTextField.setText("");
         dayTimeTextField.setText("");
+        TA1ComboBox.setValue(null);
+        TA2ComboBox.setValue(null);
+        
     }
     public void handleAddSchedule(){
         CourseSiteWorkspace workspace = (CourseSiteWorkspace)app.getWorkspaceComponent();
@@ -740,6 +766,9 @@ public class CourseSiteController {
         dataComponent.getSchedules().remove(focused);
         handleClearSchedule();
         
+        jTPS_Transaction trans = new Remove_Schedule_Trans(focused, dataComponent);
+        workspace.getJTPS().addTransaction(trans);
+        
         app.getGUI().updateToolbarControls(false);
         AppFileController appFileController = app.getGUI().getAppfileController();
         appFileController.markFileAsNotSaved();
@@ -816,6 +845,9 @@ public class CourseSiteController {
         TAData dataComponent = (TAData)app.getDataComponent();
         dataComponent.getTeams().remove(focused);
         handleClearTeam();
+        
+        jTPS_Transaction trans = new Remove_Team_Trans(focused, dataComponent);
+        workspace.getJTPS().addTransaction(trans);
         
         app.getGUI().updateToolbarControls(false);
         AppFileController appFileController = app.getGUI().getAppfileController();

@@ -190,14 +190,6 @@ public class TAData implements AppDataComponent {
         this.startYear = startYear;
     }
 
-    public void setEndYear(String endYear) {
-        this.endYear = endYear;
-    }
-
-    public String getStartYear() {
-        return startYear;
-    }
-
     public String getEndYear() {
         return endYear;
     }
@@ -233,7 +225,13 @@ public class TAData implements AppDataComponent {
     public void setEndDay(String endDay) {
         this.endDay = endDay;
     }
+    public void setEndYear(String endYear) {
+        this.endYear = endYear;
+    }
 
+    public String getStartYear() {
+        return startYear;
+    }
     
     public String getTeamNameField() {
         return teamNameField;
@@ -763,6 +761,12 @@ public class TAData implements AppDataComponent {
         // SORT THE TAS
         //Collections.sort(pages);
     }
+    public void updateRecitation(recitation rec, String section, String instructor, String TA1, String TA2){
+        rec.setSection(section);
+        rec.setInstructor(instructor);
+        rec.setTA1(TA1);
+        rec.setTA2(TA2);
+    }
     public void deleteRecitation(recitation rec){
         recitaitons.remove(rec);
     }
@@ -899,5 +903,15 @@ public class TAData implements AppDataComponent {
     public void deleteSchedule(schedule sch){
         schedules.remove(sch);
     }
-    
+    public void deleteTeam(team tm){
+        teams.remove(tm);
+    }
+    public team getTeam(String name){
+        for(team tm: teams){
+            if(tm.getName().equals(name)){
+                return tm;
+            }
+        }
+        return null;
+    }
 }

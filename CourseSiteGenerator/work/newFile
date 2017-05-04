@@ -1,0 +1,110 @@
+
+{
+    "startHour":"8",
+    "endHour":"17",
+    "course_name":"CSE",
+    "course_number":"219",
+    "sem":"FALL",
+    "year":"2017",
+    "page_title":"Computer Programming ",
+    "instructor_name":"Richard McKenn",
+    "instructor_home":"www.cs3.sunysb.com/richard",
+    "banner_image_path":"./images/harvardMedicallogo.png",
+    "left_footer_image_path":"./images/harvardMedicallogo.png",
+    "right_footer_image_path":"./images/harvardMedicallogo.png",
+    "ORIGINAL_BANNER_PATH":"/Users/Neil/Desktop/CSE_219/ImagesForBanners/harvardMedicallogo.png",
+    "ORIGINAL_LEFT_PATH":"/Users/Neil/Desktop/CSE_219/ImagesForBanners/harvardMedicallogo.png",
+    "ORIGINAL_RIGHT_PATH":"/Users/Neil/Desktop/CSE_219/ImagesForBanners/harvardMedicallogo.png",
+    "undergrad_tas":[
+        {
+            "undergraduate":true,
+            "name":"Neil Patel",
+            "email":"Neil@stonybrook.edu"
+        },
+        {
+            "undergraduate":true,
+            "name":"Niral Patel",
+            "email":"Niral@stonybrook.edu"
+        },
+        {
+            "undergraduate":true,
+            "name":"John Chang",
+            "email":"John_chnage@stonybrook.edu"
+        },
+        {
+            "undergraduate":true,
+            "name":"Matt",
+            "email":"Matt@stonybrook.edu"
+        },
+        {
+            "undergraduate":true,
+            "name":"Steven",
+            "email":"Steve@stonybrook.edu"
+        }
+    ],
+    "officeHours":[
+    ],
+    "site_pages":[
+    ],
+    "startingYear":"2017",
+    "startingMondayMonth":"01",
+    "startingMondayDay":"23",
+    "endingYear":"2017",
+    "endingFridayMonth":"05",
+    "endingFridayDay":"26",
+    "rec_recitations":[
+        {
+            "section":"R01",
+            "instructor":"Richard Mckenna",
+            "day_time":"Mon 3:30pm",
+            "location":"Old Comp Sci",
+            "ta_1":"Neil Patel",
+            "ta_2":"Niral Patel"
+        },
+        {
+            "section":"R03",
+            "instructor":"Richard Mckenna",
+            "day_time":"Friday",
+            "location":"Old Comp Sci",
+            "ta_1":"Niral Patel",
+            "ta_2":"John Chang"
+        }
+    ],
+    "holidays":[
+    ],
+    "lectures":[
+    ],
+    "references":[
+        {
+            "month":"03",
+            "day":"google.com",
+            "title":"google.com",
+            "topic":"google.com",
+            "link":"google.com"
+        },
+        {
+            "month":"05",
+            "day":"google.com",
+            "title":"google.com",
+            "topic":"google.com",
+            "link":"google.com"
+        }
+    ],
+    "sch_recitations":[
+    ],
+    "hws":[
+        {
+            "month":"02",
+            "day":"07",
+            "title":"Sparky",
+            "topic":"Learing Sparky",
+            "link":"www.google.com",
+            "time":"HW1",
+            "criteria":"No EC"
+        }
+    ],
+    "teams":[
+    ],
+    "students":[
+    ]
+}
