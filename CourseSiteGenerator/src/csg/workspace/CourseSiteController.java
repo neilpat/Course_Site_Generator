@@ -170,12 +170,11 @@ public class CourseSiteController {
             
         }
     }
-    public void handleDelteKey(){
+    public void handleDeleteKey(){
         CourseSiteWorkspace workspace = (CourseSiteWorkspace)app.getWorkspaceComponent();
         TableView taTable = workspace.getTATable();
         TeachingAssistant focused = (TeachingAssistant) taTable.getFocusModel().getFocusedItem();
         TAData dataComponent = (TAData)app.getDataComponent();
-//        dataComponent.deleteTA(focused);
         ArrayList<String> keys = new ArrayList<>();
         ArrayList<StringProperty> props = new ArrayList<StringProperty>();
         
@@ -190,11 +189,21 @@ public class CourseSiteController {
                 } 
             }
         }    catch(NullPointerException e){}
-//       
-        jTPS_Transaction trans = new Remove_TA_Trans(focused, dataComponent, keys, props);
+       recitation rec = null;
+        for(int i=0;i<workspace.getRecitations().size();i++){
+            if(workspace.getRecitations().get(i).getTA1().equals(focused.getName())){
+                rec = workspace.getRecitations().get(i);
+            }
+            if(workspace.getRecitations().get(i).getTA2().equals(focused.getName())){
+                rec = workspace.getRecitations().get(i);
+            }
+        }
+
+        jTPS_Transaction trans = new Remove_TA_Trans(app,focused, dataComponent, keys, props, rec, rec.getTA1(), rec.getTA2());
+        //workspace.getRecitationTable().refresh();
         workspace.getJTPS().addTransaction(trans);
         
-        dataComponent.deleteTA(focused);
+        //dataComponent.deleteTA(focused);                      //CHECK
         handleClear();
         app.getGUI().updateToolbarControls(false);
         
@@ -269,7 +278,6 @@ public class CourseSiteController {
            dataComponent.updateTA(focused, name);
            ta.setName(name);
            ta.setEmail(email);
-           String newName = name;
         
            jTPS_Transaction trans = new Update_TA_Trans(app,focused, dataComponent,orgName);
            workspace.getJTPS().addTransaction(trans);
@@ -569,6 +577,8 @@ public class CourseSiteController {
            rec.setInstructor(instructor);
            rec.setDay_time(day_time);
            rec.setLocation(location);
+           rec.setTA1(TA1);
+           rec.setTA2(TA2);
         
            jTPS_Transaction trans = new Update_rec_Trans(app,rec, data,section, instructor, TA1, TA2);
            workspace.getJTPS().addTransaction(trans);

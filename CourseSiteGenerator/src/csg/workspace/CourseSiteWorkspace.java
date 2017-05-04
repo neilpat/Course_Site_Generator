@@ -343,6 +343,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
     };
     
+    int currentTabIndex = 0;
     
     
    /**
@@ -395,6 +396,38 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         scheduleTab.setContent(ScheduleDetailsPane(app, jtps, props));
         projectTab.setContent(ProjectDetailsPane(app, jtps, props));
         
+        currentTabIndex = tabPane.getSelectionModel().getSelectedIndex();
+        tabPane.setOnMouseClicked(e->{
+                switch (currentTabIndex){
+                    case 0: controller.handleClear();
+                            controller.handleClearRecitation();
+                            controller.handleClearSchedule();
+                            controller.handleClearTeam();
+                            controller.handleClearStudentButton();
+                            break;
+                    case 1: controller.handleClearRecitation();
+                            controller.handleClearSchedule();
+                            controller.handleClearTeam();
+                            controller.handleClearStudentButton();
+                            break;
+                    case 2: controller.handleClear();
+                            controller.handleClearSchedule();
+                            controller.handleClearTeam();
+                            controller.handleClearStudentButton();
+                            break;
+                    case 3: controller.handleClear();
+                            controller.handleClearRecitation();
+                            controller.handleClearTeam();
+                            controller.handleClearStudentButton();
+                            break;
+                    case 4: controller.handleClear();
+                            controller.handleClearRecitation();
+                            controller.handleClearSchedule();
+                            break;
+                    default: break;
+                }
+        });
+        
         tabPane.prefWidthProperty().bind(((BorderPane)workspace).widthProperty().multiply(.4));
         BorderPane.setMargin(tabPane, new Insets(15, 15, 15, 15));
         ((BorderPane)workspace).setStyle("-fx-background-color: #FFE8CC");
@@ -413,7 +446,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         tasHeaderBox.getChildren().add(minimizeTAButton);
         
         minimizeTAButton.setOnAction(e->{
-            controller.handleDelteKey();
+            controller.handleDeleteKey();
         });
 
         // MAKE THE TABLE AND SETUP THE DATA MODEL
@@ -703,7 +736,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
 
         taTable.setOnKeyReleased(e -> {
             if(e.getCode() == KeyCode.DELETE){
-                controller.handleDelteKey();
+                controller.handleDeleteKey();
             }
         });
         // Controls for Update TA
@@ -1367,7 +1400,6 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
             }
         });
         
-        
         return finalCourseDetailsBox;
     }
     public ScrollPane getFinalCourseDetailsBox() {
@@ -1654,16 +1686,6 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
                 }
             }
         });
-//        app.getGUI().getPrimaryScene().setOnKeyPressed(e ->{
-//            if(e.isControlDown()){
-//                if(e.getCode() == KeyCode.Z){
-//                    jtps.undoTransaction();
-//                }
-//                if(e.getCode() == KeyCode.Y){
-//                    jtps.doTransaction();
-//                }
-//            }
-//        });
         
         return recitation_details_box;
        
@@ -2011,7 +2033,6 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
                 }
             }
         });
-        
         return schedule_details_box;
     }
 

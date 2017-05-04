@@ -49,7 +49,7 @@
     "startingYear":"2017",
     "startingMondayMonth":"01",
     "startingMondayDay":"23",
-    "endingYear":"2017",
+    "endingYear":"2020",
     "endingFridayMonth":"05",
     "endingFridayDay":"26",
     "rec_recitations":[
@@ -75,20 +75,6 @@
     "lectures":[
     ],
     "references":[
-        {
-            "month":"03",
-            "day":"google.com",
-            "title":"google.com",
-            "topic":"google.com",
-            "link":"google.com"
-        },
-        {
-            "month":"05",
-            "day":"google.com",
-            "title":"google.com",
-            "topic":"google.com",
-            "link":"google.com"
-        }
     ],
     "sch_recitations":[
     ],
