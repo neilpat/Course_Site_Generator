@@ -6,7 +6,7 @@
     "course_number":"219",
     "sem":"FALL",
     "year":"2017",
-    "page_title":"Tes",
+    "page_title":"TestClass....",
     "instructor_name":"Richard McKenn",
     "instructor_home":"www.cs3.sunysb.com/richard",
     "banner_image_path":"",
@@ -18,7 +18,7 @@
     "undergrad_tas":[
         {
             "undergraduate":true,
-            "name":"Neil Patels",
+            "name":"Neil Patel",
             "email":"Neil@stonybrook.edu"
         },
         {
@@ -48,6 +48,11 @@
         }
     ],
     "officeHours":[
+        {
+            "day":"TUESDAY",
+            "time":"4_30pm",
+            "name":"John Chang"
+        }
     ],
     "site_pages":[
     ],
@@ -135,14 +140,14 @@
             "role":"Lead Programmer"
         },
         {
-            "firstName":"Niral ",
-            "lastName":"Patel",
+            "firstName":"Niral",
+            "lastName":"Patels",
             "team":"Aqua",
             "role":"Project Manager"
         },
         {
-            "firstName":"roger",
-            "lastName":"kellog",
+            "firstName":"Roger",
+            "lastName":"Kellog",
             "team":"Aqua",
             "role":"Lead Designer"
         },

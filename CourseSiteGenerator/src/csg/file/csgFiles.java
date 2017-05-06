@@ -37,8 +37,14 @@ import csg.workspace.CourseSiteWorkspace;
 import static djf.settings.AppStartupConstants.PATH_WORK;
 import djf.ui.AppMessageDialogSingleton;
 import java.io.File;
+import java.io.StringReader;
+import java.math.BigDecimal;
+import java.util.Arrays;
+import javafx.collections.FXCollections;
 import javafx.scene.paint.Color;
 import javafx.stage.DirectoryChooser;
+import javax.json.JsonString;
+import javax.json.JsonValue;
 import org.apache.commons.io.FileUtils;
 import properties_manager.PropertiesManager;
 
@@ -133,6 +139,9 @@ public class csgFiles implements AppFileComponent{
     static final String JSON_PROJECT_NAME = "name";
     static final String JSON_STUDENTS = "students";
     static final String JSON_PROJECT_LINK = "link";
+    static final String JSON_PROJECT_SEMESTER = "semester";
+    static final String JSON_PROEJCTS = "projects";
+
     
     static final String JSON_WORK = "work";
     
@@ -679,31 +688,33 @@ public class csgFiles implements AppFileComponent{
     public void saveProjectData(AppDataComponent data, String filePath) throws IOException{
        TAData dataManager = (TAData)data;
         
-        JsonArrayBuilder projectBuilder = Json.createArrayBuilder();
-        JsonArrayBuilder projectStudentBuilder = Json.createArrayBuilder();
-        
+//        JsonArrayBuilder projectBuilder = Json.createArrayBuilder();
+//        JsonArrayBuilder projectStudentBuilder = Json.createArrayBuilder();
+        JsonObject studentObject = null;
+        JsonObject dataManagerJSO = null;
+        ArrayList<String> arraylist = new ArrayList<String>();
         ObservableList<team> teams = dataManager.getTeams();
         for(team tm : teams){
             ObservableList<student> students = dataManager.getStudents();
-            for (student stu : students) {	
+            for (student stu : students) {
                 if(stu.getTeam().equals(tm.getName())){
-                    JsonObject studentJson = Json.createObjectBuilder()
-                        .add(JSON_FIRST_NAME, stu.getFirstName())
-                        .add(JSON_LAST_NAME, stu.getLastName()).build();
-                    projectStudentBuilder.add(studentJson);
-                }   
-            }
-            JsonArray studentArray = projectStudentBuilder.build();
-            JsonObject teamJson = Json.createObjectBuilder()
-                    .add(JSON_TEAM_NAME, tm.getName())
-                    .add(JSON_STUDENT,studentArray )
+                      arraylist.add("\"" + stu.getFirstName() + "\"");
+                   }
+                    
+                }
+            JsonReader jsonreader = Json.createReader(new StringReader(arraylist.toString()));
+            JsonArray jo  = jsonreader.readArray();
+            jsonreader.close();
+            
+            studentObject = Json.createObjectBuilder()
+                    .add(JSON_NAME, tm.getName())
+                    .add(JSON_STUDENTS, jo)
                     .add(JSON_LINK, tm.getLink()).build();
-                projectBuilder.add(teamJson);
+            
         }
-        JsonArray teamArray = projectBuilder.build();
-        
-        JsonObject dataManagerJSO = Json.createObjectBuilder()
-		.add(JSON_WORK, teamArray).build();
+        dataManagerJSO = Json.createObjectBuilder()
+                .add(JSON_PROJECT_SEMESTER, dataManager.getSemester()+" "+dataManager.getYear())
+		.add(JSON_PROEJCTS, studentObject).build();
         
         Map<String, Object> properties = new HashMap<>(1);
 	properties.put(JsonGenerator.PRETTY_PRINTING, true);
@@ -891,7 +902,7 @@ public class csgFiles implements AppFileComponent{
         String orgBanner = dataManager.getBannerImageFilePath();
         String leftFooter = dataManager.getLeftFootImageFilePath();
         String rightFooter = dataManager.getRightFooterImageFilePath();
-        if(dataManager.getBannerImageFilePath()!=""||dataManager.getLeftFootImageFilePath()!=""||dataManager.getRightFooterImageFilePath()!=""){
+        if(!dataManager.getBannerImageFilePath().equals("")||!dataManager.getLeftFootImageFilePath().equals("")||!dataManager.getRightFooterImageFilePath().equals("")){
             String BannerImageName = dataManager.getBannerImageFilePath()
                         .substring(dataManager.getBannerImageFilePath().lastIndexOf("/")+1, dataManager.getBannerImageFilePath().length());
         String LeftFooterImageName = dataManager.getLeftFootImageFilePath()
