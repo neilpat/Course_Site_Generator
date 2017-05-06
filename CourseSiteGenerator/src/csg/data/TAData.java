@@ -80,9 +80,9 @@ public class TAData implements AppDataComponent {
     public String instructorName = "";
     public String insturctorHome = "";
     
-    public String bannerImageFilePath ;
-    public String leftFootImageFilePath ;
-    public String rightFooterImageFilePath ;
+    public String bannerImageFilePath = "" ;
+    public String leftFootImageFilePath = "";
+    public String rightFooterImageFilePath = "";
     
     public String exportDirectoryPath;
     
@@ -109,6 +109,7 @@ public class TAData implements AppDataComponent {
     public String studentLastName;
     public String studentTeamName;
     public String studentRole;
+    public String TeamLink;
     
     private int count = 0;
     /**
@@ -415,6 +416,14 @@ public class TAData implements AppDataComponent {
 
     public void setInsturctorHome(String insturctorHome) {
         this.insturctorHome = insturctorHome;
+    }
+
+    public String getTeamLink() {
+        return TeamLink;
+    }
+
+    public void setTeamLink(String TeamLink) {
+        this.TeamLink = TeamLink;
     }
     
     
@@ -913,5 +922,16 @@ public class TAData implements AppDataComponent {
             }
         }
         return null;
+    }
+    public student getStudent(String firstName, String lastName, String team){
+        for(student stu: students){
+            if(stu.getFirstName().equals(firstName) && stu.getLastName().equals(lastName) && stu.getTeam().equals(team)){
+                return stu;
+            }
+        }
+        return null;
+    }
+    public void deleteStudent(student stu){
+        students.remove(stu);
     }
 }

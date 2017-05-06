@@ -1,24 +1,24 @@
 
 {
-    "startHour":"8",
-    "endHour":"17",
+    "startHour":"13",
+    "endHour":"18",
     "course_name":"CSE",
     "course_number":"219",
     "sem":"FALL",
     "year":"2017",
-    "page_title":"Computer Programming ",
+    "page_title":"Tes",
     "instructor_name":"Richard McKenn",
     "instructor_home":"www.cs3.sunysb.com/richard",
-    "banner_image_path":"./images/harvardMedicallogo.png",
-    "left_footer_image_path":"./images/harvardMedicallogo.png",
-    "right_footer_image_path":"./images/harvardMedicallogo.png",
-    "ORIGINAL_BANNER_PATH":"/Users/Neil/Desktop/CSE_219/ImagesForBanners/harvardMedicallogo.png",
-    "ORIGINAL_LEFT_PATH":"/Users/Neil/Desktop/CSE_219/ImagesForBanners/harvardMedicallogo.png",
-    "ORIGINAL_RIGHT_PATH":"/Users/Neil/Desktop/CSE_219/ImagesForBanners/harvardMedicallogo.png",
+    "banner_image_path":"",
+    "left_footer_image_path":"",
+    "right_footer_image_path":"",
+    "ORIGINAL_BANNER_PATH":"",
+    "ORIGINAL_LEFT_PATH":"",
+    "ORIGINAL_RIGHT_PATH":"",
     "undergrad_tas":[
         {
             "undergraduate":true,
-            "name":"Neil Patel",
+            "name":"Neil Patels",
             "email":"Neil@stonybrook.edu"
         },
         {
@@ -40,6 +40,11 @@
             "undergraduate":true,
             "name":"Steven",
             "email":"Steve@stonybrook.edu"
+        },
+        {
+            "undergraduate":true,
+            "name":"Nihadh Nisan",
+            "email":"Nn@stonybrook.edu"
         }
     ],
     "officeHours":[
@@ -54,23 +59,29 @@
     "endingFridayDay":"26",
     "rec_recitations":[
         {
-            "section":"R01",
-            "instructor":"Richard Mckenna",
-            "day_time":"Mon 3:30pm",
-            "location":"Old Comp Sci",
-            "ta_1":"Neil Patel",
-            "ta_2":"Niral Patel"
-        },
-        {
             "section":"R03",
             "instructor":"Richard Mckenna",
             "day_time":"Friday",
             "location":"Old Comp Sci",
             "ta_1":"Niral Patel",
             "ta_2":"John Chang"
+        },
+        {
+            "section":"R09",
+            "instructor":"Hello",
+            "day_time":"World",
+            "location":"Hello World",
+            "ta_1":"Matt",
+            "ta_2":"Steven"
         }
     ],
     "holidays":[
+        {
+            "month":"05",
+            "day":"23",
+            "title":"TBA",
+            "link":"TBA"
+        }
     ],
     "lectures":[
     ],
@@ -87,10 +98,59 @@
             "link":"www.google.com",
             "time":"HW1",
             "criteria":"No EC"
+        },
+        {
+            "month":"03",
+            "day":"08",
+            "title":"Hello",
+            "topic":"Hello",
+            "link":"Hello",
+            "time":"Hello",
+            "criteria":"Hello"
         }
     ],
     "teams":[
+        {
+            "name":"Aqua",
+            "red":"255",
+            "green":"255",
+            "blue":"0",
+            "text_color":"green",
+            "link":"google.com"
+        },
+        {
+            "name":"Maroon",
+            "red":"165",
+            "green":"42",
+            "blue":"42",
+            "text_color":"Red",
+            "link":"Google.com"
+        }
     ],
     "students":[
+        {
+            "firstName":"Neil",
+            "lastName":"Patel",
+            "team":"Aqua",
+            "role":"Lead Programmer"
+        },
+        {
+            "firstName":"Niral ",
+            "lastName":"Patel",
+            "team":"Aqua",
+            "role":"Project Manager"
+        },
+        {
+            "firstName":"roger",
+            "lastName":"kellog",
+            "team":"Aqua",
+            "role":"Lead Designer"
+        },
+        {
+            "firstName":"John",
+            "lastName":"Sharma",
+            "team":"Aqua",
+            "role":"Data Designer"
+        }
     ]
 }

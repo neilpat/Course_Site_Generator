@@ -26,6 +26,7 @@ import javax.json.stream.JsonGenerator;
 import csg.csgApp;
 import csg.data.TAData;
 import csg.data.TeachingAssistant;
+import csg.data.projects;
 import csg.data.recitation;
 import csg.data.schedule;
 import csg.data.sitePage;
@@ -38,6 +39,7 @@ import djf.ui.AppMessageDialogSingleton;
 import java.io.File;
 import javafx.scene.paint.Color;
 import javafx.stage.DirectoryChooser;
+import org.apache.commons.io.FileUtils;
 import properties_manager.PropertiesManager;
 
 /**
@@ -131,6 +133,8 @@ public class csgFiles implements AppFileComponent{
     static final String JSON_PROJECT_NAME = "name";
     static final String JSON_STUDENTS = "students";
     static final String JSON_PROJECT_LINK = "link";
+    
+    static final String JSON_WORK = "work";
     
     int sizeOfHB = 8;
     int NoInHB = 4;
@@ -241,23 +245,23 @@ public class csgFiles implements AppFileComponent{
         workspace.setInstructorHomeField(instructorHome);
         
         
-        // ADD THE PATH TO THE IMAGES
+        //ADD THE PATH TO THE IMAGES
         String bannerImagePath = json.getString("ORIGINAL_BANNER_PATH");
         String leftFooterImagePath = json.getString("ORIGINAL_LEFT_PATH");
         String rightFooterImagePath = json.getString("ORIGINAL_RIGHT_PATH");
         
-        dataManager.setBannerImageFilePath(bannerImagePath);
-        dataManager.setLeftFootImageFilePath(leftFooterImagePath);
-        dataManager.setRightFooterImageFilePath(rightFooterImagePath);
-        
-        
-        workspace.setBannerFilePath(bannerImagePath);
-        workspace.setLeftFooterFilePath(leftFooterImagePath);
-        workspace.setRightFooterFilePath(rightFooterImagePath);
-        
-        controller.handleAddBannerImage(bannerImagePath);
-        controller.handleAddLeftFooterImage(leftFooterImagePath);
-        controller.handleAddRightFooterImage(rightFooterImagePath);
+//        dataManager.setBannerImageFilePath(bannerImagePath);
+//        dataManager.setLeftFootImageFilePath(leftFooterImagePath);
+//        dataManager.setRightFooterImageFilePath(rightFooterImagePath);
+//        
+//        
+//        workspace.setBannerFilePath(bannerImagePath);
+//        workspace.setLeftFooterFilePath(leftFooterImagePath);
+//        workspace.setRightFooterFilePath(rightFooterImagePath);
+//        
+//        controller.handleAddBannerImage(bannerImagePath);
+//        controller.handleAddLeftFooterImage(leftFooterImagePath);
+//        controller.handleAddRightFooterImage(rightFooterImagePath);
         
         // NOW LOAD ALL THE UNDERGRAD TAs
         JsonArray jsonTAArray = json.getJsonArray(JSON_UNDERGRAD_TAS);
@@ -267,6 +271,8 @@ public class csgFiles implements AppFileComponent{
             String name = jsonTA.getString(JSON_NAME);
             String email = jsonTA.getString(JSON_EMAIL);
             dataManager.addTA(undergrad,name,email);
+            
+            workspace.getSupervising_TA_ComboBox1().getItems().add(name);
         }
 
         // AND THEN ALL THE OFFICE HOURS
@@ -317,8 +323,9 @@ public class csgFiles implements AppFileComponent{
             String TA1 = jsonRecitation.getString(JSON_TA1);
             String TA2 = jsonRecitation.getString(JSON_TA2);
             dataManager.addRecitation(section, instructor, day_time, location, TA1, TA2);
+            
         }
-        workspace.reloadRecitationTeachingAssistant();
+        
         
         // NOW LOAD ALL THE HOLIDAY SCHEDULE
         JsonArray jsonHolidayArray = json.getJsonArray(JSON_HOLIDAYS);
@@ -386,6 +393,7 @@ public class csgFiles implements AppFileComponent{
             String textColor = jsonTeam.getString(JSON_TEXT_COLOR);
             String link = jsonTeam.getString(JSON_LINK);
             dataManager.addTeam(name,red,green,blue,textColor,link);
+            workspace.getTeamField().getItems().add(name);
             
             Color clr = Color.rgb(Integer.parseInt(red), Integer.parseInt(green), Integer.parseInt(blue));
             String color = dataManager.getColorName(clr);
@@ -393,7 +401,6 @@ public class csgFiles implements AppFileComponent{
             dataManager.setColor(color);
             
         }
-        
         // NOW LOAD ALL THE STUDENTS
         JsonArray jsonStudentArray = json.getJsonArray(JSON_STUDENT);
         for (int i = 0; i < jsonStudentArray.size(); i++) {
@@ -621,6 +628,7 @@ public class csgFiles implements AppFileComponent{
         TAData dataManager = (TAData)data;
         
         JsonArrayBuilder teamBuilder = Json.createArrayBuilder();
+        JsonArrayBuilder studentBuilder = Json.createArrayBuilder();
         
 	ObservableList<team> teams = dataManager.getTeams();
 	for (team tm : teams) {	    
@@ -630,14 +638,26 @@ public class csgFiles implements AppFileComponent{
                     .add(JSON_COLOR_GREEN,tm.getGreen())
                     .add(JSON_COLOR_BLUE,tm.getBlue())
                     .add(JSON_TEXT_COLOR, tm.getTextColor())
-                    .add(JSON_LINK,tm.getLink()).build();
+                    .build();
                     
 	    teamBuilder.add(teamJson);
 	}
 	JsonArray teamArray = teamBuilder.build();
         
+        ObservableList<student> students = dataManager.getStudents();
+        for(student stu: students){
+            JsonObject studentJson = Json.createObjectBuilder()
+                    .add(JSON_LAST_NAME, stu.getLastName())
+                    .add(JSON_FIRST_NAME, stu.getFirstName())
+                    .add(JSON_ASSIGNED_TEAM, stu.getTeam())
+                    .add(JSON_ROLE, stu.getRole()).build();
+            
+            studentBuilder.add(studentJson);
+        }
+        JsonArray studentArray = studentBuilder.build();
         JsonObject dataManagerJSO = Json.createObjectBuilder()
-		.add(JSON_TEAM, teamArray).build();
+		.add(JSON_TEAM, teamArray)
+                .add(JSON_STUDENTS, studentArray).build();
         
         Map<String, Object> properties = new HashMap<>(1);
 	properties.put(JsonGenerator.PRETTY_PRINTING, true);
@@ -656,51 +676,51 @@ public class csgFiles implements AppFileComponent{
 	pw.write(prettyPrinted);
 	pw.close();
     }
-    public void saveProjectData(AppDataComponent data, String filePath){
-//       TAData dataManager = (TAData)data;
-//        
-//        JsonArrayBuilder projectBuilder = Json.createArrayBuilder();
-//        JsonArrayBuilder projectStudentBuilder = Json.createArrayBuilder();
-//        
-//        
-//        
-//        
-//	ObservableList<projects> projects = dataManager.getProjects();
-//	for (projects pro : projects) {	    
-//            JsonArray projectStudentArray;
-//            for(int i = 0; i < pro.getStudents().length;i++){
-//                JsonObject projectStudentJson = Json.createArrayBuilder()
-//                        .add(pro.getStudents()).build();
-//            }
-//            
-//	    JsonObject projectJson = Json.createObjectBuilder()
-//                    .add(JSON_PROJECT_NAME, pro.getName())
-//                    .add(JSON_STUDENTS,projectStudentArray)
-//                    .add(JSON_PROJECT_LINK,pro.getLink()).build();
-//                    
-//	    projectBuilder.add(projectJson);
-//	}
-//	JsonArray projectArray = projectBuilder.build();
-//        
-//        JsonObject dataManagerJSO = Json.createObjectBuilder()
-//		.add(JSON_PROJECTS, projectArray).build();
-//        
-//        Map<String, Object> properties = new HashMap<>(1);
-//	properties.put(JsonGenerator.PRETTY_PRINTING, true);
-//	JsonWriterFactory writerFactory = Json.createWriterFactory(properties);
-//	StringWriter sw = new StringWriter();
-//	JsonWriter jsonWriter = writerFactory.createWriter(sw);
-//	jsonWriter.writeObject(dataManagerJSO);
-//	jsonWriter.close();
-//
-//	// INIT THE WRITER
-//	OutputStream os = new FileOutputStream(filePath);
-//	JsonWriter jsonFileWriter = Json.createWriter(os);
-//	jsonFileWriter.writeObject(dataManagerJSO);
-//	String prettyPrinted = sw.toString();
-//	PrintWriter pw = new PrintWriter(filePath);
-//	pw.write(prettyPrinted);
-//	pw.close();
+    public void saveProjectData(AppDataComponent data, String filePath) throws IOException{
+       TAData dataManager = (TAData)data;
+        
+        JsonArrayBuilder projectBuilder = Json.createArrayBuilder();
+        JsonArrayBuilder projectStudentBuilder = Json.createArrayBuilder();
+        
+        ObservableList<team> teams = dataManager.getTeams();
+        for(team tm : teams){
+            ObservableList<student> students = dataManager.getStudents();
+            for (student stu : students) {	
+                if(stu.getTeam().equals(tm.getName())){
+                    JsonObject studentJson = Json.createObjectBuilder()
+                        .add(JSON_FIRST_NAME, stu.getFirstName())
+                        .add(JSON_LAST_NAME, stu.getLastName()).build();
+                    projectStudentBuilder.add(studentJson);
+                }   
+            }
+            JsonArray studentArray = projectStudentBuilder.build();
+            JsonObject teamJson = Json.createObjectBuilder()
+                    .add(JSON_TEAM_NAME, tm.getName())
+                    .add(JSON_STUDENT,studentArray )
+                    .add(JSON_LINK, tm.getLink()).build();
+                projectBuilder.add(teamJson);
+        }
+        JsonArray teamArray = projectBuilder.build();
+        
+        JsonObject dataManagerJSO = Json.createObjectBuilder()
+		.add(JSON_WORK, teamArray).build();
+        
+        Map<String, Object> properties = new HashMap<>(1);
+	properties.put(JsonGenerator.PRETTY_PRINTING, true);
+	JsonWriterFactory writerFactory = Json.createWriterFactory(properties);
+	StringWriter sw = new StringWriter();
+	JsonWriter jsonWriter = writerFactory.createWriter(sw);
+	jsonWriter.writeObject(dataManagerJSO);
+	jsonWriter.close();
+
+	// INIT THE WRITER
+	OutputStream os = new FileOutputStream(filePath);
+	JsonWriter jsonFileWriter = Json.createWriter(os);
+	jsonFileWriter.writeObject(dataManagerJSO);
+	String prettyPrinted = sw.toString();
+	PrintWriter pw = new PrintWriter(filePath);
+	pw.write(prettyPrinted);
+	pw.close();
     }
     public void saveData(AppDataComponent data, String filePath) throws IOException {
 	// GET THE DATA
@@ -868,8 +888,11 @@ public class csgFiles implements AppFileComponent{
 	}
 	JsonArray studentArray = studentBuilder.build();
         //convert the image to proper name
-        
-        String BannerImageName = dataManager.getBannerImageFilePath()
+        String orgBanner = dataManager.getBannerImageFilePath();
+        String leftFooter = dataManager.getLeftFootImageFilePath();
+        String rightFooter = dataManager.getRightFooterImageFilePath();
+        if(dataManager.getBannerImageFilePath()!=""||dataManager.getLeftFootImageFilePath()!=""||dataManager.getRightFooterImageFilePath()!=""){
+            String BannerImageName = dataManager.getBannerImageFilePath()
                         .substring(dataManager.getBannerImageFilePath().lastIndexOf("/")+1, dataManager.getBannerImageFilePath().length());
         String LeftFooterImageName = dataManager.getLeftFootImageFilePath()
                         .substring(dataManager.getLeftFootImageFilePath().lastIndexOf("/")+1, dataManager.getLeftFootImageFilePath().length());
@@ -877,12 +900,11 @@ public class csgFiles implements AppFileComponent{
                         .substring(dataManager.getRightFooterImageFilePath().lastIndexOf("/")+1, dataManager.getRightFooterImageFilePath().length());
         
         String imageExtension = "./images/";
-        String orgBanner = dataManager.getBannerImageFilePath();
-        String leftFooter = dataManager.getLeftFootImageFilePath();
-        String rightFooter = dataManager.getRightFooterImageFilePath();
+        
         dataManager.setBannerImageFilePath(imageExtension+BannerImageName);
         dataManager.setLeftFootImageFilePath(imageExtension+LeftFooterImageName);
         dataManager.setRightFooterImageFilePath(imageExtension+RightFootImageName);
+        }
         
 	// THEN PUT IT ALL TOGETHER IN A JsonObject
 	JsonObject dataManagerJSO = Json.createObjectBuilder()
@@ -975,17 +997,21 @@ public class csgFiles implements AppFileComponent{
                 File fileName = new File("../TAManagerTester/public_html"); 
                 File imagesFolder219 = new File("../TAManagerTester/public_html/CSE219/images/");
                 File imagesFolder308 = new File("../TAManagerTester/public_html/CSE308/images/");
-//                File imageFile1 = new File(bannerImagePath);
-//                File imageFile2 = new File(leftFooterImagePath);
-//                File imageFile3 = new File(rightFooterImagePath);
+                File imageFile1 = new File(bannerImagePath);
+                File imageFile2 = new File(leftFooterImagePath);
+                File imageFile3 = new File(rightFooterImagePath);
                 
+                try{
+                    FileUtils.copyFileToDirectory(imageFile1, imagesFolder219);
+                    FileUtils.copyFileToDirectory(imageFile1, imagesFolder308);
+                    FileUtils.copyFileToDirectory(imageFile2, imagesFolder219);
+                    FileUtils.copyFileToDirectory(imageFile2, imagesFolder308);
+                    FileUtils.copyFileToDirectory(imageFile3, imagesFolder219);
+                    FileUtils.copyFileToDirectory(imageFile3, imagesFolder308);
+                }catch(Exception e){
+                    System.out.println("Image Not Found To Export");
+                }
                 
-//                FileUtils.copyFileToDirectory(imageFile1, imagesFolder219);
-//                FileUtils.copyFileToDirectory(imageFile1, imagesFolder308);
-//                FileUtils.copyFileToDirectory(imageFile2, imagesFolder219);
-//                FileUtils.copyFileToDirectory(imageFile2, imagesFolder308);
-//                FileUtils.copyFileToDirectory(imageFile3, imagesFolder219);
-//                FileUtils.copyFileToDirectory(imageFile3, imagesFolder308);
                 
                 copy(fileName.getAbsolutePath(), selectedFile.getAbsolutePath());
                 

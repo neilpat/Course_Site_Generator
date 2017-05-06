@@ -344,8 +344,6 @@ public class AppFileController {
                 
                 // LOAD THE FILE INTO THE DATA
                 
-               // currentWorkFile = selectedFile;
-                
 		// MAKE SURE THE WORKSPACE IS ACTIVATED
 		app.getWorkspaceComponent().activateWorkspace(app.getGUI().getAppPane());
                 
@@ -403,7 +401,7 @@ public class AppFileController {
                 // AND MAKE SURE THE FILE BUTTONS ARE PROPERLY ENABLED
                 saved = true;
                 app.getGUI().updateToolbarControls(saved);
-                app.getFileComponent().loadData(app.getDataComponent(), selectedFile.getAbsolutePath());
+//                app.getFileComponent().loadData(app.getDataComponent(), selectedFile.getAbsolutePath());
                 
             } catch (Exception e) {
                 AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
