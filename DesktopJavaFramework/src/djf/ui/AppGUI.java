@@ -20,18 +20,9 @@ import static djf.settings.AppStartupConstants.PATH_IMAGES;
 import static djf.components.AppStyleComponent.CLASS_BORDERED_PANE;
 import static djf.components.AppStyleComponent.CLASS_FILE_BUTTON;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.scene.Group;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.TabPane;
-import javafx.scene.text.Text;
-import javafx.stage.StageStyle;
 
 /**
  * This class provides the basic user interface for this application,

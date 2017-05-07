@@ -156,9 +156,15 @@
         <property name = "SCHEDULE_ITEMS_LABEL"         value="Schedule Items"></property>
         <property name = "CALENDARBOUNDARIES_LABEL"     value="Calendar Boundaries"></property>
         <property name = "ADD_SCHEDULE_BUTTON"          value="Add Schedule"></property>
+        <property name="MISSING_TITLE_TITLE"            value="Missing Title"></property>
+        <property name="MISSING_TITLE_MESSAGE"          value="You must enter a Title"></property>
+        <property name="MISSING_TOPIC_TITLE"            value="You must enter a Topic"></property>
+        <property name="MISSING_TOPIC_MESSAGE"          value="Missing Topic"></property>
+        <property name="MISSING_TIME_TITLE"             value="Missing Time"></property>
+        <property name="MISSING_TIME_MESSAGE"           value="You must enter a Time"></property>
+        <property name="DUPLICATE_ROLE_TITLE"           value="Duplicate Role and Team"></property>
+        <property name="DUPLICATE_ROLE_MESSAGE"         value="That Role is Already filled for the Team"></property>
         
-        
-      
         <!--PROJECT DETAILS STUFF -->
         <property name = "PROJECT_DETAILS_TAB"         value="Project Details"></property>
         <property name = "FIRST_NAME_LABEL"            value="First Name"></property>

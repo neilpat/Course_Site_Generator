@@ -1,0 +1,147 @@
+
+{
+    "startHour":"0",
+    "endHour":"23",
+    "course_name":"ISE",
+    "course_number":"114",
+    "sem":"FALL",
+    "year":"2017",
+    "page_title":"Final Project Chec",
+    "instructor_name":"Richard McKenna",
+    "instructor_home":"google.co",
+    "banner_image_path":"./images/stanfordBanner.png",
+    "left_footer_image_path":"./images/stanfordBanner.png",
+    "right_footer_image_path":"./images/stanfordBanner.png",
+    "ORIGINAL_BANNER_PATH":"./images/stanfordBanner.png",
+    "ORIGINAL_LEFT_PATH":"./images/stanfordBanner.png",
+    "ORIGINAL_RIGHT_PATH":"./images/stanfordBanner.png",
+    "undergrad_tas":[
+        {
+            "undergraduate":true,
+            "name":"Niral",
+            "email":"NIral@stonybrook.edi"
+        },
+        {
+            "undergraduate":true,
+            "name":"Jay",
+            "email":"Jay@stonybrook.edu"
+        },
+        {
+            "undergraduate":true,
+            "name":"Navin",
+            "email":"Navin@stonybrook.edu"
+        },
+        {
+            "undergraduate":true,
+            "name":"Nihadh",
+            "email":"Nihadh@stonybrook.edu"
+        },
+        {
+            "undergraduate":true,
+            "name":"Arlsan",
+            "email":"Arslan@stonybrook.edu"
+        },
+        {
+            "undergraduate":true,
+            "name":"John",
+            "email":"John@stonybrook.edu"
+        }
+    ],
+    "officeHours":[
+    ],
+    "site_pages":[
+    ],
+    "startingYear":"2017",
+    "startingMondayMonth":"02",
+    "startingMondayDay":"01",
+    "endingYear":"2020",
+    "endingFridayMonth":"05",
+    "endingFridayDay":"26",
+    "rec_recitations":[
+        {
+            "section":"R01",
+            "instructor":"TBA",
+            "day_time":"TBA",
+            "location":"TBA",
+            "ta_1":"Niral",
+            "ta_2":"Jay"
+        },
+        {
+            "section":"R02",
+            "instructor":"Fodor",
+            "day_time":"Wed 3:30pm",
+            "location":"Old CS",
+            "ta_1":"Navin",
+            "ta_2":"Arlsan"
+        }
+    ],
+    "holidays":[
+        {
+            "month":"03",
+            "day":"14",
+            "title":"TEST2",
+            "link":"TEST2"
+        }
+    ],
+    "lectures":[
+    ],
+    "references":[
+    ],
+    "sch_recitations":[
+    ],
+    "hws":[
+        {
+            "month":"03",
+            "day":"15",
+            "title":"TEST 1",
+            "topic":"TEST 1",
+            "link":"TEST 1",
+            "time":"11:59pm",
+            "criteria":"TEST 1"
+        }
+    ],
+    "teams":[
+        {
+            "name":"Atomic Comics",
+            "red":"255",
+            "green":"192",
+            "blue":"203",
+            "text_color":"skyblue",
+            "link":"google.com"
+        },
+        {
+            "name":"Sky Rockets",
+            "red":"0",
+            "green":"128",
+            "blue":"0",
+            "text_color":"yellow",
+            "link":"google.com"
+        }
+    ],
+    "students":[
+        {
+            "firstName":"a",
+            "lastName":"a",
+            "team":"Atomic Comics",
+            "role":"Lead Programmer"
+        },
+        {
+            "firstName":"b",
+            "lastName":"b",
+            "team":"Atomic Comics",
+            "role":"Project Manager"
+        },
+        {
+            "firstName":"c",
+            "lastName":"c",
+            "team":"Atomic Comics",
+            "role":"Lead Designer"
+        },
+        {
+            "firstName":"d",
+            "lastName":"d",
+            "team":"Atomic Comics",
+            "role":"Data Designer"
+        }
+    ]
+}

@@ -30,6 +30,8 @@ import javafx.scene.layout.VBox;
 import jtps.jTPS;
 import properties_manager.PropertiesManager;
 import csg.csgProp;
+import static csg.csgProp.MISSING_SECTION_MESSAGE;
+import static csg.csgProp.MISSING_SECTION_TITLE;
 import csg.style.CourseSiteStyle;
 import csg.data.TAData;
 import csg.data.TeachingAssistant;
@@ -40,6 +42,7 @@ import csg.data.semesters;
 import csg.data.sitePage;
 import csg.data.student;
 import csg.data.team;
+import djf.ui.AppMessageDialogSingleton;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -335,6 +338,8 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     ComboBox teamField;
     ComboBox roleField;
     
+    int startMonthCheck;
+    int startDayCheck;
     
     int sizeOfHB = 8;
     int NoInHB = 4;
@@ -398,48 +403,6 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         projectTab.setContent(ProjectDetailsPane(app, jtps, props));
         
         currentTabIndex = tabPane.getSelectionModel().getSelectedIndex();
-        tabPane.setOnMouseClicked(e->{
-                switch (currentTabIndex){
-                    case 0: controller.handleClear();
-                            controller.handleClearRecitation();
-                            controller.handleClearSchedule();
-                            controller.handleClearTeam();
-                            controller.handleClearStudentButton();
-                            break;
-                    case 1: controller.handleClearRecitation();
-                            controller.handleClearSchedule();
-                            controller.handleClearTeam();
-                            controller.handleClearStudentButton();
-                            break;
-                    case 2: controller.handleClear();
-                            controller.handleClearSchedule();
-                            controller.handleClearTeam();
-                            controller.handleClearStudentButton();
-                            break;
-                    case 3: controller.handleClear();
-                            controller.handleClearRecitation();
-                            controller.handleClearTeam();
-                            controller.handleClearStudentButton();
-                            break;
-                    case 4: controller.handleClear();
-                            controller.handleClearRecitation();
-                            controller.handleClearSchedule();
-                            break;
-                    default: break;
-                }
-        });
-//        app.getGUI().getPrimaryScene().setOnKeyPressed(e ->{
-//            if(e.isControlDown()){
-//                if(e.getCode() == KeyCode.Z){
-//                    jtps.undoTransaction();
-//                }
-//                if(e.getCode() == KeyCode.Y){
-//                    jtps.doTransaction();
-//                }
-//            }
-//        });
-        
-        
         tabPane.prefWidthProperty().bind(((BorderPane)workspace).widthProperty().multiply(.4));
         BorderPane.setMargin(tabPane, new Insets(15, 15, 15, 15));
         ((BorderPane)workspace).setStyle("-fx-background-color: #FFE8CC");
@@ -1404,16 +1367,6 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         finalCourseDetailsBox.setPadding(new Insets(10, 300, 10, 300));
         finalCourseDetailsBox.setContent(course_details_box);
         
-//        app.getGUI().getPrimaryScene().setOnKeyPressed(e ->{
-//            if(e.isControlDown()){
-//                if(e.getCode() == KeyCode.Z){
-//                    jtps.undoTransaction();
-//                }
-//                if(e.getCode() == KeyCode.Y){
-//                    jtps.doTransaction();
-//                }
-//            }
-//        });
         
         return finalCourseDetailsBox;
     }
@@ -1563,10 +1516,8 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         supervising_TA_label1 = new Label(props.getProperty(csgProp.SUPERVISING_TA_LABEL.toString()));
         supervising_TA_label2 = new Label(props.getProperty(csgProp.SUPERVISING_TA_LABEL.toString()));
         
-        ObservableList<String> tas = FXCollections.observableArrayList();
-        for(int i=0;i<data.getTeachingAssistants().size();i++){
-            tas.add(data.getTeachingAssistants().get(i).getName());
-        }
+        ObservableList<String> tas = availableTAs();
+//        
         section_textField = new TextField();
         instructor_textField = new TextField();
         day_time_textField = new TextField();
@@ -1640,12 +1591,16 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         recitationTable.setOnKeyReleased(e -> {
             if(e.getCode() == KeyCode.DELETE){
                 controller.handleDeleteRecitationKey();
-                controller.handleClearRecitation();
+                add_edit_input.getChildren().remove(addRecitationButton);
+                add_edit_input.getChildren().remove(updateRecitationButton);
+                add_edit_input.add(addRecitationButton, 0, 6);
             }
         });
         minimize_reciationsButton.setOnAction(e->{
             controller.handleDeleteRecitationKey();
-                controller.handleClearRecitation();
+            add_edit_input.getChildren().remove(addRecitationButton);
+            add_edit_input.getChildren().remove(updateRecitationButton);
+            add_edit_input.add(addRecitationButton, 0, 6);
         });
         section_textField.setOnAction(e->{
             controller.handleAddRecitaiton();
@@ -1666,13 +1621,16 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         
         addRecitationButton.setOnAction(e->{
             controller.handleAddRecitaiton();
-            controller.handleClearRecitation();
             clearRecitationButton.setDisable(true);
             recitationTable.refresh();
         });
         updateRecitationButton.setOnAction(e->{
-            controller.handleUpdateRecitation();
-            clearRecitationButton.setDisable(true);
+            if(controller.handleUpdateRecitation()){
+                add_edit_input.getChildren().remove(addRecitationButton);
+                add_edit_input.getChildren().remove(updateRecitationButton);
+                add_edit_input.add(addRecitationButton, 0, 6);
+                clearRecitationButton.setDisable(true);
+            }
             recitationTable.refresh();
         });
         clearRecitationButton.setOnAction(e->{
@@ -1692,9 +1650,24 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
                 }
             }
         });
-        
         return recitation_details_box;
        
+    }
+    public ObservableList<String> availableTAs(){
+        TAData data = (TAData) app.getDataComponent();
+        ObservableList<String> tas = FXCollections.observableArrayList();
+        for(int i=0;i<data.getTeachingAssistants().size();i++){
+            tas.add(data.getTeachingAssistants().get(i).getName());
+        }
+        for(int i=0;i<data.getRecitaitons().size();i++){
+            if(tas.contains(data.getRecitaitons().get(i).getTA1())){
+                tas.remove(data.getRecitaitons().get(i).getTA1());
+            }
+            if(tas.contains(data.getRecitaitons().get(i).getTA2())){
+                tas.remove(data.getRecitaitons().get(i).getTA2());
+            }
+        }
+        return tas;
     }
     public void reloadRecitationTeachingAssistant(){
         TAData data = (TAData) app.getDataComponent();
@@ -1826,27 +1799,44 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         finalCalBoundariesBox.getChildren().add(calendarBoundariesBox);
         finalCalBoundariesBox.setPadding(new Insets(5, 5, 5, 5));
         
+        
         startDate.setOnAction(e->{
             if(startDate.getValue() != null){
-                startDateLabel.setText( props.getProperty(csgProp.STARTDATE_LABEL.toString())
+                if(startDate.getValue().getDayOfWeek().getValue()==1){
+                    startDateLabel.setText( props.getProperty(csgProp.STARTDATE_LABEL.toString())
                         +startDate.getValue().getDayOfWeek().toString());
-                String begDate = startDate.getValue().toString();
-                String[] dateArray = begDate.split("-", 5);
-                data.setStartDay(dateArray[2]);
-                data.setStartMonth(dateArray[1]);
-                data.setStartYear(dateArray[0]);
+                    String begDate = startDate.getValue().toString();
+                    String[] dateArray = begDate.split("-", 5);
+                    data.setStartDay(dateArray[2]);
+                    data.setStartMonth(dateArray[1]);
+                    data.setStartYear(dateArray[0]);
+                    startDayCheck =startDate.getValue().getDayOfYear();
+                }
+                else{
+                    startDate.setValue(null);
+                    AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+                    dialog.show("Invalid Date", "Please Select A Start Date From Monday");
+                }
             }
-            
         });
         endDate.setOnAction(e->{
             if(endDate.getValue() != null){
-                endDateLabel.setText( props.getProperty(csgProp.ENDDATE_LABEL.toString())
+                if(endDate.getValue().getDayOfWeek().getValue()==5){
+                    if(endDate.getValue().getDayOfYear()>startDayCheck){
+                        endDateLabel.setText( props.getProperty(csgProp.ENDDATE_LABEL.toString())
                         +endDate.getValue().getDayOfWeek().toString());
-                String lastDate = endDate.getValue().toString();
-                String[] dateArray = lastDate.split("-", 5);
-                data.setEndDay(dateArray[2]);
-                data.setEndMonth(dateArray[1]);
-                data.setEndYear(dateArray[0]);
+                        String lastDate = endDate.getValue().toString();
+                        String[] dateArray = lastDate.split("-", 5);
+                        data.setEndDay(dateArray[2]);
+                        data.setEndMonth(dateArray[1]);
+                        data.setEndYear(dateArray[0]);
+                    }
+                }
+                else{
+                    endDate.setValue(null);
+                    AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+                    dialog.show("Invalid Date", "Please Select a End Date on Friday And After Start Date");
+                }
             }
             
         });
@@ -1972,9 +1962,14 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
             data.setCriteria_textField(criteria_textField.getText());
         });
         addScheduleButton.setOnAction(e->{
-            controller.handleAddSchedule();
-            controller.handleClearSchedule();
-            scheduleTable.refresh();
+            if(controller.handleAddSchedule()){
+                add_edit_input_schedule.getChildren().remove(addScheduleButton);
+                add_edit_input_schedule.getChildren().remove(updateScheduleButton);
+                add_edit_input_schedule.add(addScheduleButton, 0, 8);
+                clearScheduleButton.setDisable(true);
+                scheduleTable.refresh();
+            }
+            
         });
         updateScheduleButton.setOnAction(e->{
             controller.handleUpdateSchedule();
@@ -2234,45 +2229,55 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
             });
             
             teamTable.setOnMouseClicked(e->{
-                controller.handleSelectedTeam();
-                teamTable.refresh();
-                if(teamTable.getSelectionModel().getSelectedIndex()>0){
+                if(teamTable.getSelectionModel().getSelectedIndex()>=0){
                     linkBox.getChildren().remove(addLinkButton);
                     linkBox.getChildren().remove(updateLinkButton);
                     linkBox.add(updateLinkButton, 0, 1);
+                    controller.handleSelectedTeam();
+                    teamTable.refresh();
                 }
                 
             });
-            
             teamsMinimizeButton.setOnAction(e->{
-                controller.handleDeleteTeam();
-                linkBox.getChildren().remove(addLinkButton);
-                linkBox.getChildren().remove(updateLinkButton);
-                linkBox.add(addLinkButton, 0, 1);
-                controller.handleClearTeam();
-                
-                teamTable.refresh();
+               
+                if(teamTable.getSelectionModel().getSelectedIndex()>=0){
+                    linkBox.getChildren().remove(addLinkButton);
+                    linkBox.getChildren().remove(updateLinkButton);
+                    linkBox.add(addLinkButton, 0, 1);
+                    controller.handleDeleteTeam();
+                    controller.handleClearTeam();
+                    teamTable.refresh();
+                }
             });
             
             addLinkButton.setOnAction(e->{
                 controller.handleAddTeam();
+                if(teamTable.getSelectionModel().getSelectedIndex()>=0){
+                    linkBox.getChildren().remove(addLinkButton);
+                    linkBox.getChildren().remove(updateLinkButton);
+                    linkBox.add(addLinkButton, 0, 1);
+                }
                 teamTable.refresh();
             });
             clearLinkButton.setOnAction(e->{
-                controller.handleClearTeam();
-                linkBox.getChildren().remove(addLinkButton);
-                linkBox.getChildren().remove(updateLinkButton);
-                linkBox.add(addLinkButton, 0, 1);
+                if(teamTable.getSelectionModel().getSelectedIndex()>=0){
+                    linkBox.getChildren().remove(addLinkButton);
+                    linkBox.getChildren().remove(updateLinkButton);
+                    linkBox.add(addLinkButton, 0, 1);
+                    controller.handleClearTeam();
+                }
                 clearLinkButton.setDisable(true);
             });
             updateLinkButton.setOnAction(e->{
                 controller.handleUpdateTeam();
-                linkBox.getChildren().remove(addLinkButton);
-                linkBox.getChildren().remove(updateLinkButton);
-                linkBox.add(addLinkButton, 0, 1);
+                if(teamTable.getSelectionModel().getSelectedIndex()>=0){
+                    linkBox.getChildren().remove(addLinkButton);
+                    linkBox.getChildren().remove(updateLinkButton);
+                    linkBox.add(addLinkButton, 0, 1);
+                    clearLinkButton.setDisable(true);
+                }
                 teamTable.refresh();
             });
-            
             
         teamsBox.getChildren().add(addEditTeamBox);
         ////////////////////////////////////////////////////////////
@@ -2374,33 +2379,44 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         
         firstNameField.setOnAction(e->{
             data.setStudentFirstName(firstNameField.getText());
+            clearStudentButton.setDisable(false);
         });
         lastNameField.setOnAction(e->{
             data.setStudentLastName(lastNameField.getText());
+            clearStudentButton.setDisable(false);
         });
         teamField.setOnAction(e->{
             data.setStudentTeamName((String)teamField.getValue());
+            clearStudentButton.setDisable(false);
         });
         roleField.setOnAction(e->{
             data.setStudentRole((String)roleField.getValue());
+            clearStudentButton.setDisable(false);
         });
         
         addStudentButton.setOnAction(e->{
-            controller.handleAddStudentButton();
+            if(controller.handleAddStudentButton()){
+                addEditStudentBox.getChildren().remove(updateStudentButton);
+                addEditStudentBox.getChildren().remove(addStudentButton);
+                addEditStudentBox.add(addStudentButton, 0, 5);
+                clearStudentButton.setDisable(true);
+            }
         });
         clearStudentButton.setOnAction(e->{
-            addEditStudentBox.getChildren().remove(updateStudentButton);
-            addEditStudentBox.add(addStudentButton, 0, 5);
-            controller.handleClearStudentButton();
-            
+                addEditStudentBox.getChildren().remove(updateStudentButton);
+                addEditStudentBox.getChildren().remove(addStudentButton);
+                addEditStudentBox.add(addStudentButton, 0, 5);
+                clearStudentButton.setDisable(true);
+                controller.handleClearStudentButton();
         });
         updateStudentButton.setOnAction(e->{
-            controller.handleUpdateStudentButton();
-            addEditStudentBox.getChildren().remove(addStudentButton);
-            addEditStudentBox.getChildren().remove(updateStudentButton);
-            addEditStudentBox.add(addStudentButton, 0, 5);
-            clearStudentButton.setDisable(true);
-            studentTable.refresh();
+            if(controller.handleUpdateStudentButton()){
+                addEditStudentBox.getChildren().remove(addStudentButton);
+                addEditStudentBox.getChildren().remove(updateStudentButton);
+                addEditStudentBox.add(addStudentButton, 0, 5);
+                clearStudentButton.setDisable(true);
+                studentTable.refresh();
+            }
         });
         studentTable.setOnMouseClicked(e->{
             if(studentTable.getSelectionModel().getSelectedIndex()>=0){
@@ -2428,16 +2444,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         finalprojectDetailsBox.setPadding(new Insets(10, 267, 10, 266));
         finalprojectDetailsBox.setStyle("-fx-background-color: #FDCE99");
         
-        //addTeams();
         return finalprojectDetailsBox;
-    }
-    public void addTeams(){
-        TAData data = (TAData) app.getDataComponent();
-        ObservableList<String> AvailableTeams = FXCollections.observableArrayList();
-        for(int i=0;i<data.getTeams().size();i++){
-            System.out.println(data.getTeams().size());
-            AvailableTeams.add(data.getTeams().get(i).getName());
-        }
     }
     public TextField getLastNameField() {
         return lastNameField;

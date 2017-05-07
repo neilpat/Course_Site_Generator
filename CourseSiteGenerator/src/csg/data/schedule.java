@@ -23,6 +23,12 @@ public class schedule <E extends Comparable<E>> implements Comparable<E> {
 
     public schedule(String type, String month, String day, String title, 
             String topic, String link, String time,String criteria) {
+         if(month.startsWith("0")){
+             month = month.substring(1);
+         }
+         if(day.startsWith("0")){
+             day = day.substring(1);
+         }
         this.type = type;
         this.month = month;
         this.day = day;
@@ -49,6 +55,18 @@ public class schedule <E extends Comparable<E>> implements Comparable<E> {
     public String getDay() {
         if(day.length()==1){
             day = "0"+day;
+        }
+        return day;
+    }
+    public String getExportMonth(){
+        if(month.startsWith("0")){
+            return month.substring(1);
+        }
+        return month;
+    }
+    public String getExportDay(){
+        if(date.startsWith("0")){
+            return day.substring(1);
         }
         return day;
     }

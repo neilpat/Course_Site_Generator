@@ -78,15 +78,44 @@ public class team {
         return hexBuilder.toString(); 
     } 
     public static String getColorName(Color c) {
-    for (Field f : Color.class.getFields()) {
-        try {
-            if (f.getType() == Color.class && f.get(null).equals(c)) {
-                return f.getName().toLowerCase();
-            }
-        } catch (java.lang.IllegalAccessException e) {
+        for (Field f : Color.class.getFields()) {
+            try {
+                if (f.getType() == Color.class && f.get(null).equals(c)) {
+                    return f.getName().toLowerCase();
+                }
+            } catch (java.lang.IllegalAccessException e) {
             // it should never get to here
-        } 
+            } 
+        }
+        return "white";
     }
-    return "white";
-}
+
+    public void setRed(String red) {
+        this.red = red;
+    }
+
+    public void setBlue(String blue) {
+        this.blue = blue;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public void setTextColor(String textColor) {
+        this.textColor = textColor;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setGreen(String green) {
+        this.green = green;
+    }
+    
 }

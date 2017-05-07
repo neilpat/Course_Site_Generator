@@ -531,10 +531,10 @@ public class TAData implements AppDataComponent {
         // WE'LL BUILD THE USER INTERFACE COMPONENT FOR THE
         // OFFICE HOURS GRID AND FEED THEM TO OUR DATA
         // STRUCTURE AS WE GO
-        if((orgStart != 0 || orgEnd != 23) && count>3){
-            jTPS_Transaction trans = new OfficeHours_Grid_Trans(workspaceComponent, this);
-            workspaceComponent.getJTPS().addTransaction(trans);
-        }
+//        if((orgStart != 0 || orgEnd != 23) && count>3){
+//            jTPS_Transaction trans = new OfficeHours_Grid_Trans(workspaceComponent, this);
+//            workspaceComponent.getJTPS().addTransaction(trans);
+//        }
         workspaceComponent = (CourseSiteWorkspace)app.getWorkspaceComponent();
         workspaceComponent.reloadOfficeHoursGrid(this); 
         
@@ -620,8 +620,6 @@ public class TAData implements AppDataComponent {
             replace.replace("\n\n","");
             cellProp.setValue(replace);
         }
-       
-        
     }
     public void toggleTAOfficeHours_2(String cellKey, String names) {
         StringProperty cellProp = officeHours.get(cellKey);
@@ -933,5 +931,19 @@ public class TAData implements AppDataComponent {
     }
     public void deleteStudent(student stu){
         students.remove(stu);
+    }
+    public void updateTeam(team tm, String name, String color, String textColor, String link){
+        CourseSiteWorkspace workspace = (CourseSiteWorkspace)app.getWorkspaceComponent();
+        tm.setName(name);
+        tm.setColor(color);
+        tm.setTextColor(textColor);
+        tm.setLink(link);
+        Color clr = Color.web(color);
+        String red = workspace.hexTodecimal(clr.toString().substring(2,4))+"";
+        String green= workspace.hexTodecimal(clr.toString().substring(4,6))+"";
+        String blue= workspace.hexTodecimal(clr.toString().substring(6,8))+"";
+        tm.setRed(red);
+        tm.setGreen(green);
+        tm.setBlue(blue);
     }
 }
