@@ -318,6 +318,9 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
     String bannerFilePath;
     String leftFooterFilePath;
     String rightFooterFilePath;
+    String orgBannerFilePath;
+    String orgLeftFooterFilerPath;
+    String orgRightFooterFilePath;
     Button minimizeTAButton;
     ComboBox supervising_TA_ComboBox2;
     ComboBox supervising_TA_ComboBox1;
@@ -1236,6 +1239,12 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         siteTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         siteTable.setItems(sitePages);
         
+        //
+        
+        siteTable.setOnMouseClicked(e->{
+            controller.handleAddSites();
+        });
+        
         use = new TableColumn(props.getProperty(csgProp.USE_LABEL));
         use.setCellValueFactory(
                 new PropertyValueFactory<sitePage, Boolean>("use"));
@@ -1303,7 +1312,9 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         changeBannerButton.setOnAction(e->{
             try {
                 bannerFilePath = controller.handleAddBannerImage("");
+                orgBannerFilePath = bannerFilePath;
                 data.setBannerImageFilePath(bannerFilePath);
+                data.setOrgbannerImageFilePath(orgBannerFilePath);
             } catch (IOException ex) {
                 System.out.println("Image Faild To Load");
             }
@@ -1311,7 +1322,9 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         changeLeftFooterButton.setOnAction(e->{
             try {
                 leftFooterFilePath = controller.handleAddLeftFooterImage("");
+                orgLeftFooterFilerPath = leftFooterFilePath;
                 data.setLeftFootImageFilePath(leftFooterFilePath);
+                data.setOrgleftFootImageFilePath(orgLeftFooterFilerPath);
             } catch (IOException ex) {
                 System.out.println("Image Faild To Load");
             }
@@ -1319,7 +1332,9 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         changeRightFooterButton.setOnAction(e->{
             try {
                 rightFooterFilePath = controller.handleAddRightFooterImage("");
+                orgRightFooterFilePath = rightFooterFilePath;
                 data.setRightFooterImageFilePath(rightFooterFilePath);
+                data.setOrgrightFooterImageFilePath(orgRightFooterFilePath);
             } catch (IOException ex) {
                 System.out.println("Image Faild to Load");
             }
@@ -2696,6 +2711,30 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
 
     public Button getChangeRightFooterButton() {
         return changeRightFooterButton;
+    }
+
+    public String getOrgBannerFilePath() {
+        return orgBannerFilePath;
+    }
+
+    public String getOrgLeftFooterFilerPath() {
+        return orgLeftFooterFilerPath;
+    }
+
+    public String getOrgRightFooterFilePath() {
+        return orgRightFooterFilePath;
+    }
+
+    public void setOrgBannerFilePath(String orgBannerFilePath) {
+        this.orgBannerFilePath = orgBannerFilePath;
+    }
+
+    public void setOrgLeftFooterFilerPath(String orgLeftFooterFilerPath) {
+        this.orgLeftFooterFilerPath = orgLeftFooterFilerPath;
+    }
+
+    public void setOrgRightFooterFilePath(String orgRightFooterFilePath) {
+        this.orgRightFooterFilePath = orgRightFooterFilePath;
     }
 
     public Button getMinimize_reciationsButton() {

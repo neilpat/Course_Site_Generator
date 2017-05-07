@@ -1,20 +1,20 @@
 
 {
-    "startHour":"0",
-    "endHour":"23",
-    "course_name":"ISE",
-    "course_number":"114",
+    "startHour":"8",
+    "endHour":"20",
+    "course_name":"CSE",
+    "course_number":"320",
     "sem":"FALL",
-    "year":"2017",
+    "year":"2016",
     "page_title":"Final Project Chec",
     "instructor_name":"Richard McKenna",
     "instructor_home":"google.co",
-    "banner_image_path":"./images/stanfordBanner.png",
+    "banner_image_path":"./images/harvardMedicallogo.png",
     "left_footer_image_path":"./images/stanfordBanner.png",
-    "right_footer_image_path":"./images/stanfordBanner.png",
-    "ORIGINAL_BANNER_PATH":"./images/stanfordBanner.png",
-    "ORIGINAL_LEFT_PATH":"./images/stanfordBanner.png",
-    "ORIGINAL_RIGHT_PATH":"./images/stanfordBanner.png",
+    "right_footer_image_path":"./images/stanfordEngineeringLogo.png",
+    "ORIGINAL_BANNER_PATH":"",
+    "ORIGINAL_LEFT_PATH":"",
+    "ORIGINAL_RIGHT_PATH":"",
     "undergrad_tas":[
         {
             "undergraduate":true,
@@ -48,8 +48,88 @@
         }
     ],
     "officeHours":[
+        {
+            "day":"MONDAY",
+            "time":"9_00am",
+            "name":"Jay"
+        },
+        {
+            "day":"WEDNESDAY",
+            "time":"9_00am",
+            "name":"Navin"
+        },
+        {
+            "day":"MONDAY",
+            "time":"9_30am",
+            "name":"Nihadh"
+        },
+        {
+            "day":"TUESDAY",
+            "time":"9_30am",
+            "name":"Jay"
+        },
+        {
+            "day":"TUESDAY",
+            "time":"10_00am",
+            "name":"Navin"
+        },
+        {
+            "day":"THURSDAY",
+            "time":"10_00am",
+            "name":"Navin"
+        },
+        {
+            "day":"TUESDAY",
+            "time":"11_00am",
+            "name":"Nihadh"
+        },
+        {
+            "day":"MONDAY",
+            "time":"12_30pm",
+            "name":"Navin"
+        },
+        {
+            "day":"WEDNESDAY",
+            "time":"1_00pm",
+            "name":"Navin"
+        },
+        {
+            "day":"THURSDAY",
+            "time":"1_00pm",
+            "name":"Navin"
+        }
     ],
     "site_pages":[
+        {
+            "site_page_use":true,
+            "nav_bar_title":"Home",
+            "file_name":"index.html",
+            "script":"HomeBuilder.js"
+        },
+        {
+            "site_page_use":true,
+            "nav_bar_title":"Syllabus",
+            "file_name":"syllabus.html",
+            "script":"SyllabusBuilder.js"
+        },
+        {
+            "site_page_use":true,
+            "nav_bar_title":"Schedule",
+            "file_name":"schedule.html",
+            "script":"ScheduleBuilder.js"
+        },
+        {
+            "site_page_use":true,
+            "nav_bar_title":"HWs",
+            "file_name":"hws.html",
+            "script":"HWsBuilder.js"
+        },
+        {
+            "site_page_use":false,
+            "nav_bar_title":"Projects",
+            "file_name":"projects.html",
+            "script":"ProjectsBuilder.js"
+        }
     ],
     "startingYear":"2017",
     "startingMondayMonth":"02",

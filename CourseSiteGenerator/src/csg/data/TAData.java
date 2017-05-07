@@ -83,6 +83,9 @@ public class TAData implements AppDataComponent {
     public String bannerImageFilePath = "" ;
     public String leftFootImageFilePath = "";
     public String rightFooterImageFilePath = "";
+    public String orgbannerImageFilePath = "" ;
+    public String orgleftFootImageFilePath = "";
+    public String orgrightFooterImageFilePath = "";
     
     public String exportDirectoryPath;
     
@@ -345,6 +348,30 @@ public class TAData implements AppDataComponent {
 
     public void setRightFooterImageFilePath(String rightFooterImageFilePath) {
         this.rightFooterImageFilePath = rightFooterImageFilePath;
+    }
+
+    public void setOrgbannerImageFilePath(String orgbannerImageFilePath) {
+        this.orgbannerImageFilePath = orgbannerImageFilePath;
+    }
+
+    public void setOrgleftFootImageFilePath(String orgleftFootImageFilePath) {
+        this.orgleftFootImageFilePath = orgleftFootImageFilePath;
+    }
+
+    public void setOrgrightFooterImageFilePath(String orgrightFooterImageFilePath) {
+        this.orgrightFooterImageFilePath = orgrightFooterImageFilePath;
+    }
+
+    public String getOrgbannerImageFilePath() {
+        return orgbannerImageFilePath;
+    }
+
+    public String getOrgleftFootImageFilePath() {
+        return orgleftFootImageFilePath;
+    }
+
+    public String getOrgrightFooterImageFilePath() {
+        return orgrightFooterImageFilePath;
     }
 
     
@@ -844,8 +871,6 @@ public class TAData implements AppDataComponent {
        if(!containsStudent(firstName, lastName)){
             students.add(stu);
         }
-
-        // SORT THE TAS
         //Collections.sort(students);
     }
     public boolean containsStudent(String firstName, String lastName) {
@@ -945,5 +970,12 @@ public class TAData implements AppDataComponent {
         tm.setRed(red);
         tm.setGreen(green);
         tm.setBlue(blue);
+    }
+    public void addSite(Boolean use, String title, String fileName, String script){
+       sitePage site = new sitePage(use, title, fileName, script);
+       pages.add(site);
+    }
+    public void addSitePage(sitePage page){
+        pages.add(page);
     }
 }

@@ -248,6 +248,17 @@ public class csgFiles implements AppFileComponent{
         workspace.setInstructorNameField(instructorName);
         workspace.setInstructorHomeField(instructorHome);
         
+        //ADD THE SITES SELECTED
+        JsonArray jsonSitesArray = json.getJsonArray(JSON_SITE_PAGE);
+        for(int i = 0; i<jsonSitesArray.size();i++){
+            JsonObject jsonSite = jsonSitesArray.getJsonObject(i);
+            Boolean use = jsonSite.getBoolean(JSON_USE);
+            String title = jsonSite.getString(JSON_NAV_BAR_TITLE);
+            String fileName = jsonSite.getString(JSON_FILE_NAME);
+            String script = jsonSite.getString(JSON_SCRIPT);
+            dataManager.addSite(use, title, fileName, script);
+        }
+        
         
         //ADD THE PATH TO THE IMAGES
         String bannerImagePath = json.getString("ORIGINAL_BANNER_PATH");
@@ -263,9 +274,9 @@ public class csgFiles implements AppFileComponent{
         workspace.setLeftFooterFilePath(leftFooterImagePath);
         workspace.setRightFooterFilePath(rightFooterImagePath);
 //        
-//        controller.handleAddBannerImage(bannerImagePath);
-//        controller.handleAddLeftFooterImage(leftFooterImagePath);
-//        controller.handleAddRightFooterImage(rightFooterImagePath);
+        controller.handleAddBannerImage(bannerImagePath);
+        controller.handleAddLeftFooterImage(leftFooterImagePath);
+        controller.handleAddRightFooterImage(rightFooterImagePath);
         
         // NOW LOAD ALL THE UNDERGRAD TAs
         JsonArray jsonTAArray = json.getJsonArray(JSON_UNDERGRAD_TAS);
@@ -277,7 +288,6 @@ public class csgFiles implements AppFileComponent{
             dataManager.addTA(undergrad,name,email);
             workspace.getSupervising_TA_ComboBox1().getItems().add(name);
         }
-
         // AND THEN ALL THE OFFICE HOURS
         JsonArray jsonOfficeHoursArray = json.getJsonArray(JSON_OFFICE_HOURS);
         for (int i = 0; i < jsonOfficeHoursArray.size(); i++) {
@@ -287,7 +297,6 @@ public class csgFiles implements AppFileComponent{
             String name = jsonOfficeHours.getString(JSON_NAME);
             dataManager.addOfficeHoursReservation(day, time, name);
         }
-        workspace.reloadOfficeHoursGrid(dataManager);
         // NOW LOAD ALL THE SITE PAGES
         JsonArray jsonSitePageArray = json.getJsonArray(JSON_SITE_PAGE);
         for (int i = 0; i < jsonSitePageArray.size(); i++) {
@@ -421,7 +430,6 @@ public class csgFiles implements AppFileComponent{
         
         currentWorkFile = filePath;
         
-         app.getWorkspaceComponent().reloadWorkspace(app.getDataComponent());
     }
     // HELPER METHOD FOR LOADING DATA FROM A JSON FORMAT
     private JsonObject loadJSONFile(String jsonFilePath) throws IOException {
@@ -903,9 +911,12 @@ public class csgFiles implements AppFileComponent{
 	}
 	JsonArray studentArray = studentBuilder.build();
         //convert the image to proper name
-        String orgBanner = dataManager.getBannerImageFilePath();
-        String leftFooter = dataManager.getLeftFootImageFilePath();
-        String rightFooter = dataManager.getRightFooterImageFilePath();
+        CourseSiteWorkspace workspace = (CourseSiteWorkspace)app.getWorkspaceComponent();
+        
+        
+        String orgBanner = dataManager.getOrgbannerImageFilePath();
+        String orgleftFooter = dataManager.getOrgleftFootImageFilePath();
+        String orgrightFooter = dataManager.getOrgrightFooterImageFilePath();
         if(!dataManager.getBannerImageFilePath().equals("")||!dataManager.getLeftFootImageFilePath().equals("")||!dataManager.getRightFooterImageFilePath().equals("")){
             String BannerImageName = dataManager.getBannerImageFilePath()
                         .substring(dataManager.getBannerImageFilePath().lastIndexOf("/")+1, dataManager.getBannerImageFilePath().length());
@@ -936,8 +947,8 @@ public class csgFiles implements AppFileComponent{
                 .add(JSON_LEFT_FOOTER_IMAGE_PATH, dataManager.getLeftFootImageFilePath())
                 .add(JSON_RIGHT_FOOTER_IMAGE_PATH, dataManager.getRightFooterImageFilePath())
                 .add("ORIGINAL_BANNER_PATH", orgBanner)
-                .add("ORIGINAL_LEFT_PATH", leftFooter)
-                .add("ORIGINAL_RIGHT_PATH", rightFooter)
+                .add("ORIGINAL_LEFT_PATH", orgleftFooter)
+                .add("ORIGINAL_RIGHT_PATH", orgrightFooter)
                 .add(JSON_UNDERGRAD_TAS, undergradTAsArray)
                 .add(JSON_OFFICE_HOURS, timeSlotsArray)
                 .add(JSON_SITE_PAGE, sitePageArray)

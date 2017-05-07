@@ -1292,4 +1292,15 @@ public class CourseSiteController {
 //        jTPS_Transaction trans = new Tab_Changed_Trans(rec, data);
 //        workspace.getJTPS().addTransaction(trans);
 //    }
+    public void handleAddSites(){
+        CourseSiteWorkspace workspace = (CourseSiteWorkspace)app.getWorkspaceComponent();
+        
+        TAData data = (TAData)app.getDataComponent();
+        
+        data.getPages().clear();
+        // WE'LL NEED THIS IN CASE WE NEED TO DISPLAY ANY ERROR MESSAGES
+        for(int i=0;i<workspace.getSitePages().size();i++){
+            data.getPages().add(workspace.getSitePages().get(i));
+        }
+    }
 }
