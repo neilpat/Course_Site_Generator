@@ -30,8 +30,6 @@ import javafx.scene.layout.VBox;
 import jtps.jTPS;
 import properties_manager.PropertiesManager;
 import csg.csgProp;
-import static csg.csgProp.MISSING_SECTION_MESSAGE;
-import static csg.csgProp.MISSING_SECTION_TITLE;
 import csg.style.CourseSiteStyle;
 import csg.data.TAData;
 import csg.data.TeachingAssistant;
@@ -42,6 +40,7 @@ import csg.data.semesters;
 import csg.data.sitePage;
 import csg.data.student;
 import csg.data.team;
+import djf.controller.AppFileController;
 import djf.ui.AppMessageDialogSingleton;
 import java.io.File;
 import java.io.IOException;
@@ -411,6 +410,22 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         ((BorderPane)workspace).setStyle("-fx-background-color: #FFE8CC");
         ((BorderPane)workspace).setCenter(tabPane);
         
+        app.getGUI().getAppPane().setOnKeyReleased(e->{
+            if(e.isControlDown()){
+                if(e.getCode() == KeyCode.Z){
+                    jtps.undoTransaction();
+                }
+                if(e.getCode() == KeyCode.Y){
+                    jtps.doTransaction();
+                }
+            }
+        });
+        app.getGUI().getUndoButton().setOnMouseClicked(e->{
+            jtps.undoTransaction();
+        });
+        app.getGUI().getRedoButton().setOnMouseClicked(e->{
+            jtps.doTransaction();
+        });
         
     }
     public SplitPane TADetailsPane(csgApp app, jTPS jtps, PropertiesManager props){
@@ -727,7 +742,6 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
                  
                  addBox.getChildren().get(3).setDisable(false);
             }
-           
         });
         clearButton.setOnAction(e ->{
             controller.handleClear();
@@ -755,16 +769,6 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
             taTable.refresh();
             
         });
-//        app.getGUI().getPrimaryScene().setOnKeyPressed(e ->{
-//            if(e.isControlDown()){
-//                if(e.getCode() == KeyCode.Z){
-//                    jtps.undoTransaction();
-//                }
-//                if(e.getCode() == KeyCode.Y){
-//                    jtps.doTransaction();
-//                }
-//            }
-//        });
         sPane.setStyle("-fx-background-color: #FDCE99");
         return sPane;
     }
@@ -1226,24 +1230,14 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         });
         finalSiteTemplateBox.setSpacing(10);
         
-          sitePages = FXCollections.observableArrayList();
-          sitePage Home = new sitePage(true, "Home", "index.html", "HomeBuilder.js");
-          sitePage Syllabus = new sitePage(true, "Syllabus", "syllabus.html", "SyllabusBuilder.js");
-          sitePage Schedule = new sitePage(true, "Schedule", "schedule.html", "ScheduleBuilder.js");
-          sitePage HWs = new sitePage(true, "HWs", "hws.html", "HWsBuilder.js");
-          sitePage Projects = new sitePage(false, "Projects", "projects.html", "ProjectsBuilder.js");
-          
-        sitePages.addAll(Home,Syllabus,Schedule,HWs,Projects);
-        
         siteTable = new TableView<sitePage>();
         siteTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        siteTable.setItems(sitePages);
+        siteTable.getItems().clear();
+        siteTable.setItems(data.getPages());
         
-        //
-        
-        siteTable.setOnMouseClicked(e->{
-            controller.handleAddSites();
-        });
+//        siteTable.setOnMouseClicked(e->{
+//            controller.handleAddSites();
+//        });
         
         use = new TableColumn(props.getProperty(csgProp.USE_LABEL));
         use.setCellValueFactory(
@@ -1635,9 +1629,14 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         });
         
         addRecitationButton.setOnAction(e->{
-            controller.handleAddRecitaiton();
-            clearRecitationButton.setDisable(true);
-            recitationTable.refresh();
+            if(controller.handleAddRecitaiton()){
+                add_edit_input.getChildren().remove(addRecitationButton);
+                add_edit_input.getChildren().remove(updateRecitationButton);
+                add_edit_input.add(addRecitationButton, 0, 6);
+                clearRecitationButton.setDisable(false);
+                recitationTable.refresh();
+            }
+            
         });
         updateRecitationButton.setOnAction(e->{
             if(controller.handleUpdateRecitation()){
@@ -1655,16 +1654,22 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
             add_edit_input.add(addRecitationButton, 0, 6);
             clearRecitationButton.setDisable(true);
         });
-        app.getGUI().getAppPane().setOnKeyReleased(e->{
-            if(e.isControlDown()){
-                if(e.getCode() == KeyCode.Z){
-                    jtps.undoTransaction();
-                }
-                if(e.getCode() == KeyCode.Y){
-                    jtps.doTransaction();
-                }
-            }
-        });
+//        app.getGUI().getAppPane().setOnKeyReleased(e->{
+//            if(e.isControlDown()){
+//                if(e.getCode() == KeyCode.Z){
+//                    jtps.undoTransaction();
+//                }
+//                if(e.getCode() == KeyCode.Y){
+//                    jtps.doTransaction();
+//                }
+//            }
+//        });
+//        app.getGUI().getUndoButton().setOnMouseClicked(e->{
+//            jtps.undoTransaction();
+//        });
+//        app.getGUI().getUndoButton().setOnMouseClicked(e->{
+//            jtps.doTransaction();
+//        });
         return recitation_details_box;
        
     }
@@ -1837,6 +1842,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
         endDate.setOnAction(e->{
             if(endDate.getValue() != null){
                 if(endDate.getValue().getDayOfWeek().getValue()==5){
+                    startDayCheck = startDate.getValue().getDayOfYear();
                     if(endDate.getValue().getDayOfYear()>startDayCheck){
                         endDateLabel.setText( props.getProperty(csgProp.ENDDATE_LABEL.toString())
                         +endDate.getValue().getDayOfWeek().toString());
@@ -1845,6 +1851,11 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
                         data.setEndDay(dateArray[2]);
                         data.setEndMonth(dateArray[1]);
                         data.setEndYear(dateArray[0]);
+                    }
+                    else{
+                        endDate.setValue(null);
+                        AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+                        dialog.show("Invalid Date", "Please Select a End Date on Friday And After Start Date");
                     }
                 }
                 else{
@@ -2021,6 +2032,7 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
             clearScheduleButton.setDisable(false);
             controller.handleClearSchedule();
         });
+        
         
         scheduleItemsLabel = new Label(props.getProperty(csgProp.SCHEDULE_ITEMS_LABEL.toString()));
         scheduleItemsHeaderBox.getChildren().add(scheduleItemsLabel);
@@ -2244,17 +2256,14 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
             });
             
             teamTable.setOnMouseClicked(e->{
-                if(teamTable.getSelectionModel().getSelectedIndex()>=0){
-                    linkBox.getChildren().remove(addLinkButton);
-                    linkBox.getChildren().remove(updateLinkButton);
-                    linkBox.add(updateLinkButton, 0, 1);
-                    controller.handleSelectedTeam();
-                    teamTable.refresh();
-                }
-                
+                controller.handleSelectedTeam();
+                linkBox.getChildren().remove(addLinkButton);
+                linkBox.getChildren().remove(updateLinkButton);
+                linkBox.add(updateLinkButton, 0, 1);
+                clearLinkButton.setDisable(false);
+                teamTable.refresh();
             });
             teamsMinimizeButton.setOnAction(e->{
-               
                 if(teamTable.getSelectionModel().getSelectedIndex()>=0){
                     linkBox.getChildren().remove(addLinkButton);
                     linkBox.getChildren().remove(updateLinkButton);
@@ -2264,6 +2273,16 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
                     teamTable.refresh();
                 }
             });
+            teamTable.setOnKeyReleased(e -> {
+                if(e.getCode() == KeyCode.DELETE){
+                    linkBox.getChildren().remove(addLinkButton);
+                    linkBox.getChildren().remove(updateLinkButton);
+                    linkBox.add(addLinkButton, 0, 1);
+                    controller.handleDeleteTeam();
+                    controller.handleClearTeam();
+                    teamTable.refresh();
+            }
+        });
             
             addLinkButton.setOnAction(e->{
                 controller.handleAddTeam();
@@ -2284,14 +2303,13 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
                 clearLinkButton.setDisable(true);
             });
             updateLinkButton.setOnAction(e->{
-                controller.handleUpdateTeam();
-                if(teamTable.getSelectionModel().getSelectedIndex()>=0){
+                if(controller.handleUpdateTeam()){
                     linkBox.getChildren().remove(addLinkButton);
                     linkBox.getChildren().remove(updateLinkButton);
                     linkBox.add(addLinkButton, 0, 1);
                     clearLinkButton.setDisable(true);
+                    teamTable.refresh();
                 }
-                teamTable.refresh();
             });
             
         teamsBox.getChildren().add(addEditTeamBox);
@@ -2449,6 +2467,17 @@ public class CourseSiteWorkspace extends AppWorkspaceComponent {
             addEditStudentBox.add(updateStudentButton, 0, 5);
             studentTable.refresh();
         });
+        studentTable.setOnKeyReleased(e -> {
+                if(e.getCode() == KeyCode.DELETE){
+                    controller.handleDeleteStudentButton();
+                    controller.handleClearStudentButton();
+                    addEditStudentBox.getChildren().remove(addStudentButton);
+                    addEditStudentBox.getChildren().remove(updateStudentButton);
+                    addEditStudentBox.add(updateStudentButton, 0, 5);
+                    studentTable.refresh();
+            }
+        });
+        
         projectDetailsBox.getChildren().add(projectHeaderBox);
         projectDetailsBox.getChildren().add(teamsBox);
         projectDetailsBox.getChildren().add(studentsBox);

@@ -1,0 +1,84 @@
+
+{
+    "startHour":9,
+    "endHour":18,
+    "undergrad_tas":[
+        {
+            "undergraduate":true,
+            "name":"Niral Patel",
+            "email":"niral.patel@stonybrook.edu"
+        },
+        {
+            "undergraduate":true,
+            "name":"Roger Miranda",
+            "email":"roger.miranda@stonybrook.edu"
+        },
+        {
+            "undergraduate":true,
+            "name":"Kelsey Corpac",
+            "email":"Kelsey.corpac@stonybrook.edu"
+        }
+    ],
+    "officeHours":[
+        {
+            "day":"MONDAY",
+            "time":"11_00am",
+            "name":"Kelsey Corpac"
+        },
+        {
+            "day":"WEDNESDAY",
+            "time":"11_00am",
+            "name":"Kelsey Corpac"
+        },
+        {
+            "day":"FRIDAY",
+            "time":"11_00am",
+            "name":"Kelsey Corpac"
+        },
+        {
+            "day":"TUESDAY",
+            "time":"12_00pm",
+            "name":"Roger Miranda"
+        },
+        {
+            "day":"THURSDAY",
+            "time":"12_00pm",
+            "name":"Roger Miranda"
+        },
+        {
+            "day":"WEDNESDAY",
+            "time":"12_30pm",
+            "name":"Roger Miranda"
+        },
+        {
+            "day":"MONDAY",
+            "time":"1_30pm",
+            "name":"Niral Patel"
+        },
+        {
+            "day":"TUESDAY",
+            "time":"1_30pm",
+            "name":"Niral Patel"
+        },
+        {
+            "day":"WEDNESDAY",
+            "time":"1_30pm",
+            "name":"Niral Patel"
+        },
+        {
+            "day":"MONDAY",
+            "time":"2_00pm",
+            "name":"Niral Patel"
+        },
+        {
+            "day":"TUESDAY",
+            "time":"2_00pm",
+            "name":"Niral Patel"
+        },
+        {
+            "day":"WEDNESDAY",
+            "time":"2_00pm",
+            "name":"Niral Patel"
+        }
+    ]
+}

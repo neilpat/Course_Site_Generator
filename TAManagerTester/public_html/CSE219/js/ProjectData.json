@@ -1,0 +1,26 @@
+
+{
+    "work":[
+        {
+            "semester":"FALL 2016",
+            "projects":[
+                {
+                    "name":"Atomic Comics",
+                    "students":[
+                        "a a",
+                        "b b",
+                        "c c",
+                        "d d"
+                    ],
+                    "link":"google.com"
+                },
+                {
+                    "name":"Sky Rockets",
+                    "students":[
+                    ],
+                    "link":"google.com"
+                }
+            ]
+        }
+    ]
+}

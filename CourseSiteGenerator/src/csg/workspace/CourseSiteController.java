@@ -31,6 +31,7 @@ import csg.transactions.Remove_Student_Trans;
 import csg.transactions.Remove_TA_Trans;
 import csg.transactions.Remove_Team_Trans;
 import csg.transactions.Toggle_TAOfficeHours_Trans;
+import csg.transactions.Update_Student_Trans;
 import csg.transactions.Update_TA_Trans;
 import csg.transactions.Update_Team_Trans;
 import csg.transactions.Update_rec_Trans;
@@ -472,7 +473,8 @@ public class CourseSiteController {
             TA2ComboBox.setValue(TA2);
         }
     }
-    public void handleAddRecitaiton(){
+    public Boolean handleAddRecitaiton(){
+        Boolean valid = true;
         // WE'LL NEED THE WORKSPACE TO RETRIEVE THE USER INPUT VALUES
         CourseSiteWorkspace workspace = (CourseSiteWorkspace)app.getWorkspaceComponent();
         TextField sectionTextField = workspace.getSection_textField();
@@ -519,23 +521,26 @@ public class CourseSiteController {
         if (section.isEmpty() || section.startsWith(" ")) {
 	    AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
 	    dialog.show(props.getProperty(MISSING_SECTION_TITLE), props.getProperty(MISSING_SECTION_MESSAGE));            
+            valid = false;
         }
         // DID THE USER NEGLECT TO PROVIDE A TA EMAIL?
         else if (instructor.isEmpty()|| instructor.startsWith(" ")) {
 	    AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
 	    dialog.show(props.getProperty(MISSING_INSTRUCTOR_TITLE), props.getProperty(MISSING_INSTRUCTOR_MESSAGE));            
+            valid = false;
         }
         else if (location.isEmpty()|| location.startsWith(" ")) {
 	    AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
 	    dialog.show(props.getProperty(MISSING_LOCATION_TITLE), props.getProperty(MISSING_LOCATION_MESSAGE));            
+            valid = false;
         }
         else if (day_time.isEmpty()|| day_time.startsWith(" ")) {
 	    AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
 	    dialog.show(props.getProperty(MISSING_DAYTIME_TITLE), props.getProperty(MISSING_DAYTIME_MESSAGE));            
+            valid = false;
         }
         else if(validTAs == false){
-//            AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
-//            dialog.show("INVALID INFORMATION", "PLEASE SELECT TA AGAIN");
+           valid = false;
         }
         // EVERYTHING IS FINE, ADD A NEW TA
         else {
@@ -548,7 +553,7 @@ public class CourseSiteController {
             workspace.getSupervising_TA_ComboBox2().setItems(workspace.availableTAs());
             
             // AND SEND THE CARET BACK TO THE NAME TEXT FIELD FOR EASY DATA ENTRY
-            sectionTextField.requestFocus();
+            handleClearRecitation();
             
             recitation rec = data.getRecitation(section);
             jTPS_Transaction trans = new Add_Rec_Trans(rec, data);
@@ -559,6 +564,8 @@ public class CourseSiteController {
         AppFileController appFileController = app.getGUI().getAppfileController();
         appFileController.markFileAsNotSaved();
         appFileController.checkFile();
+        
+        return valid;
         
     }
     public boolean handleUpdateRecitation(){
@@ -918,6 +925,14 @@ public class CourseSiteController {
         dataComponent.getTeams().remove(focused);
         handleClearTeam();
         
+        for(int i=0;i<dataComponent.getStudents().size();i++){
+               if(dataComponent.getStudents().get(i).getTeam().equals(focused.getName())){
+                   dataComponent.getStudents().get(i).setTeam("");
+                   dataComponent.getStudents().get(i).setRole("");
+               }
+        }
+        workspace.getStudentTable().refresh();
+        
         jTPS_Transaction trans = new Remove_Team_Trans(focused, dataComponent);
         workspace.getJTPS().addTransaction(trans);
         
@@ -1006,11 +1021,12 @@ public class CourseSiteController {
         appFileController.markFileAsNotSaved();
         appFileController.checkFile();
     }
-    public void handleUpdateTeam(){
+    public Boolean handleUpdateTeam(){
+        Boolean valid = true;
         CourseSiteWorkspace workspace = (CourseSiteWorkspace)app.getWorkspaceComponent();
         TableView teamTable = workspace.getTeamTable();
         Object selectedItem = teamTable.getSelectionModel().getSelectedItem();
-        // GET THE TA
+        
         team tm = (team)selectedItem;
         
         TextField teamNameField = workspace.getNameTeamField();
@@ -1037,7 +1053,6 @@ public class CourseSiteController {
         }
         String textColor = textColorTextField.getText();
         String link = linkTextField.getText();
-        // WE'LL NEED TO ASKå THE DATA SOME QUESTIONS TOO
         
         // WE'LL NEED THIS IN CASE WE NEED TO DISPLAY ANY ERROR MESSAGES
         PropertiesManager props = PropertiesManager.getPropertiesManager();
@@ -1045,35 +1060,47 @@ public class CourseSiteController {
         if (teamName.isEmpty()) {
 	    AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
 	    dialog.show(props.getProperty(MISSING_TEAM_TITLE), props.getProperty(MISSING_TEAM_MESSAGE));            
+            valid = false;
         }
         // DID THE USER NEGLECT TO PROVIDE A TA EMAIL?
         else if (color.isEmpty()|| color.startsWith(" ")) {
 	    AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
 	    dialog.show(props.getProperty(MISSING_COLOR_TITLE), props.getProperty(MISSING_COLOR_MESSAGE));            
+            valid = false;
         }
         else if (textColor.isEmpty()|| textColor.startsWith(" ")) {
 	    AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
 	    dialog.show(props.getProperty(MISSING_TEXT_COLOR_TITLE), props.getProperty(MISSING_TEXT_COLOR_MESSAGE));            
+            valid = false;
         }
         else if (link.isEmpty()|| link.startsWith(" ")) {
 	    AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
 	    dialog.show(props.getProperty(MISSING_LINK_TITLE), props.getProperty(MISSING_LINK_MESSAGE));            
+            valid = false;
         }
         // EVERYTHING IS FINE, ADD A NEW TA
         else {
-            
-            // AND SEND THE CARET BACK TO THE NAME TEXT FIELD FOR EASY DATA ENTRY
-            teamNameField.requestFocus();
+           teamNameField.requestFocus();
            TAData data = (TAData)app.getDataComponent();
+           
+           for(int i=0;i<data.getStudents().size();i++){
+               if(data.getStudents().get(i).getTeam().equals(tm.getName())){
+                   data.getStudents().get(i).setTeam(teamName);
+               }
+           }
+           workspace.getStudentTable().refresh();
+           handleClearTeam();
            
            jTPS_Transaction trans = new Update_Team_Trans(app, tm, data, teamName, red, green, blue, color, textColor, link);
            workspace.getJTPS().addTransaction(trans);
+           
+            AppFileController appFileController = app.getGUI().getAppfileController();
+            appFileController.markFileAsNotSaved();
+            appFileController.checkFile();
         }
-        app.getGUI().updateToolbarControls(false);
         
-        AppFileController appFileController = app.getGUI().getAppfileController();
-        appFileController.markFileAsNotSaved();
-        appFileController.checkFile();
+        
+        return valid;
     }
     public void handleClearTeam(){
         CourseSiteWorkspace workspace = (CourseSiteWorkspace)app.getWorkspaceComponent();
@@ -1228,9 +1255,9 @@ public class CourseSiteController {
                 
                 handleClearStudentButton();
                 studentFirstName.requestFocus();
-//                TeachingAssistant ta = data.getTA(name, email);
-//                jTPS_Transaction trans = new Add_TA_Trans(ta, data);
-//                workspace.getJTPS().addTransaction(trans);
+                
+                jTPS_Transaction trans = new Update_Student_Trans(app, stu, data, firstName, lastName, team, role);
+                workspace.getJTPS().addTransaction(trans);
 
                 app.getGUI().updateToolbarControls(false);
         

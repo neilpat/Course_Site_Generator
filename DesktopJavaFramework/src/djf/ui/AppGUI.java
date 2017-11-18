@@ -292,4 +292,13 @@ public class AppGUI {
     public AppFileController getAppfileController(){
         return fileController;
     }
+
+    public Button getUndoButton() {
+        return undoButton;
+    }
+
+    public Button getRedoButton() {
+        return redoButton;
+    }
+    
 }

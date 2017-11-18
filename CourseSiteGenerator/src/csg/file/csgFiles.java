@@ -249,6 +249,7 @@ public class csgFiles implements AppFileComponent{
         workspace.setInstructorHomeField(instructorHome);
         
         //ADD THE SITES SELECTED
+        dataManager.getPages().clear();
         JsonArray jsonSitesArray = json.getJsonArray(JSON_SITE_PAGE);
         for(int i = 0; i<jsonSitesArray.size();i++){
             JsonObject jsonSite = jsonSitesArray.getJsonObject(i);
@@ -259,7 +260,6 @@ public class csgFiles implements AppFileComponent{
             dataManager.addSite(use, title, fileName, script);
         }
         
-        
         //ADD THE PATH TO THE IMAGES
         String bannerImagePath = json.getString("ORIGINAL_BANNER_PATH");
         String leftFooterImagePath = json.getString("ORIGINAL_LEFT_PATH");
@@ -268,12 +268,10 @@ public class csgFiles implements AppFileComponent{
         dataManager.setBannerImageFilePath(bannerImagePath);
         dataManager.setLeftFootImageFilePath(leftFooterImagePath);
         dataManager.setRightFooterImageFilePath(rightFooterImagePath);
-        
-        
-        workspace.setBannerFilePath(bannerImagePath);
-        workspace.setLeftFooterFilePath(leftFooterImagePath);
-        workspace.setRightFooterFilePath(rightFooterImagePath);
-//        
+        dataManager.setOrgbannerImageFilePath(bannerImagePath);
+        dataManager.setOrgleftFootImageFilePath(leftFooterImagePath);
+        dataManager.setOrgrightFooterImageFilePath(rightFooterImagePath);
+         
         controller.handleAddBannerImage(bannerImagePath);
         controller.handleAddLeftFooterImage(leftFooterImagePath);
         controller.handleAddRightFooterImage(rightFooterImagePath);
@@ -1013,6 +1011,7 @@ public class csgFiles implements AppFileComponent{
                 saveOfficeHours(data, "../TAManagerTester/public_html/CSE219/js/OfficeHoursGridData.json");
                 saveRecitationData(data, "../TAManagerTester/public_html/CSE219/js/RecitationsData.json");
                 saveScheduleData(data, "../TAManagerTester/public_html/CSE219/js/ScheduleData.json");
+                saveProjectData(data, "../TAManagerTester/public_html/CSE219/js/ProjectsData.json");
                 saveData(data, "../TAManagerTester/public_html/CSE308/js/AppDetailsData.json");
                 saveOfficeHours(data, "../TAManagerTester/public_html/CSE308/js/OfficeHoursGridData.json");
                 saveRecitationData(data, "../TAManagerTester/public_html/CSE308/js/RecitationsData.json");
@@ -1037,8 +1036,6 @@ public class csgFiles implements AppFileComponent{
                 }catch(Exception e){
                     System.out.println("Image Not Found To Export");
                 }
-                
-                
                 copy(fileName.getAbsolutePath(), selectedFile.getAbsolutePath());
                 
 //                

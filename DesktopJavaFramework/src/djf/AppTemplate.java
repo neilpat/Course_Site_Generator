@@ -93,7 +93,7 @@ public abstract class AppTemplate extends Application {
 	AppYesNoCancelDialogSingleton yesNoDialog = AppYesNoCancelDialogSingleton.getSingleton();
 	yesNoDialog.init(primaryStage);
 	PropertiesManager props = PropertiesManager.getPropertiesManager();
-
+        
 	try {
 	    // LOAD APP PROPERTIES, BOTH THE BASIC UI STUFF FOR THE FRAMEWORK
 	    // AND THE CUSTOM UI STUFF FOR THE WORKSPACE
@@ -105,9 +105,11 @@ public abstract class AppTemplate extends Application {
         boolean success = false;
         if (alert.getResult() == english) {
             success = loadProperties(APP_PROPERTIES_FILE_NAME);
+            primaryStage.setTitle(props.getProperty(APP_TITLE).toString());
         }    
         else if(alert.getResult() == french){
             success = loadProperties("app_properties_french.xml");
+            primaryStage.setTitle(props.getProperty(APP_TITLE).toString());
         }
         else{
             System.exit(0);

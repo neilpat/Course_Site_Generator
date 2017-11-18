@@ -1,0 +1,26 @@
+
+{
+    "startingMondayMonth":"01",
+    "startingMondayDay":"23",
+    "endingFridayDay":"24",
+    "endingFridayMonth":"11",
+    "holidays":[
+    ],
+    "lectures":[
+    ],
+    "references":[
+    ],
+    "recitations":[
+    ],
+    "hws":[
+        {
+            "month":"2",
+            "day":"03",
+            "title":"Starting The HW",
+            "topic":"Using GIT",
+            "link":"www.github.com",
+            "time":"11:59pm",
+            "criteria":"Max 100 points"
+        }
+    ]
+}

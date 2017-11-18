@@ -175,6 +175,18 @@ public class TAData implements AppDataComponent {
         schedules.clear();
         students.clear();
         teams.clear();
+        
+        sitePage Home = new sitePage(true, "Home", "index.html", "HomeBuilder.js");
+        sitePage Syllabus = new sitePage(true, "Syllabus", "syllabus.html", "SyllabusBuilder.js");
+        sitePage Schedule = new sitePage(true, "Schedule", "schedule.html", "ScheduleBuilder.js");
+        sitePage HWs = new sitePage(true, "HWs", "hws.html", "HWsBuilder.js");
+        sitePage Projects = new sitePage(false, "Projects", "projects.html", "ProjectsBuilder.js");
+        
+        addSitePage(Home);
+        addSitePage(Syllabus);
+        addSitePage(Schedule);
+        addSitePage(HWs);
+        addSitePage(Projects);
     }
     public  void buildGridHeaders(){
           //THESE ARE THE LANGUAGE-DEPENDENT OFFICE HOURS GRID HEADERS
@@ -970,6 +982,13 @@ public class TAData implements AppDataComponent {
         tm.setRed(red);
         tm.setGreen(green);
         tm.setBlue(blue);
+    }
+    public void updateStudent(student stu, String firstName, String lastName, String teamName, String role){
+        CourseSiteWorkspace workspace = (CourseSiteWorkspace)app.getWorkspaceComponent();
+        stu.setFirstName(firstName);
+        stu.setLastName(lastName);
+        stu.setTeam(teamName);
+        stu.setRole(role);
     }
     public void addSite(Boolean use, String title, String fileName, String script){
        sitePage site = new sitePage(use, title, fileName, script);

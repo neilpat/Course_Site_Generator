@@ -1,0 +1,21 @@
+
+{
+    "recitations":[
+        {
+            "section":"R01",
+            "instructor":"Richard McKenna",
+            "day_time":"Mon 4:00pm-5:30pm",
+            "location":"Old Cs 2203",
+            "ta_1":"Niral Patel",
+            "ta_2":"Niral Patel"
+        },
+        {
+            "section":"R02",
+            "instructor":"Richard McKenna",
+            "day_time":"Tue 1:00pm-3:00pm",
+            "location":"Old Cs 2203",
+            "ta_1":"Roger Miranda",
+            "ta_2":"Kelsey Corpac"
+        }
+    ]
+}

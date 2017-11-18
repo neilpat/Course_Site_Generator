@@ -47,6 +47,13 @@ public class Update_Team_Trans implements jTPS_Transaction{
         this.orgTextColor = orgTextColor;
         this.orgColor = orgColor;
         this.orgLink = orgLink;
+        this.newName = tm.getName();
+        this.newRed = tm.getRed();
+        this.newGreen = tm.getGreen();
+        this.newBlue = tm.getBlue();
+        this.newTextColor = tm.getTextColor();
+        this.newColor = tm.getColor();
+        this.newLink = tm.getLink();
         this.app = app;
     }
     @Override
@@ -59,13 +66,6 @@ public class Update_Team_Trans implements jTPS_Transaction{
         Object selectedItem = teamTable.getSelectionModel().getSelectedItem();
         // GET THE REC
         team tm = (team)selectedItem;
-        tm.setName(newName);
-        tm.setColor(newColor);
-        tm.setTextColor(newTextColor);
-        tm.setLink(newLink);
-        tm.setRed(newRed);
-        tm.setGreen(newGreen);
-        tm.setBlue(newBlue);
         teamTable.refresh();
     }
     @Override
@@ -78,13 +78,6 @@ public class Update_Team_Trans implements jTPS_Transaction{
         Object selectedItem = teamTable.getSelectionModel().getSelectedItem();
         // GET THE REC
         team tm = (team)selectedItem;
-        tm.setName(orgName);
-        tm.setColor(orgColor);
-        tm.setTextColor(orgTextColor);
-        tm.setLink(orgLink);
-        tm.setRed(orgRed);
-        tm.setGreen(orgGreen);
-        tm.setBlue(orgBlue);
         teamTable.refresh();
     }
 }

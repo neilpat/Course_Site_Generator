@@ -1,0 +1,176 @@
+
+{
+    "startHour":"9",
+    "endHour":"18",
+    "course_name":"",
+    "course_number":"",
+    "sem":"",
+    "year":"",
+    "page_title":"Java Programming ",
+    "instructor_name":"Richard McKenn",
+    "instructor_home":"cs.stonybrook.ed",
+    "banner_image_path":"./images/harvardMedicallogo.png",
+    "left_footer_image_path":"./images/stanfordBanner.png",
+    "right_footer_image_path":"./images/stanfordEngineeringLogo.png",
+    "ORIGINAL_BANNER_PATH":"/Users/Neil/Desktop/CSE_219/ImagesForBanners/harvardMedicallogo.png",
+    "ORIGINAL_LEFT_PATH":"/Users/Neil/Desktop/CSE_219/ImagesForBanners/stanfordBanner.png",
+    "ORIGINAL_RIGHT_PATH":"/Users/Neil/Desktop/CSE_219/ImagesForBanners/stanfordEngineeringLogo.png",
+    "undergrad_tas":[
+        {
+            "undergraduate":true,
+            "name":"Niral Patel",
+            "email":"niral.patel@stonybrook.edu"
+        },
+        {
+            "undergraduate":true,
+            "name":"Roger Miranda",
+            "email":"roger.miranda@stonybrook.edu"
+        },
+        {
+            "undergraduate":true,
+            "name":"Kelsey Corpac",
+            "email":"Kelsey.corpac@stonybrook.edu"
+        }
+    ],
+    "officeHours":[
+        {
+            "day":"MONDAY",
+            "time":"11_00am",
+            "name":"Kelsey Corpac"
+        },
+        {
+            "day":"WEDNESDAY",
+            "time":"11_00am",
+            "name":"Kelsey Corpac"
+        },
+        {
+            "day":"FRIDAY",
+            "time":"11_00am",
+            "name":"Kelsey Corpac"
+        },
+        {
+            "day":"TUESDAY",
+            "time":"12_00pm",
+            "name":"Roger Miranda"
+        },
+        {
+            "day":"THURSDAY",
+            "time":"12_00pm",
+            "name":"Roger Miranda"
+        },
+        {
+            "day":"WEDNESDAY",
+            "time":"12_30pm",
+            "name":"Roger Miranda"
+        },
+        {
+            "day":"MONDAY",
+            "time":"1_30pm",
+            "name":"Niral Patel"
+        },
+        {
+            "day":"TUESDAY",
+            "time":"1_30pm",
+            "name":"Niral Patel"
+        },
+        {
+            "day":"WEDNESDAY",
+            "time":"1_30pm",
+            "name":"Niral Patel"
+        },
+        {
+            "day":"MONDAY",
+            "time":"2_00pm",
+            "name":"Niral Patel"
+        },
+        {
+            "day":"TUESDAY",
+            "time":"2_00pm",
+            "name":"Niral Patel"
+        },
+        {
+            "day":"WEDNESDAY",
+            "time":"2_00pm",
+            "name":"Niral Patel"
+        }
+    ],
+    "site_pages":[
+        {
+            "site_page_use":true,
+            "nav_bar_title":"Home",
+            "file_name":"index.html",
+            "script":"HomeBuilder.js"
+        },
+        {
+            "site_page_use":true,
+            "nav_bar_title":"Syllabus",
+            "file_name":"syllabus.html",
+            "script":"SyllabusBuilder.js"
+        },
+        {
+            "site_page_use":true,
+            "nav_bar_title":"Schedule",
+            "file_name":"schedule.html",
+            "script":"ScheduleBuilder.js"
+        },
+        {
+            "site_page_use":true,
+            "nav_bar_title":"HWs",
+            "file_name":"hws.html",
+            "script":"HWsBuilder.js"
+        },
+        {
+            "site_page_use":false,
+            "nav_bar_title":"Projects",
+            "file_name":"projects.html",
+            "script":"ProjectsBuilder.js"
+        }
+    ],
+    "startingYear":"2017",
+    "startingMondayMonth":"01",
+    "startingMondayDay":"23",
+    "endingYear":"2017",
+    "endingFridayMonth":"11",
+    "endingFridayDay":"24",
+    "rec_recitations":[
+        {
+            "section":"R01",
+            "instructor":"Richard McKenna",
+            "day_time":"Mon 4:00pm-5:30pm",
+            "location":"Old Cs 2203",
+            "ta_1":"Niral Patel",
+            "ta_2":"Niral Patel"
+        },
+        {
+            "section":"R02",
+            "instructor":"Richard McKenna",
+            "day_time":"Tue 1:00pm-3:00pm",
+            "location":"Old Cs 2203",
+            "ta_1":"Roger Miranda",
+            "ta_2":"Kelsey Corpac"
+        }
+    ],
+    "holidays":[
+    ],
+    "lectures":[
+    ],
+    "references":[
+    ],
+    "sch_recitations":[
+    ],
+    "hws":[
+        {
+            "month":"02",
+            "day":"03",
+            "title":"Starting The HW",
+            "topic":"Using GIT",
+            "link":"www.github.com",
+            "time":"11:59pm",
+            "criteria":"Max 100 points"
+        }
+    ],
+    "teams":[
+    ],
+    "students":[
+    ]
+}

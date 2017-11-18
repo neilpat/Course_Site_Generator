@@ -1,44 +1,44 @@
 
 {
     "startHour":"8",
-    "endHour":"20",
+    "endHour":"15",
     "course_name":"CSE",
-    "course_number":"320",
-    "sem":"FALL",
+    "course_number":"114",
+    "sem":"SPRING",
     "year":"2016",
-    "page_title":"Final Project Chec",
+    "page_title":"Final 219 Project",
     "instructor_name":"Richard McKenna",
-    "instructor_home":"google.co",
+    "instructor_home":"www.google.com",
     "banner_image_path":"./images/harvardMedicallogo.png",
     "left_footer_image_path":"./images/stanfordBanner.png",
     "right_footer_image_path":"./images/stanfordEngineeringLogo.png",
-    "ORIGINAL_BANNER_PATH":"",
-    "ORIGINAL_LEFT_PATH":"",
-    "ORIGINAL_RIGHT_PATH":"",
+    "ORIGINAL_BANNER_PATH":"/Users/Neil/Desktop/CSE_219/ImagesForBanners/harvardMedicallogo.png",
+    "ORIGINAL_LEFT_PATH":"/Users/Neil/Desktop/CSE_219/ImagesForBanners/stanfordBanner.png",
+    "ORIGINAL_RIGHT_PATH":"/Users/Neil/Desktop/CSE_219/ImagesForBanners/stanfordEngineeringLogo.png",
     "undergrad_tas":[
         {
             "undergraduate":true,
-            "name":"Niral",
+            "name":"Niral Patel",
             "email":"NIral@stonybrook.edi"
         },
         {
-            "undergraduate":true,
-            "name":"Jay",
+            "undergraduate":false,
+            "name":"Jaykumar Patel",
             "email":"Jay@stonybrook.edu"
         },
         {
             "undergraduate":true,
-            "name":"Navin",
+            "name":"Navin Abhichandani",
             "email":"Navin@stonybrook.edu"
         },
         {
             "undergraduate":true,
-            "name":"Nihadh",
+            "name":"Nihadh Nisan",
             "email":"Nihadh@stonybrook.edu"
         },
         {
-            "undergraduate":true,
-            "name":"Arlsan",
+            "undergraduate":false,
+            "name":"Arlsan Sadiq",
             "email":"Arslan@stonybrook.edu"
         },
         {
@@ -51,52 +51,87 @@
         {
             "day":"MONDAY",
             "time":"9_00am",
-            "name":"Jay"
+            "name":"Niral Patel"
         },
         {
-            "day":"WEDNESDAY",
+            "day":"TUESDAY",
             "time":"9_00am",
-            "name":"Navin"
+            "name":"Niral Patel"
         },
         {
             "day":"MONDAY",
             "time":"9_30am",
-            "name":"Nihadh"
+            "name":"Niral Patel"
         },
         {
             "day":"TUESDAY",
             "time":"9_30am",
-            "name":"Jay"
+            "name":"Niral Patel"
         },
         {
-            "day":"TUESDAY",
+            "day":"WEDNESDAY",
             "time":"10_00am",
-            "name":"Navin"
+            "name":"Navin Abhichandani"
         },
         {
             "day":"THURSDAY",
             "time":"10_00am",
-            "name":"Navin"
+            "name":"Navin Abhichandani"
+        },
+        {
+            "day":"MONDAY",
+            "time":"10_30am",
+            "name":"Niral Patel"
+        },
+        {
+            "day":"WEDNESDAY",
+            "time":"10_30am",
+            "name":"Navin Abhichandani"
+        },
+        {
+            "day":"THURSDAY",
+            "time":"10_30am",
+            "name":"Navin Abhichandani"
         },
         {
             "day":"TUESDAY",
             "time":"11_00am",
-            "name":"Nihadh"
+            "name":"Nihadh Nisan"
+        },
+        {
+            "day":"FRIDAY",
+            "time":"11_00am",
+            "name":"Nihadh Nisan"
+        },
+        {
+            "day":"TUESDAY",
+            "time":"11_30am",
+            "name":"Nihadh Nisan"
+        },
+        {
+            "day":"FRIDAY",
+            "time":"11_30am",
+            "name":"Nihadh Nisan"
+        },
+        {
+            "day":"MONDAY",
+            "time":"12_00pm",
+            "name":"John"
+        },
+        {
+            "day":"THURSDAY",
+            "time":"12_00pm",
+            "name":"John"
         },
         {
             "day":"MONDAY",
             "time":"12_30pm",
-            "name":"Navin"
-        },
-        {
-            "day":"WEDNESDAY",
-            "time":"1_00pm",
-            "name":"Navin"
+            "name":"John"
         },
         {
             "day":"THURSDAY",
-            "time":"1_00pm",
-            "name":"Navin"
+            "time":"12_30pm",
+            "name":"John"
         }
     ],
     "site_pages":[
@@ -125,42 +160,50 @@
             "script":"HWsBuilder.js"
         },
         {
-            "site_page_use":false,
+            "site_page_use":true,
             "nav_bar_title":"Projects",
             "file_name":"projects.html",
             "script":"ProjectsBuilder.js"
         }
     ],
     "startingYear":"2017",
-    "startingMondayMonth":"02",
-    "startingMondayDay":"01",
-    "endingYear":"2020",
-    "endingFridayMonth":"05",
-    "endingFridayDay":"26",
+    "startingMondayMonth":"05",
+    "startingMondayDay":"22",
+    "endingYear":"2017",
+    "endingFridayMonth":"06",
+    "endingFridayDay":"23",
     "rec_recitations":[
         {
             "section":"R01",
-            "instructor":"TBA",
-            "day_time":"TBA",
-            "location":"TBA",
-            "ta_1":"Niral",
-            "ta_2":"Jay"
+            "instructor":"Richard McKenna",
+            "day_time":"Wed 3:30pm-4:50pm",
+            "location":"Old CS 2203",
+            "ta_1":"Jaykumar Patel",
+            "ta_2":"Nihadh Nisan"
         },
         {
             "section":"R02",
             "instructor":"Fodor",
-            "day_time":"Wed 3:30pm",
-            "location":"Old CS",
-            "ta_1":"Navin",
-            "ta_2":"Arlsan"
+            "day_time":"Wed 12:00pm-2:00pm",
+            "location":"Old CS 1170",
+            "ta_1":"John",
+            "ta_2":"Niral Patel"
+        },
+        {
+            "section":"R03",
+            "instructor":"Fodor",
+            "day_time":"Mon 2:50pm-4:20pm",
+            "location":"New CS 1203",
+            "ta_1":"Arlsan Sadiq",
+            "ta_2":"Navin Abhichandani"
         }
     ],
     "holidays":[
         {
             "month":"03",
             "day":"14",
-            "title":"TEST2",
-            "link":"TEST2"
+            "title":"Long Weekend",
+            "link":"www.google.com"
         }
     ],
     "lectures":[
@@ -173,54 +216,46 @@
         {
             "month":"03",
             "day":"15",
-            "title":"TEST 1",
-            "topic":"TEST 1",
-            "link":"TEST 1",
+            "title":"HW 1",
+            "topic":"Intro to GUI",
+            "link":"www.google.com",
             "time":"11:59pm",
-            "criteria":"TEST 1"
+            "criteria":""
         }
     ],
     "teams":[
         {
-            "name":"Atomic Comics",
-            "red":"255",
-            "green":"192",
-            "blue":"203",
-            "text_color":"skyblue",
-            "link":"google.com"
-        },
-        {
-            "name":"Sky Rockets",
-            "red":"0",
-            "green":"128",
-            "blue":"0",
-            "text_color":"yellow",
-            "link":"google.com"
+            "name":"Comic Sans",
+            "red":"165",
+            "green":"42",
+            "blue":"42",
+            "text_color":"lightgreen",
+            "link":"Facebook.com"
         }
     ],
     "students":[
         {
-            "firstName":"a",
-            "lastName":"a",
-            "team":"Atomic Comics",
+            "firstName":"Elephant",
+            "lastName":"Earing",
+            "team":"Comic Sans",
             "role":"Lead Programmer"
         },
         {
-            "firstName":"b",
-            "lastName":"b",
-            "team":"Atomic Comics",
+            "firstName":"Fishy",
+            "lastName":"Fires",
+            "team":"Comic Sans",
             "role":"Project Manager"
         },
         {
-            "firstName":"c",
-            "lastName":"c",
-            "team":"Atomic Comics",
+            "firstName":"Gross",
+            "lastName":"Girraffe",
+            "team":"Comic Sans",
             "role":"Lead Designer"
         },
         {
-            "firstName":"d",
-            "lastName":"d",
-            "team":"Atomic Comics",
+            "firstName":"Hairy",
+            "lastName":"Harold",
+            "team":"Comic Sans",
             "role":"Data Designer"
         }
     ]

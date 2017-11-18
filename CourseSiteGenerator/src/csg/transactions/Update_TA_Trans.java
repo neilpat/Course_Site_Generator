@@ -42,7 +42,6 @@ public class Update_TA_Trans implements jTPS_Transaction{
         TeachingAssistant ta = (TeachingAssistant)selectedItem;
         ta.setName(newName);
         TextField nameTextField = workspace.getNameTextField();
-//        TextField emailTextField = workspace.getEmailTextField();
         nameTextField.setText(newName);
         taTable.refresh();
     }
@@ -58,7 +57,6 @@ public class Update_TA_Trans implements jTPS_Transaction{
         TeachingAssistant ta = (TeachingAssistant)selectedItem;
         ta.setName(orgName);
         TextField nameTextField = workspace.getNameTextField();
-//        TextField emailTextField = workspace.getEmailTextField();
         nameTextField.setText(orgName);
         taTable.refresh();
         

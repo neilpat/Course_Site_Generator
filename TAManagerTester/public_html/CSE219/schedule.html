@@ -1,0 +1,88 @@
+
+<html>
+
+    <head>
+	<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <!-- TITLE HAS TO BE SET -->
+
+	<title>CSE 219</title>
+
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+
+	<link href="./css/course_homepage_layout.css" rel="stylesheet" type="text/css">
+
+	<link href="./css/sea_wolf.css" rel="stylesheet" type="text/css">
+		
+        <!-- LINK TO OUR JavaScript FILE AND JQuery -->
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="./js/ScheduleBuilder.js"></script>
+        
+    <script>
+	    $(document).ready()
+	    {
+		loadAppDetails();
+	    }
+    </script>
+
+	<!-- ONCE THE PAGE FULLY LOADS INITIALIZE THE SLIDESHOW -->
+        <script>
+	    $(document).ready()
+	    {
+		initSchedule();
+	    }
+        </script>
+    </head>
+
+
+    <body>
+
+	<div id="content">
+
+	    <div id="navbar">
+
+		<a href="http://www.stonybrook.edu"><img alt="Stony Brook University" class="sbu_navbar" src="./images/SBUDarkRedShieldLogo.png" id="bannerImage"></a>
+                <!-- NAVIGATION LINKS GO HERE -->
+		<span id="indexLink"><a class="nav" href="index.html" id="home_link">Home</a></span>
+        <span id="syllabusLink"><a class="nav" href="syllabus.html" id="syllabus_link">Syllabus</a></span>
+        <span id="scheduleLink"><a class="open_nav" href="schedule.html" id="schedule_link">Schedule</a></span>
+        <span id="hwsLink"><a class="nav" href="hws.html" id="hws_link">HWs</a></span>
+        <span id="projectLink"><a class="nav" href="projects.html" id="project_link">Projects</a></span>
+	    </div>
+
+
+	    <div id="banner">
+                <!-- BANNER NEEDS TO BE SET -->
+		<span id="courseTitle" class="courseTitle">CSE 219 - Spring 2017<br>Computer Science III - 02</span></div>
+
+	    <div id="desc">
+
+		<table border="1" cellspacing="0" class="schedule">
+                    <tbody id="schedule_table">
+                        <!-- THIS WILL BE FILLED IN BY JAVASCRIPT -->                        
+                    </tbody>
+		</table>
+
+		<br />
+
+		<hr>
+
+
+		<a href="http://www.stonybrook.edu"><img alt="SBU" class="sunysb" src="./images/SBUWhiteShieldLogo.jpg" style="float:left" id="leftFooterImage"></a>
+                <a href="http://www.cs.stonybrook.edu"><img alt="CS" src="./images/CSLogo.png" style="float:right" id="rightFooterImage"></a>
+
+
+		<p style="font-size:9pt; text-align:center;">Web page created and maintained<br />
+                    by <span id="instructor_link"><a href="http://www.cs.stonybrook.edu/~richard">Richard McKenna</a></span>
+		    <br />
+		    <br />
+		    <br />
+		    <br />
+		</p>
+
+	    </div>
+
+	</div>
+
+    </body>
+
+</html>
